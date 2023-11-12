@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Leaflet legend control</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+<link rel="stylesheet" href="Eupedia.css">
+
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+
+        }
+		.leaflet-container {
+			height: 600px;
+			width: 500px;
+			max-width: 100%;
+			max-height: 100%;
+		}
+
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="../src/leaflet.legend.css" />
+    <script type="text/javascript" src="../src/leaflet.legend.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+<p>The short front vowels /&#259/, /&#277/ and /&#301/, and the long front vowels /ei/ and /ii/, show a variety of chain shifts triggered by movement of the /a:/ vowel or by the monophthonging of /ai/.</p>
+
+<table>
+<caption>Realization of BATH vowel</caption>
+<tr><td>TRAP</td><td>BATH</td><td>name</td><td>region</td></tr>
+<tr><td>[&#230]</td><td>[&#230:]</td><td>Lengthened BATH</td><td>pre-civil war</td></tr>
+<tr><td>[&#230]</td><td>[&#230&#603], rarely [&#230&#603&#601]</td><td>"Upgliding BATH," "Upgliding /&#230y/"</td><td>Older Southern American</td></tr>
+<tr><td>[&#230]</td><td>[&#603&#601~e&#601]</td><td> BATH-raising, split-a system</td><td>Mid-Atlantic coast</td></tr>
+<tr><td>[&#230]</td><td>[a:]</td><td>BATH-backing. /a/ merged with /a:/</td><td>Southern England, Australia</td></tr>
+</table>
+
+<p>The African American Vowel Shift, seen mainly in Southern Black Americans, refers to a raising of the short front vowels, triggered by the fronting of /a:/. It occurs in three stages:A reverse form of the African American Vowel System, the Canadian Shift or the California vowel shift, depending on its location, occurs when the backing of /a:/ due to the COT-CAUGHT merger causes the following to occur:</p>
+<table>
+<caption>Chain Shifts in Front Vowels</caption>
+	<th>  </th><th colspan="2";>Southern Vowel Shift  </th><th colspan="2";> African American Vowel System</th><th colspan="2";> Low Back Vowel Shift</th>
+	<tr><td>trigger</td><td width= 90 rowspan="2"> SVS Stage 1</td> <td width=160
+>/ai/ is smoothed [ai]&#8594[ae~a:] </td><td> fronted /a:/ </td><td width=161> /a:/ is fronted [a:]&#8594[a:]</td><td> low-back merger</td><td width=140>/o/=/C:/ </td></tr>
+	<tr><td>/a/</td> <td width=160>/&#259/ is broken into [&#603j&#601] </td><td> raised TRAP</td><td width=161> /&#259/ is raised [&#230] &#8594[&#603]</td><td> TRAP backing</td><td width=140>/&#259/ lowers & backs [&#230] &#8594 [a:] </td></tr>
+	<tr><td>/ei/</td><td width= 90 rowspan=2>SVS Stage 2</td><td width=160
+>/ei/ is lowered [ei] &#8594 [&#603i~&#230i]</td><td rowspan=2> /e/-/ey/ reversal</td><td width=161>  /ei/ lowered [ei]&#8594[&#603i]</td><td> none</td><td width=140></td></tr>
+	<tr><td>/e/</td> <td><p>/&#277/ is raised [&#603]&#8594[e&#601]</td><td>/&#277/ is raised [&#603]&#8594 [e]</td><td>DRESS retraction</td> <td>/&#277/ lowers & backs [&#230] &#8594 [a~a]</td></tr>
+	<tr><td>/ii/</td><td rowspan="2">SVS Stage 3</td> <td>/ii/ is lowered [i:] &#8594 [&#618i]</td><td rowspan=2>/i/-/ii/ reversal</td> <td>/ii/ lowered [i:] &#8594 [&#618i]</td><td>none</td> <td> </td></tr>
+	<tr><td>/i/</td> <td>/&#301/ is raised [&#618]&#8594[i&#601]</td><td>/&#301/ is raised [&#618]&#8594[i]</td><td>KIT retraction</td> <td> /&#301/ lowers & backs [&#230] &#8594 [a:] or [a]</td></tr>
+</table> 
+
+<p> While, not a simple upwards or downward shift, the Northern Cities Vowel Shift in the Great Lakes region does affect the short front vowels. The raised /&#259/ pronunciation in this region, triggers a counter-clockwise shift in the mid and low vowels (see the chart) in the following steps: </p>
+<table>
+<caption>Northern Cities Vowel Shift</caption>
+<th> Stage </th><th> description </th>
+<tr><td>Stage 1</td> <td>/&#259/ is fronted to [ej&#601]</td></tr>
+<tr><td>Stage 2</td> <td>/a:/ is fronted to [&#228:]</td></tr>
+<tr><td>Stage 3</td> <td>/&#596:/ is lowered to [&#593]</td></tr>
+<tr><td>Stage 4</td> <td> /&#601/ is backed to [&#596]</td></tr>
+<tr><td>Stage 5</td> <td>/&#277/ is lowered and backed to [&#601]</td></tr>
+<tr><td>Stage 6</td> <td>/&#301/ is lowered and backed to [&#603]</td></tr>
+</table>
+
+<p>Dialects without a BATH split or any chain shifts, can show a few other shifts. /a/ can show minimal variation, particularly in Latino Englishes. The Western system, where /&#259/ is tenser before nasals than elsewhere, and raising before /g/. /e/ and /i/ can also merge before /n/ in the south. </p>
+</body>
+
+<script type="text/javascript">
+const greenIcon = L.icon({
+    iconUrl: 'leaf-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], // size of the icon
+    iconAnchor:   [2, 2], // where the icon will correspond to marker's location
+    popupAnchor:  [-15, -15]}); // where the popup should open relative to the icon
+var map = L.map("map", {
+	center: [33.22,-110.47],
+	zoom: 2.3,
+    });
+const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+
+
+const eighteenseventy = L.layerGroup();
+const seventeenhundred = L.layerGroup();
+const eighteenhundred = L.layerGroup();
+const eighteenfifty = L.layerGroup();
+const nineteenhundred = L.layerGroup();
+const nineteenfifty = L.layerGroup();
+const nineteenseventy = L.layerGroup();
+const Beighteenseventy = L.layerGroup();
+const Bseventeenhundred = L.layerGroup();
+const Beighteenhundred = L.layerGroup();
+const Beighteenfifty = L.layerGroup();
+const Bnineteenhundred = L.layerGroup();
+const Bnineteenfifty = L.layerGroup();
+const Bnineteenseventy = L.layerGroup();
+
+var marker = L.circleMarker(L.latLng(29.702368038541767, 120.47607421874999), {
+        radius: 6,
+        fillColor: "#ff0000",
+        color: "blue",
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.6,
+    });
+
+    var latlngs = [
+        [
+            29.204918463909035,
+            119.6246337890625,
+        ],
+        [
+            29.79358002272772,
+            120.27008056640624,
+        ],
+        [
+            29.70087695780884,
+            120.2984046936035,
+        ]
+    ];
+    var polyline = L.polyline(latlngs, {
+        color: 'red'
+    }).addTo(map);
+
+	const du = L.icon({
+    iconUrl: 'leaf-red.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] }); 
+	const dn = L.icon({
+    iconUrl: 'leaf-blue.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] });
+	const ds = L.icon({
+    iconUrl: 'leaf-gray.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] }); 
+	const dl = L.icon({
+    iconUrl: 'leaf-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] }); 
+	const ml = L.icon({
+    iconUrl: 'square-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] });
+	const mn = L.icon({
+    iconUrl: 'square-blue.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] }); 
+
+    const legend = L.control.Legend({
+            position: "bottomleft",
+            collapsed: false,
+            symbolWidth: 24,
+            opacity: 1,
+            column: 2,
+            legends: [{
+                label: "diphthongal /ei/",
+                type: "image",
+                url: "marker/marker-red.png",
+            }, {
+                label: "/a/ longer before VF",
+                type: "image",
+                url: "marker/purple.png"
+            }, {
+                label: "/a/ tensed before VF",
+                type: "circle",
+                radius: 6,
+                color: "blue",
+                fillColor: "#FF0000",
+                fillOpacity: 0.6,
+                weight: 2,
+                layers: [marker],
+                inactive: true,
+            }, {
+                label: "/a/ glided before VF",
+                type: "polyline",
+                color: "#FF0000",
+                fillColor: "#FF0000",
+                weight: 2,
+                layers: polyline
+            }, {
+                label: "Dotted line",
+                type: "polyline",
+                color: "#0000FF",
+                fillColor: "#0000FF",
+                dashArray: [5, 5],
+                weight: 2
+            }, {
+                label: "monophthongal /ei/",
+                type: "rectangle",
+                color: "#FF0000",
+                fillColor: "#FF0000",
+                weight: 2
+            }, {
+                label: "Square",
+                type: "polygon",
+                sides: 4,
+                color: "#FF0000",
+                fillColor: "#FF0000",
+                weight: 2
+            }, {
+                label: "Regular triangle",
+                type: "polygon",
+                sides: 3,
+                color: "#FF0000",
+                fillColor: "#FF0000",
+                weight: 2
+            }, {
+                label: "Regular polygon",
+                type: "polygon",
+                sides: 5,
+                color: "#FF0000",
+                fillColor: "#FF0000",
+                weight: 2
+            }]
+        })
+        .addTo(map);
+
+
+const mWhiteOak = L.marker([33.53,-92.1], {icon: du}).bindPopup('This is White Oak').addTo(eighteenseventy);
+const mNewnan = L.marker([33.22,-84.47], {icon: du}).bindPopup('This is Newnan').addTo(eighteenseventy);
+const mAmericus = L.marker([33.4,-84.13], {icon: du}).bindPopup('This is Americus').addTo(eighteenseventy);
+const mWinnfield = L.marker([31.55,-92.38], {icon: du}).bindPopup('This is Winnfield').addTo(eighteenseventy);
+const mNewOrleans = L.marker([29.95,-90.08], {icon: du}).bindPopup('This is New Orleans').addTo(eighteenseventy);
+const mMacon = L.marker([32.5,-83.39], {icon: du}).bindPopup('This is Macon').addTo(eighteenseventy);
+const mKiln = L.marker([30.24,-89.26], {icon: du}).bindPopup('This is Kiln').addTo(eighteenseventy);
+const mDayton = L.marker([35.3,-85.01], {icon: du}).bindPopup('This is Dayton').addTo(eighteenseventy);
+const mChatanooga = L.marker([35.33,-85.27], {icon: du}).bindPopup('This is Chatanooga').addTo(eighteenseventy);
+const mGainesboro = L.marker([36.21,-85.39], {icon: du}).bindPopup('This is Gainesboro').addTo(eighteenseventy);
+const mStatesville = L.marker([36.01,-86.07], {icon: du}).bindPopup('This is Statesville').addTo(eighteenseventy);
+const mShelbyville = L.marker([35.29,-86.27], {icon: du}).bindPopup('This is Shelbyville').addTo(eighteenseventy);
+const mSpringfield = L.marker([36.29,-86.52], {icon: du}).bindPopup('This is Springfield').addTo(eighteenseventy);
+const mWaverly = L.marker([36.05,-87.47], {icon: du}).bindPopup('This is Waverly').addTo(eighteenseventy);
+const mColinwood = L.marker([35.1,-87.44], {icon: du}).bindPopup('This is Colinwood').addTo(eighteenseventy);
+const mDyersburg = L.marker([36.02,-89.23], {icon: du}).bindPopup('This is Dyersburg').addTo(eighteenseventy);
+const mDyer = L.marker([36.04,-88.59], {icon: du}).bindPopup('This is Dyer').addTo(eighteenseventy);
+const mArp = L.marker([35.44,-89.32], {icon: du}).bindPopup('This is Arp').addTo(eighteenseventy);
+const mBolivar = L.marker([35.16,-89], {icon: du}).bindPopup('This is Bolivar').addTo(eighteenseventy);
+const mMemphis = L.marker([35.07,-89.58], {icon: du}).bindPopup('This is Memphis').addTo(eighteenseventy);
+const mNashville = L.marker([36.09,-86.46], {icon: du}).bindPopup('This is Nashville').addTo(eighteenseventy);
+const mBrownsville = L.marker([35.35,-89.15], {icon: du}).bindPopup('This is Brownsville').addTo(eighteenseventy);
+const mDenison = L.marker([33.49,-96.33], {icon: du}).bindPopup('This is Denison').addTo(eighteenseventy);
+const mDenton = L.marker([33.12,-97.7], {icon: du}).bindPopup('This is Denton').addTo(eighteenseventy);
+const mAustin = L.marker([30.16,-97.44], {icon: du}).bindPopup('This is Austin').addTo(eighteenseventy);
+const mMcAllenn = L.marker([26.12,-98.14], {icon: du}).bindPopup('This is McAllenn').addTo(eighteenseventy);
+const mWaco = L.marker([31.33,-97.9], {icon: du}).bindPopup('This is Waco').addTo(eighteenseventy);
+const mBurns = L.marker([43.35,-119.3], {icon: dn}).bindPopup('This is Burns').addTo(eighteenseventy);
+const mJordanValley = L.marker([42.58,-117.3], {icon: dn}).bindPopup('This is Jordan Valley').addTo(eighteenseventy);
+const mJacksonville = L.marker([42.18,-122.58], {icon: dn}).bindPopup('This is Jacksonville').addTo(eighteenseventy);
+const mJunctionCity = L.marker([44.13,-123.12], {icon: dn}).bindPopup('This is Junction City').addTo(eighteenseventy);
+
+
+const baseLayers = {'OpenStreetMap': osm};
+const overlays = {'White (born 1700-1799)': nineteenhundred};
+const layerControl = L.control.layers(baseLayers, overlays).addTo(map);
+
+
+layerControl.addOverlay(eighteenhundred, '— (b. 1800-1845)');
+layerControl.addOverlay(eighteenfifty, '— (b. 1846-1875)');
+layerControl.addOverlay(eighteenseventy, '— (b. 1875-)');
+layerControl.addOverlay(nineteenhundred, '— (b. 1900-1945)');
+layerControl.addOverlay(nineteenfifty, '— (b. 1946-1975)');
+layerControl.addOverlay(nineteenseventy, '— (b. 1975-)');
+layerControl.addOverlay(Bseventeenhundred, 'Black (born 1700-1799)');
+layerControl.addOverlay(Beighteenhundred, '— (b. 1800-1845)');
+layerControl.addOverlay(Beighteenfifty, '— (b. 1846-1875)');
+layerControl.addOverlay(Beighteenseventy, '— (b. 1875-)');
+layerControl.addOverlay(Bnineteenhundred, '— (b. 1900-1945)');
+layerControl.addOverlay(Bnineteenfifty, '— (b. 1946-1975)');
+layerControl.addOverlay(Bnineteenseventy, '— (b. 1975-)');
+
+//1900s points
+const nMarshall = L.marker([32.33,-94.22], {icon: dn}).bindPopup('This is Marshall').addTo(nineteenhundred);
+const nBelk = L.marker([33.39,-95.32], {icon: du}).bindPopup('This is Belk').addTo(nineteenhundred);
+const nHuntsville = L.marker([30.43,-95.33], {icon: du}).bindPopup('This is Huntsville').addTo(nineteenhundred);
+const nWarrenton = L.marker([29.54,-96.52], {icon: du}).bindPopup('This is Warrenton').addTo(nineteenhundred);
+const nHondo = L.marker([29.2,-99.8], {icon: du}).bindPopup('This is Hondo').addTo(nineteenhundred);
+const nCorpusChristi = L.marker([27.44,-97.24], {icon: du}).bindPopup('This is Corpus Christi').addTo(nineteenhundred);
+const nEncinal = L.marker([28.2,-99.21], {icon: du}).bindPopup('This is Encinal').addTo(nineteenhundred);
+const nLaredo = L.marker([27.31,-99.29], {icon: du}).bindPopup('This is Laredo').addTo(nineteenhundred);
+const nRomaLosSaenz = L.marker([26.24,-99], {icon: du}).bindPopup('This is Roma-Los Saenz').addTo(nineteenhundred);
+const nBrownsville = L.marker([25.55,-97.29], {icon: du}).bindPopup('This is Brownsville').addTo(nineteenhundred);
+const nNYC = L.marker([40.41,-73.59], {icon: ds}).bindPopup('This is NYC').addTo(nineteenhundred);
+const nMaryville = L.marker([35.44,-83.58], {icon: du}).bindPopup('This is Maryville').addTo(nineteenhundred);
+const nSweetwater = L.marker([35.36,-84.28], {icon: du}).bindPopup('This is Sweetwater').addTo(nineteenhundred);
+const nStewart = L.marker([36.19,-87.5], {icon: du}).bindPopup('This is Stewart').addTo(nineteenhundred);
+const nElbridge = L.marker([36.15,-89.11], {icon: du}).bindPopup('This is Elbridge').addTo(nineteenhundred);
+const nDayton = L.marker([35.3,-85.1], {icon: du}).bindPopup('This is Dayton').addTo(nineteenhundred);
+const nBay = L.marker([35.44,-90.33], {icon: du}).bindPopup('This is Bay').addTo(nineteenhundred);
+const nElDorado = L.marker([33.12,-92.39], {icon: du}).bindPopup('This is El Dorado').addTo(nineteenhundred);
+const nRome = L.marker([34.15,-85.11], {icon: du}).bindPopup('This is Rome').addTo(nineteenhundred);
+const nOneonta = L.marker([33.56,-86.28], {icon: du}).bindPopup('This is Oneonta').addTo(nineteenhundred);
+const nShadyGrove = L.marker([31.54,-86.09], {icon: du}).bindPopup('This is Shady Grove').addTo(nineteenhundred);
+const nGantt = L.marker([31.24,-86.29], {icon: du}).bindPopup('This is Gantt').addTo(nineteenhundred);
+const nDamascus = L.marker([33.58,-86.52], {icon: du}).bindPopup('This is Damascus').addTo(nineteenhundred);
+const nStockton = L.marker([30.59,-87.51], {icon: du}).bindPopup('This is Stockton').addTo(nineteenhundred);
+const nDrew = L.marker([33.48,-90.31], {icon: du}).bindPopup('This is Drew').addTo(nineteenhundred);
+const nLorman = L.marker([31.49,-91.03], {icon: du}).bindPopup('This is Lorman').addTo(nineteenhundred);
+const nHawthorne = L.marker([31.08,-93.16], {icon: du}).bindPopup('This is Hawthorne').addTo(nineteenhundred);
+const nWaxahachie = L.marker([32.23,-96.5], {icon: du}).bindPopup('This is Waxahachie').addTo(nineteenhundred);
+const nBeaumont = L.marker([30.04,-94.07], {icon: du}).bindPopup('This is Beaumont').addTo(nineteenhundred);
+
+// ncvs1 is duluth[46.78,-92.08],mineapolis[44.97,-93.27],masoncity[44.33,-93.2]cedarrapids[41°58′59″N 91°40′7],Chicago[41.87,-87.62],Youngstown [41.1,-80.65],erie[42.12,-80.08], binnghamton [42.1,-80.38],syracuse [43.03,-76.13]
+
+//ncvs2 is greenbay [44.3, -88] mineapolis[44.97,-93.27],masoncity[44.33,-93.2]cedarrapids[41°58′59″N 91°40′7],Chicago[41.87,-87.62],Youngstown [41.1,-80.65],erie[42.12,-80.08], binnghamton [42.1,-80.38],syracuse [43.03,-76.13]
+
+const ncvs2 = 
+L.polyline([
+[46.78,-92.08],
+[44.97,-93.27],
+[44.33,-93.2],
+[41.58,-91.40],
+[41.87,-87.62],
+[41.1,-80.65],
+[42.12,-80.08],
+[42.1,-80.38],
+[43.03,-76.13]]
+).addTo(nineteenfifty);
+
+const ncvs4 = 
+L.polyline([
+[44.3, -88],
+[44.97,-93.27],
+[44.33,-93.2],
+[41.58,-91.40],
+[41.87,-87.62],
+[41.1,-80.65],
+[42.12,-80.08],
+[42.1,-80.38],
+[43.03,-76.13]]
+).addTo(nineteenfifty);
+
+
+//1950s points
+const pAnchorage = L.marker([61.22,-149.88], {icon: dl}).bindPopup('This is Anchorage').addTo(nineteenfifty);const pBirmingham = L.marker([33.52,-86.8], {icon: dl}).bindPopup('This is Birmingham').addTo(nineteenfifty);
+const pMobile = L.marker([30.68,-88.03], {icon: dl}).bindPopup('This is Mobile').addTo(nineteenfifty);
+const pMontgomrey = L.marker([32.35,-86.27], {icon: dl}).bindPopup('This is Montgomrey').addTo(nineteenfifty);
+const pLittleRock = L.marker([34.73,-92.32], {icon: dl}).bindPopup('This is Little Rock').addTo(nineteenfifty);
+const pFlagstaff = L.marker([35.18,-111.62], {icon: dl}).bindPopup('This is Flagstaff').addTo(nineteenfifty);
+const pPhoenix = L.marker([33.43,-112.07], {icon: dl}).bindPopup('This is Phoenix').addTo(nineteenfifty);
+const pTuscon = L.marker([33.22,-110.92], {icon: dl}).bindPopup('This is Tuscon').addTo(nineteenfifty);
+const pBakersfield = L.marker([35.37,-119.17], {icon: dn}).bindPopup('This is Bakersfield').addTo(nineteenfifty);
+const pFresno = L.marker([36.75,-119.77], {icon: dn}).bindPopup('This is Fresno').addTo(nineteenfifty);
+const pLosAngeles = L.marker([34.05,-118.25], {icon: dn}).bindPopup('This is Los Angeles').addTo(nineteenfifty);
+const pModesto = L.marker([37.65,-120.98], {icon: dn}).bindPopup('This is Modesto').addTo(nineteenfifty);
+const pRiversideSanBrndino = L.marker([33.93,-117.38], {icon: dn}).bindPopup('This is Riverside-SanBrndino').addTo(nineteenfifty);
+const pSacramento = L.marker([38.57,-121.48], {icon: dn}).bindPopup('This is Sacramento').addTo(nineteenfifty);
+const pSanDiego = L.marker([32.7,-117.15], {icon: dn}).bindPopup('This is San Diego').addTo(nineteenfifty);
+const pSanFrancisco = L.marker([37.82,-112.4], {icon: dn}).bindPopup('This is San Francisco').addTo(nineteenfifty);
+const pSanJose = L.marker([37.33,-121.88], {icon: dn}).bindPopup('This is San Jose').addTo(nineteenfifty);
+const pColoradoSprings = L.marker([38.83,-104.82], {icon: dn}).bindPopup('This is Colorado Springs').addTo(nineteenfifty);
+const pDenver = L.marker([40.23,-105.65], {icon: dn}).bindPopup('This is Denver').addTo(nineteenfifty);
+const pBridgeport = L.marker([41.18,-73.18], {icon: dn}).bindPopup('This is Bridgeport').addTo(nineteenfifty);
+const pHartford = L.marker([41.75,-72.67], {icon: dn}).bindPopup('This is Hartford').addTo(nineteenfifty);
+const pNewHaven = L.marker([41.3,-72.92], {icon: dn}).bindPopup('This is New Haven').addTo(nineteenfifty);
+const pWashingtonDC = L.marker([38.9,-77], {icon: dn}).bindPopup('This is WashingtonDC').addTo(nineteenfifty);
+const pWilmington = L.marker([39.73,-75.53], {icon: dn}).bindPopup('This is Wilmington').addTo(nineteenfifty);
+const pFtLauderdale = L.marker([27.33,-81.5], {icon: dn}).bindPopup('This is Ft.Lauderdale').addTo(nineteenfifty);
+const pJacksonville = L.marker([30.33,-81.65], {icon: dn}).bindPopup('This is Jacksonville').addTo(nineteenfifty);
+const pMiami = L.marker([26.3,-80.33], {icon: dn}).bindPopup('This is Miami').addTo(nineteenfifty);
+const pOrlando = L.marker([28.53,-81.37], {icon: dn}).bindPopup('This is Orlando').addTo(nineteenfifty);
+const pPensacola = L.marker([30.43,-87.2], {icon: dl}).bindPopup('This is Pensacola').addTo(nineteenfifty);
+const pTallahassee = L.marker([30.45,-84.25], {icon: dn}).bindPopup('This is Tallahassee').addTo(nineteenfifty);
+const pTampa = L.marker([27.93,-82.45], {icon: dn}).bindPopup('This is Tampa').addTo(nineteenfifty);
+const pWestPalm = L.marker([26.7,-80.05], {icon: dn}).bindPopup('This is West Palm Beach').addTo(nineteenfifty);
+const pAtlanta = L.marker([33.73,-84.38], {icon: dl}).bindPopup('This is Atlanta').addTo(nineteenfifty);
+const pAugusta = L.marker([33.47,-81.97], {icon: dl}).bindPopup('This is Augusta').addTo(nineteenfifty);
+const pColumbusGA = L.marker([32.48,-84.93], {icon: dl}).bindPopup('This is ColumbusGA').addTo(nineteenfifty);
+const pMacon = L.marker([32.83,-83.65], {icon: dl}).bindPopup('This is Macon').addTo(nineteenfifty);
+const pSavannah = L.marker([32.07,-81.08], {icon: dl}).bindPopup('This is Savannah').addTo(nineteenfifty);
+const pDesMoines = L.marker([41.58,-93.62], {icon: dn}).bindPopup('This is Des Moines').addTo(nineteenfifty);
+const pMasonCity = L.marker([44.33,-93.2], {icon: dn}).bindPopup('This is Mason City').addTo(nineteenfifty);
+const pQuadCities = L.marker([41.53,-90.58], {icon: dn}).bindPopup('This is Quad Cities').addTo(nineteenfifty);
+const pSiouxCity = L.marker([42.48,-96.38], {icon: dn}).bindPopup('This is Sioux City').addTo(nineteenfifty);
+const pBoise = L.marker([43.6,-116.2], {icon: dn}).bindPopup('This is Boise').addTo(nineteenfifty);
+const pIdahoFalls = L.marker([43.5,-112.33], {icon: dn}).bindPopup('This is Idaho Falls').addTo(nineteenfifty);
+const pChicago = L.marker([41.87,-87.62], {icon: dl}).bindPopup('This is Chicago').addTo(nineteenfifty);
+const pPeoria = L.marker([40.68,-89.58], {icon: dl}).bindPopup('This is Peoria').addTo(nineteenfifty);
+const pRockford = L.marker([42.27,-89.08], {icon: dl}).bindPopup('This is Rockford').addTo(nineteenfifty);
+const pSpringfield = L.marker([39.78,-89.65], {icon: dl}).bindPopup('This is Springfield').addTo(nineteenfifty);
+const pEvansville = L.marker([37.97,-87.55], {icon: dl}).bindPopup('This is Evansville').addTo(nineteenfifty);
+const pFortWayne = L.marker([41.07,-85.13], {icon: dl}).bindPopup('This is Fort Wayne').addTo(nineteenfifty);
+const pGary = L.marker([41.58,-87.33], {icon: dl}).bindPopup('This is Gary').addTo(nineteenfifty);
+const pIndianapolis = L.marker([39.77,-86.15], {icon: dl}).bindPopup('This is Indianapolis').addTo(nineteenfifty);
+const pSouthBend = L.marker([41.67,-86.25], {icon: dl}).bindPopup('This is South Bend').addTo(nineteenfifty);
+const pTerreHaute = L.marker([39.47,-87.38], {icon: dl}).bindPopup('This is Terre Haute').addTo(nineteenfifty);
+const pWichita = L.marker([37.68,-97.33], {icon: dn}).bindPopup('This is Wichita').addTo(nineteenfifty);
+const pLexington = L.marker([38.02,-84.48], {icon: dl}).bindPopup('This is Lexington ').addTo(nineteenfifty);
+const pLouisville = L.marker([38.25,-85.75], {icon: dl}).bindPopup('This is Louisville').addTo(nineteenfifty);
+const pBatonRouge = L.marker([30.48,-91.17], {icon: dl}).bindPopup('This is Baton Rouge').addTo(nineteenfifty);
+const pNewOrleans = L.marker([30.58,-90.13], {icon: dl}).bindPopup('This is New Orleans').addTo(nineteenfifty);
+const pShreveport = L.marker([32.5,-93.73], {icon: dl}).bindPopup('This is Shreveport').addTo(nineteenfifty);
+const pBoston = L.marker([42.35,-71.05], {icon: dn}).bindPopup('This is Boston').addTo(nineteenfifty);
+const pWorcester = L.marker([42.27,-71.78], {icon: dn}).bindPopup('This is Worcester').addTo(nineteenfifty);
+const pBaltimore = L.marker([39.28,-76.6], {icon: dn}).bindPopup('This is Baltimore').addTo(nineteenfifty);
+const pBangor = L.marker([44.8,-68.77], {icon: dn}).bindPopup('This is Bangor').addTo(nineteenfifty);
+const pPortlandME = L.marker([43.65,-70.25], {icon: dn}).bindPopup('This is PortlandME').addTo(nineteenfifty);
+const pAnnArbor = L.marker([42.27,-83.73], {icon: dn}).bindPopup('This is Ann Arbor').addTo(nineteenfifty);
+const pDetroit = L.marker([42.32,-83.03], {icon: dn}).bindPopup('This is Detroit').addTo(nineteenfifty);
+const pFlint = L.marker([43.02,-83.68], {icon: dn}).bindPopup('This is Flint').addTo(nineteenfifty);
+const pGrandRapids = L.marker([42.95,-85.65], {icon: dn}).bindPopup('This is Grand Rapids').addTo(nineteenfifty);
+const pLansing = L.marker([42.73,-84.53], {icon: dn}).bindPopup('This is Lansing').addTo(nineteenfifty);
+const pChisholm = L.marker([47.48,-92.87], {icon: mn}).bindPopup('This is Chisholm').addTo(nineteenfifty);
+const pDuluth = L.marker([46.78,-92.08], {icon: mn}).bindPopup('This is Duluth').addTo(nineteenfifty);
+const pMinneapolis = L.marker([44.97,-93.27], {icon: mn}).bindPopup('This is Minneapolis').addTo(nineteenfifty);
+const pStJames = L.marker([43.97,-94.62], {icon: mn}).bindPopup('This is St. James').addTo(nineteenfifty);
+const pKansasCity = L.marker([39.08,-94.57], {icon: mn}).bindPopup('This is Kansas City').addTo(nineteenfifty);
+const pSpringfieldMO = L.marker([37.2,-93.28], {icon: dn}).bindPopup('This is SpringfieldMO').addTo(nineteenfifty);
+const pStJoseph = L.marker([39.75,-94.83], {icon: dn}).bindPopup('This is St. Joseph').addTo(nineteenfifty);
+const pStLouis = L.marker([38.62,-90.18], {icon: dn}).bindPopup('This is St. Louis').addTo(nineteenfifty);
+const pBillings = L.marker([45.78,-108.5], {icon: dn}).bindPopup('This is Billings').addTo(nineteenfifty);
+const pBrockway = L.marker([47.17,-105.75], {icon: dn}).bindPopup('This is Brockway').addTo(nineteenfifty);
+const pGreatFalls = L.marker([47.5,-111.28], {icon: dn}).bindPopup('This is Great Falls').addTo(nineteenfifty);
+const pMissoula = L.marker([46.85,-114], {icon: dn}).bindPopup('This is Missoula').addTo(nineteenfifty);
+const pAsheville = L.marker([35.58,-82.55], {icon: dn}).bindPopup('This is Asheville').addTo(nineteenfifty);
+const pCharlotte = L.marker([35.22,-80.83], {icon: dn}).bindPopup('This is Charlotte').addTo(nineteenfifty);
+const pDurham = L.marker([35.98,-78.9], {icon: dn}).bindPopup('This is Durham').addTo(nineteenfifty);
+const pFayetteville = L.marker([35.5,-78.87], {icon: dn}).bindPopup('This is Fayetteville').addTo(nineteenfifty);
+const pGreensboroWS = L.marker([36.67,-79.82], {icon: dn}).bindPopup('This is Greensboro-WS').addTo(nineteenfifty);
+const pRaleigh = L.marker([35.77,-78.38], {icon: dn}).bindPopup('This is Raleigh').addTo(nineteenfifty);
+const pBismarck = L.marker([46.8,-100.78], {icon: dn}).bindPopup('This is Bismarck').addTo(nineteenfifty);
+const pFargo = L.marker([46.87,-96.78], {icon: dn}).bindPopup('This is Fargo').addTo(nineteenfifty);
+const pMinot = L.marker([48.22,-101.28], {icon: dn}).bindPopup('This is Minot').addTo(nineteenfifty);
+const pLincoln = L.marker([40.8,-96.67], {icon: dn}).bindPopup('This is Lincoln').addTo(nineteenfifty);
+const pNorfolk = L.marker([42.02,-97.43], {icon: dn}).bindPopup('This is Norfolk').addTo(nineteenfifty);
+const pNorthPlatte = L.marker([41.23,-101.27], {icon: dn}).bindPopup('This is North Platte').addTo(nineteenfifty);
+const pOmaha = L.marker([41.25,-95.93], {icon: dn}).bindPopup('This is Omaha').addTo(nineteenfifty);
+const pScottsBluff = L.marker([41.87,-103.65], {icon: dn}).bindPopup('This is Scotts Bluff').addTo(nineteenfifty);
+const pManchester = L.marker([42.98,-71.45], {icon: dn}).bindPopup('This is Manchester').addTo(nineteenfifty);
+const pTrenton = L.marker([40.37,-79.38], {icon: dn}).bindPopup('This is Trenton').addTo(nineteenfifty);
+const pAlbuquerque = L.marker([35.1,-106.6], {icon: dn}).bindPopup('This is Albuquerque').addTo(nineteenfifty);
+const pSantaFe = L.marker([35.67,-105.95], {icon: dn}).bindPopup('This is Santa Fe').addTo();
+const pSwingfield = L.marker([42.1,-72.58], {icon: dn}).bindPopup('This is Springfield').addTo(nineteenfifty);
+const pJackson = L.marker([32.28,-90.18], {icon: dn}).bindPopup('This is Jackson').addTo();
+const pLasVegas = L.marker([36.17,-115.13], {icon: dn}).bindPopup('This is Las Vegas').addTo(nineteenfifty);
+const pReno = L.marker([39.52,-119.82], {icon: dn}).bindPopup('This is Reno').addTo(nineteenfifty);
+const pAlbany = L.marker([42.65,-73.75], {icon: dn}).bindPopup('This is Albany').addTo(nineteenfifty);
+const pBinghamton = L.marker([42.1,-80.38], {icon: dn}).bindPopup('This is Binghamton').addTo(nineteenfifty);
+const pBuffalo = L.marker([42.88,-78.87], {icon: dn}).bindPopup('This is Buffalo').addTo(nineteenfifty);
+const pRochester = L.marker([43.15,-77.6], {icon: ds}).bindPopup('This is Rochester').addTo(nineteenfifty);
+const pSyracuse = L.marker([43.03,-76.13], {icon: ds}).bindPopup('This is Syracuse ').addTo(nineteenfifty);
+const pAkron = L.marker([41.07,-81.52], {icon: dn}).bindPopup('This is Akron').addTo(nineteenfifty);
+const pCanton = L.marker([40.8,-81.37], {icon: dn}).bindPopup('This is Canton').addTo(nineteenfifty);
+const pCincinnati = L.marker([39.1,-84.5], {icon: dn}).bindPopup('This is Cincinnati').addTo(nineteenfifty);
+const pCleveland = L.marker([41.47,-81.67], {icon: dn}).bindPopup('This is Cleveland').addTo(nineteenfifty);
+const pColumbus = L.marker([39.95,-83], {icon: ds}).bindPopup('This is Columbus').addTo(nineteenfifty);
+const pDayton = L.marker([39.75,-84.18], {icon: dn}).bindPopup('This is Dayton').addTo(nineteenfifty);
+const pLorainElyria = L.marker([41.43,-81.38], {icon: dn}).bindPopup('This is Lorain-Elyria').addTo(nineteenfifty);
+const pToledo = L.marker([41.65,-83.57], {icon: dn}).bindPopup('This is Toledo').addTo(nineteenfifty);
+const pYoungstownWarren = L.marker([41.1,-80.65], {icon: dn}).bindPopup('This is Youngstown-Warren').addTo(nineteenfifty);
+const pOklahomaCity = L.marker([35.47,-97.52], {icon: dn}).bindPopup('This is Oklahoma City').addTo(nineteenfifty);
+const pTulsa = L.marker([36.12,-95.93], {icon: dn}).bindPopup('This is Tulsa').addTo(nineteenfifty);
+const pEugene = L.marker([44.05,-123.08], {icon: dn}).bindPopup('This is Eugene').addTo();
+const pPortlandVancouver = L.marker([45.52,-122.67], {icon: dn}).bindPopup('This is Portland-Vancouver').addTo(nineteenfifty);
+const pAtownBthlmEaston = L.marker([40.6,-75.47], {icon: dn}).bindPopup('This is Aʼtown-Bthlm-Easton').addTo(nineteenfifty);
+const pErie = L.marker([42.12,-80.08], {icon: dn}).bindPopup('This is Erie').addTo(nineteenfifty);
+const pHarrisburg = L.marker([40.27,-76.87], {icon: dn}).bindPopup('This is Harrisburg').addTo(nineteenfifty);
+const pPittsburgh = L.marker([40.43,-79.97], {icon: dn}).bindPopup('This is Pittsburgh').addTo(nineteenfifty);
+const pSCollegeWilliamsprt = L.marker([40.78,-82.38], {icon: dn}).bindPopup('This is SCollege-Williamsprt').addTo(nineteenfifty);
+const pScrantWilkesBarre = L.marker([41.4,-75.67], {icon: dn}).bindPopup('This is Scrant/Wilkes-Barre').addTo(nineteenfifty);
+const pProvidence = L.marker([41.82,-71.42], {icon: dn}).bindPopup('This is Providence').addTo(nineteenfifty);
+const pCharleston = L.marker([32.78,-79.92], {icon: dn}).bindPopup('This is Charleston').addTo(nineteenfifty);
+const pColumbia = L.marker([34,-81.33], {icon: dn}).bindPopup('This is Columbia').addTo(nineteenfifty);
+const pGreenville = L.marker([34.83,-82.38], {icon: dn}).bindPopup('This is Greenville').addTo(nineteenfifty);
+const pAberdeen = L.marker([45.45,-98.48], {icon: dn}).bindPopup('This is Aberdeen').addTo(nineteenfifty);
+const pLemmon = L.marker([45.93,-103.5], {icon: dn}).bindPopup('This is Lemmon').addTo(nineteenfifty);
+const pRapidCity = L.marker([44.13,-103.38], {icon: dn}).bindPopup('This is Rapid City').addTo(nineteenfifty);
+const pRedfield = L.marker([44.87,-98.52], {icon: dn}).bindPopup('This is Redfield').addTo(nineteenfifty);
+const pSiouxFalls = L.marker([43.7,-96.72], {icon: dn}).bindPopup('This is Sioux Falls').addTo(nineteenfifty);
+const pChattanooga = L.marker([35.33,-85.27], {icon: dn}).bindPopup('This is Chattanooga').addTo(nineteenfifty);
+const pKnoxville = L.marker([36.6,-83.38], {icon: dn}).bindPopup('This is Knoxville').addTo(nineteenfifty);
+const pMemphis = L.marker([35.12,-89.97], {icon: dn}).bindPopup('This is Memphis').addTo(nineteenfifty);
+const pNashville = L.marker([36.15,-86.77], {icon: dn}).bindPopup('This is n.d.1hville').addTo(nineteenfifty);
+const pAmarilloLubbock = L.marker([35.18,-101.83], {icon: dn}).bindPopup('This is Amarillo-Lubbock').addTo(nineteenfifty);
+const pAustin = L.marker([30.27,-97.73], {icon: dn}).bindPopup('This is Austin').addTo(nineteenfifty);
+const pCorpusChristi = L.marker([27.73,-97.4], {icon: dn}).bindPopup('This is Corpus Christi').addTo(nineteenfifty);
+const pDallasFtWorth = L.marker([32.77,-96.8], {icon: dn}).bindPopup('This is Dallas-Ft. Worth').addTo(nineteenfifty);
+const pElPaso = L.marker([31.75,-106.48], {icon: dn}).bindPopup('This is El Paso').addTo(nineteenfifty);
+const pHouston = L.marker([29.75,-84.38], {icon: dn}).bindPopup('This is Houston').addTo(nineteenfifty);
+const pLubbock = L.marker([33.57,-101.88], {icon: dn}).bindPopup('This is Lubbockp').addTo(nineteenfifty);
+const pOdessa = L.marker([31.85,-102.35], {icon: dn}).bindPopup('This is Odessa').addTo(nineteenfifty);
+const pSanAntonio = L.marker([29.42,-98.48], {icon: dn}).bindPopup('This is San Antonio').addTo(nineteenfifty);
+const pOgden = L.marker([41.22,-111.95], {icon: dn}).bindPopup('This is Ogden').addTo(nineteenfifty);
+const pProvoOrem = L.marker([40.23,-111.65], {icon: dn}).bindPopup('This is Provo-Orem').addTo(nineteenfifty);
+const ppSaltLake = L.marker([40.75,-111.88], {icon: dn}).bindPopup('This is Salt Lake City').addTo(nineteenfifty);
+const ppNorfolk = L.marker([36.83,-76.28], {icon: dl}).bindPopup('This is Norfolk').addTo(nineteenfifty);
+const ppRichmond = L.marker([37.54,-77.43], {icon: dl}).bindPopup('This is Richmond').addTo(nineteenfifty);
+const ppRoanoke = L.marker([37.27,-79.93], {icon: dl}).bindPopup('This is Roanoke').addTo(nineteenfifty);
+const ppBurlington = L.marker([44.47,-73.2], {icon: dn}).bindPopup('This is Burlington').addTo(nineteenfifty);
+const ppRutland = L.marker([43.6,-72.97], {icon: dn}).bindPopup('This is Rutland').addTo(nineteenfifty);
+const ppSeattle = L.marker([47.6,-85.38], {icon: dn}).bindPopup('This is Seattle').addTo(nineteenfifty);
+const pSpokane = L.marker([47.65,-117.42], {icon: dn}).bindPopup('This is Spokane').addTo(nineteenfifty);
+const pWallaWalla = L.marker([46.5,-118.32], {icon: dn}).bindPopup('This is Walla Walla').addTo(nineteenfifty);
+const pMadison = L.marker([43.03,-89.4], {icon: dn}).bindPopup('This is Madison').addTo(nineteenfifty);
+const pMilwaukee = L.marker([43.08,-88.58], {icon: dn}).bindPopup('This is Milwaukee').addTo(nineteenfifty);
+const pCharlestonWV = L.marker([38.33,-81.63], {icon: dl}).bindPopup('This is CharlestonWV').addTo(nineteenfifty);
+const pHuntingtonAshland = L.marker([38.42,-82.38], {icon: dl}).bindPopup('This is Huntington-Ashland').addTo(nineteenfifty);
+
+</script>
+
+</html>
