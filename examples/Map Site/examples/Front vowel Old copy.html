@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Layers Control Tutorial - Leaflet</title>
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 400px;
+			width: 600px;
+			max-width: 100%;
+			max-height: 100%;
+		}
+.info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }</style>
+</head>
+<body>
+<div id='map'></div>
+
+
+<script>
+	const greenIcon = L.icon({
+    iconUrl: 'leaf-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], // size of the icon
+    iconAnchor:   [2, 2], // where the icon will correspond to marker's location
+    popupAnchor:  [-15, -15]}); // where the popup should open relative to the icon
+	const du = L.icon({
+    iconUrl: 'leaf-red.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] }); 
+	const dn = L.icon({
+    iconUrl: 'leaf-blue.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] }); 
+	const ds = L.icon({
+    iconUrl: 'leaf-gray.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] }); 
+	const dl = L.icon({
+    iconUrl: 'leaf-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] }); 
+	const ml = L.icon({
+    iconUrl: 'square-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] });
+	const mn = L.icon({
+    iconUrl: 'square-blue.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] });
+//base layer
+const eighteenseventy = L.layerGroup();
+
+
+//1870s points
+const mWhiteOak = L.marker([33.53,-92.1], {icon: du}).bindPopup('This is White Oak').addTo(eighteenseventy);
+const mNewnan = L.marker([33.22,-84.47], {icon: du}).bindPopup('This is Newnan').addTo(eighteenseventy);
+const mAmericus = L.marker([33.4,-84.13], {icon: du}).bindPopup('This is Americus').addTo(eighteenseventy);
+const mWinnfield = L.marker([31.55,-92.38], {icon: du}).bindPopup('This is Winnfield').addTo(eighteenseventy);
+const mNewOrleans = L.marker([29.95,-90.08], {icon: du}).bindPopup('This is New Orleans').addTo(eighteenseventy);
+const mMacon = L.marker([32.5,-83.39], {icon: du}).bindPopup('This is Macon').addTo(eighteenseventy);
+const mKiln = L.marker([30.24,-89.26], {icon: du}).bindPopup('This is Kiln').addTo(eighteenseventy);
+const mDayton = L.marker([35.3,-85.01], {icon: du}).bindPopup('This is Dayton').addTo(eighteenseventy);
+const mChatanooga = L.marker([35.33,-85.27], {icon: du}).bindPopup('This is Chatanooga').addTo(eighteenseventy);
+const mGainesboro = L.marker([36.21,-85.39], {icon: du}).bindPopup('This is Gainesboro').addTo(eighteenseventy);
+const mStatesville = L.marker([36.01,-86.07], {icon: du}).bindPopup('This is Statesville').addTo(eighteenseventy);
+const mShelbyville = L.marker([35.29,-86.27], {icon: du}).bindPopup('This is Shelbyville').addTo(eighteenseventy);
+const mSpringfield = L.marker([36.29,-86.52], {icon: du}).bindPopup('This is Springfield').addTo(eighteenseventy);
+const mWaverly = L.marker([36.05,-87.47], {icon: du}).bindPopup('This is Waverly').addTo(eighteenseventy);
+const mColinwood = L.marker([35.1,-87.44], {icon: du}).bindPopup('This is Colinwood').addTo(eighteenseventy);
+const mDyersburg = L.marker([36.02,-89.23], {icon: du}).bindPopup('This is Dyersburg').addTo(eighteenseventy);
+const mDyer = L.marker([36.04,-88.59], {icon: du}).bindPopup('This is Dyer').addTo(eighteenseventy);
+const mArp = L.marker([35.44,-89.32], {icon: du}).bindPopup('This is Arp').addTo(eighteenseventy);
+const mBolivar = L.marker([35.16,-89], {icon: du}).bindPopup('This is Bolivar').addTo(eighteenseventy);
+const mMemphis = L.marker([35.07,-89.58], {icon: du}).bindPopup('This is Memphis').addTo(eighteenseventy);
+const mNashville = L.marker([36.09,-86.46], {icon: du}).bindPopup('This is Nashville').addTo(eighteenseventy);
+const mBrownsville = L.marker([35.35,-89.15], {icon: du}).bindPopup('This is Brownsville').addTo(eighteenseventy);
+const mDenison = L.marker([33.49,-96.33], {icon: du}).bindPopup('This is Denison').addTo(eighteenseventy);
+const mDenton = L.marker([33.12,-97.7], {icon: du}).bindPopup('This is Denton').addTo(eighteenseventy);
+const mAustin = L.marker([30.16,-97.44], {icon: du}).bindPopup('This is Austin').addTo(eighteenseventy);
+const mMcAllenn = L.marker([26.12,-98.14], {icon: du}).bindPopup('This is McAllenn').addTo(eighteenseventy);
+const mWaco = L.marker([31.33,-97.9], {icon: du}).bindPopup('This is Waco').addTo(eighteenseventy);
+const mBurns = L.marker([43.35,-119.3], {icon: dn}).bindPopup('This is Burns').addTo(eighteenseventy);
+const mJordanValley = L.marker([42.58,-117.3], {icon: dn}).bindPopup('This is Jordan Valley').addTo(eighteenseventy);
+const mJacksonville = L.marker([42.18,-122.58], {icon: dn}).bindPopup('This is Jacksonville').addTo(eighteenseventy);
+const mJunctionCity = L.marker([44.13,-123.12], {icon: dn}).bindPopup('This is Junction City').addTo(eighteenseventy);
+
+
+
+//osm map
+const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
+const map = L.map('map', {
+	center: [33.22,-110.47],
+	zoom: 2.3,
+	layers: [osm, eighteenseventy]});
+	
+
+
+//set base layer and overlays
+const baseLayers = {'OpenStreetMap': osm};
+const overlays = {'Late 19th century': eighteenseventy,};
+const layerControl = L.control.layers(baseLayers, overlays).addTo(map);
+const nineteenhundred = L.layerGroup();
+const nineteenfifty = L.layerGroup();
+const nineteenseventy = L.layerGroup();
+const Beighteenseventy = L.layerGroup();
+const Bseventeenhundred = L.layerGroup();
+const Beighteenhundred = L.layerGroup();
+const Beighteenfifty = L.layerGroup();
+const Bnineteenhundred = L.layerGroup();
+const Bnineteenfifty = L.layerGroup();
+const Bnineteenseventy = L.layerGroup();
+layerControl.addOverlay(nineteenfifty, 'Mid 20th century');
+layerControl.addOverlay(nineteenseventy, 'Late 20th century');
+layerControl.addOverlay(Bseventeenhundred, 'Black (born 1700-1799)');
+layerControl.addOverlay(Beighteenhundred, '— (b. 1800-1845)');
+layerControl.addOverlay(Beighteenfifty, '— (b. 1846-1875)');
+layerControl.addOverlay(Beighteenseventy, '— (b. 1875-1899)');
+layerControl.addOverlay(Bnineteenhundred, '— (b. 1900-1945)');
+layerControl.addOverlay(Bnineteenfifty, '— (b. 1946-1975)');
+layerControl.addOverlay(Bnineteenseventy, '— (b. 1975-)');
+
+//1700 points adjusting points does not remove layers
+const lPhiladelphiia = L.marker([39.95,-75.15], {icon: ds}).bindPopup('This is Philadelphia1').addTo(seventeenhundred);
+const lHartford = L.marker([41.98,-72.68], {icon: ds}).bindPopup('This is Hartford').addTo(seventeenhundred);
+const lWorcester = L.marker([42.45,-72.3], {icon: ds}).bindPopup('This is Worcester').addTo(seventeenhundred);
+const lRowley = L.marker([42.72,-70.87], {icon: ds}).bindPopup('This is Rowley').addTo(seventeenhundred);
+
+//1800 points
+const kBelmont = L.marker([43.14,-71.21], {icon: ds}).bindPopup('This is Belmont').addTo(eighteenhundred);
+const kCambridge = L.marker([42.37,-71.1], {icon: ds}).bindPopup('This is Cambridge').addTo(eighteenhundred);
+
+
+//1850 points
+const cSuffolk = L.marker([37.54,-76.06], {icon: ds}).bindPopup('This is Suffolk').addTo(eighteenfifty);
+const cColumbus0 = L.marker([40.32,-82.84], {icon: ds}).bindPopup('This is Columbus0').addTo(eighteenfifty);
+const cNewYork = L.marker([41.2,-74.16], {icon: ds}).bindPopup('This is New York City').addTo(eighteenfifty);
+const cIthica = L.marker([43.05,-76.43], {icon: ds}).bindPopup('This is Ithica').addTo(eighteenfifty);
+const cPhiladelphia1 = L.marker([40.53,-75.35], {icon: ds}).bindPopup('This is Philadelphia1').addTo(eighteenfifty);
+const cMaryland = L.marker([40.53,-75.35], {icon: ds}).bindPopup('This is Maryland').addTo(eighteenfifty);
+const cVirginia = L.marker([37.34,-76.65], {icon: ds}).bindPopup('This is Virginia').addTo(eighteenfifty);
+const cTennessee = L.marker([39.04,-86.82], {icon: ds}).bindPopup('This is Tennessee').addTo(eighteenfifty);
+const cCharleston1 = L.marker([33.3,-80.53], {icon: ds}).bindPopup('This is Charleston1').addTo(eighteenfifty);
+const cNTruro = L.marker([42.59,-69.91], {icon: ds}).bindPopup('This is N Truro').addTo(eighteenfifty);
+const cGreenwich = L.marker([41.68,-73.49], {icon: ds}).bindPopup('This is Greenwich').addTo(eighteenfifty);
+const cGaitlinburg = L.marker([36.47,-83.47], {icon: ds}).bindPopup('This is Gaitlinburg').addTo(eighteenfifty);
+const cWhiteCounty = L.marker([35.96,-91.78], {icon: ds}).bindPopup('This is White County').addTo(eighteenfifty);
+const cBrewer = L.marker([45.45,-68.72], {icon: ds}).bindPopup('This is Brewer').addTo(eighteenfifty);
+const cMachias = L.marker([45.49,-67.45], {icon: ds}).bindPopup('This is Machias').addTo(eighteenfifty);
+const cPortland = L.marker([44.33,-70.35], {icon: ds}).bindPopup('This is Portland').addTo(eighteenfifty);
+const cConcord = L.marker([43.53,-71.53], {icon: ds}).bindPopup('This is Concord').addTo(eighteenfifty);
+const cKeene = L.marker([43.3,-72.36], {icon: ds}).bindPopup('This is Keene').addTo(eighteenfifty);
+const cBeverly = L.marker([42.87,-70.88], {icon: ds}).bindPopup('This is Beverly').addTo(eighteenfifty);
+const cBoston = L.marker([42.69,-71.19], {icon: ds}).bindPopup('This is Boston').addTo(eighteenfifty);
+const cRochester = L.marker([42.14,-70.86], {icon: ds}).bindPopup('This is Rochester').addTo(eighteenfifty);
+const cBarnstable = L.marker([42.17,-70.08], {icon: ds}).bindPopup('This is Barnstable').addTo(eighteenfifty);
+const cNewport = L.marker([41.75,-71.27], {icon: ds}).bindPopup('This is Newport').addTo(eighteenfifty);
+const cWilimantic = L.marker([42.13,-72.24], {icon: ds}).bindPopup('This is Wilimantic').addTo(eighteenfifty);
+const cProvidence = L.marker([42.2,-71.43], {icon: ds}).bindPopup('This is Providence').addTo(eighteenfifty);
+const cWorcester = L.marker([42.59,-71.75], {icon: ds}).bindPopup('This is Worcester').addTo(eighteenfifty);
+const cSpringfield = L.marker([42.22,-72.64], {icon: ds}).bindPopup('This is Springfield').addTo(eighteenfifty);
+const cGranby = L.marker([42.68,-72.54], {icon: ds}).bindPopup('This is Granby').addTo(eighteenfifty);
+const cDeerfield = L.marker([42.83,-72.63], {icon: ds}).bindPopup('This is Deerfield').addTo(eighteenfifty);
+const cFarmington = L.marker([41.88,-72.82], {icon: ds}).bindPopup('This is Farmington').addTo(eighteenfifty);
+const cMiddletown = L.marker([41.72,-72.65], {icon: ds}).bindPopup('This is Middletown').addTo(eighteenfifty);
+const cMilford = L.marker([41.41,-73.06], {icon: ds}).bindPopup('This is Milford').addTo(eighteenfifty);
+const cLitchfield = L.marker([42,-73.38], {icon: ds}).bindPopup('This is Litchfield').addTo(eighteenfifty);
+const cCornwall = L.marker([41.94,-73.21], {icon: ds}).bindPopup('This is Cornwall').addTo(eighteenfifty);
+const cPittfield = L.marker([42.64,-73.24], {icon: ds}).bindPopup('This is Pittfield').addTo(eighteenfifty);
+const cHurley = L.marker([42.14,-74.1], {icon: ds}).bindPopup('This is Hurley').addTo(eighteenfifty);
+const cAlbany = L.marker([42.82,-73.77], {icon: ds}).bindPopup('This is Albany').addTo(eighteenfifty);
+const cOswego = L.marker([43.63,-76.53], {icon: ds}).bindPopup('This is Oswego').addTo(eighteenfifty);
+const cBath = L.marker([42.53,-77.32], {icon: ds}).bindPopup('This is Bath').addTo(eighteenfifty);
+const cGeneva = L.marker([43.05,-76.99], {icon: ds}).bindPopup('This is Geneva').addTo(eighteenfifty);
+const cLima = L.marker([43.09,-77.65], {icon: ds}).bindPopup('This is Lima').addTo(eighteenfifty);
+const cManhattan = L.marker([40.73,-73.95], {icon: ds}).bindPopup('This is Manhattan').addTo(eighteenfifty);
+const cBrooklyn = L.marker([40.84,-73.96], {icon: ds}).bindPopup('This is Brooklyn').addTo(eighteenfifty);
+const cPhiladelphia = L.marker([40.07,-75.2], {icon: ds}).bindPopup('This is Philadelphia').addTo(eighteenfifty);
+const cHarrisburg = L.marker([40.52,-76.91], {icon: ds}).bindPopup('This is Harrisburg').addTo(eighteenfifty);
+const cReading = L.marker([40.59,-75.97], {icon: ds}).bindPopup('This is Reading').addTo(eighteenfifty);
+const cWheeling = L.marker([40.38,-80.69], {icon: ds}).bindPopup('This is Wheeling').addTo(eighteenfifty);
+const cPoint = L.marker([39.14,-82.18], {icon: ds}).bindPopup('This is Point Pleasant').addTo(eighteenfifty);
+const cMarietta = L.marker([40,-81.52], {icon: ds}).bindPopup('This is Marietta').addTo(eighteenfifty);
+const cDover = L.marker([39.27,-75.54], {icon: ds}).bindPopup('This is Dover').addTo(eighteenfifty);
+const cBaltimore = L.marker([39.41,-76.63], {icon: ds}).bindPopup('This is Baltimore').addTo(eighteenfifty);
+const cLeonardtown = L.marker([38.36,-76.62], {icon: ds}).bindPopup('This is Leonardtown').addTo(eighteenfifty);
+const cShepherdstown = L.marker([39.53,-77.81], {icon: ds}).bindPopup('This is Shepherdstown').addTo(eighteenfifty);
+const cStafford = L.marker([38.8,-77.46], {icon: ds}).bindPopup('This is Stafford').addTo(eighteenfifty);
+const cFredericksburg = L.marker([38.37,-77.47], {icon: ds}).bindPopup('This is Fredericksburg').addTo(eighteenfifty);
+const cRichmond = L.marker([37.93,-77.44], {icon: ds}).bindPopup('This is Richmond').addTo(eighteenfifty);
+const cPetersburg = L.marker([37.52,-77.46], {icon: ds}).bindPopup('This is Petersburg').addTo(eighteenfifty);
+const cNew = L.marker([35.5,-77.09], {icon: ds}).bindPopup('This is New Bern').addTo(eighteenfifty);
+const cCamden = L.marker([34.67,-80.65], {icon: ds}).bindPopup('This is Camden').addTo(eighteenfifty);
+const cSavannah = L.marker([32.48,-81.13], {icon: ds}).bindPopup('This is Savannah').addTo(eighteenfifty);
+const cEgypt = L.marker([32.89,-81.52], {icon: ds}).bindPopup('This is Egypt').addTo(eighteenfifty);
+const cStMarys = L.marker([31.06,-81.54], {icon: ds}).bindPopup('This is St Marys').addTo(eighteenfifty);
+const cJacksonville = L.marker([30.7,-81.64], {icon: ds}).bindPopup('This is Jacksonville').addTo(eighteenfifty);
+const cStAugustine = L.marker([30.15,-81.33], {icon: ds}).bindPopup('This is St Augustine').addTo(eighteenfifty);
+const cAtlanta = L.marker([34.03,-84.35], {icon: ds}).bindPopup('This is Atlanta').addTo(eighteenfifty);
+
+//1900s points
+const mMarshall = L.marker([32.55,-94.37], {icon: dn}).bindPopup('This is Marshall').addTo(nineteenhundred);
+const mBelk = L.marker([33.65,-95.53], {icon: du}).bindPopup('This is Belk').addTo(nineteenhundred);
+const mHuntsville1 = L.marker([30.72,-95.55], {icon: du}).bindPopup('This is Huntsville1').addTo(nineteenhundred);
+const mWarrenton = L.marker([29.9,-96.87], {icon: du}).bindPopup('This is Warrenton').addTo(nineteenhundred);
+const mHondo = L.marker([29.33,-100.33], {icon: du}).bindPopup('This is Hondo').addTo(nineteenhundred);
+const mCorpusChristi1 = L.marker([27.73,-97.4], {icon: du}).bindPopup('This is Corpus Christi1').addTo(nineteenhundred);
+const mEncinal = L.marker([28.33,-99.35], {icon: du}).bindPopup('This is Encinal').addTo(nineteenhundred);
+const mLaredo = L.marker([27.52,-99.48], {icon: du}).bindPopup('This is Laredo').addTo(nineteenhundred);
+const mRomaLosSaenz = L.marker([26.4,-99], {icon: du}).bindPopup('This is RomaLos Saenz').addTo(nineteenhundred);
+const mBrownsville1 = L.marker([25.92,-97.48], {icon: du}).bindPopup('This is Brownsville').addTo(nineteenhundred);
+const mPendleton = L.marker([45.67,-118.78], {icon: dn}).bindPopup('This is Pendleton').addTo(nineteenhundred);
+const mNYC = L.marker([40.68,-73.98], {icon: ds}).bindPopup('This is NYC').addTo(nineteenhundred);
+const mMaryville = L.marker([35.73,-83.97], {icon: du}).bindPopup('This is Maryville').addTo(nineteenhundred);
+const mSweetwater = L.marker([35.6,-84.47], {icon: du}).bindPopup('This is Sweetwater').addTo(nineteenhundred);
+const mStewart = L.marker([36.32,-87.83], {icon: du}).bindPopup('This is Stewart').addTo(nineteenhundred);
+const mElbridge = L.marker([36.25,-89.18], {icon: du}).bindPopup('This is Elbridge').addTo(nineteenhundred);
+const mDayton2 = L.marker([35.5,-85.17], {icon: du}).bindPopup('This is Dayton2').addTo(nineteenhundred);
+const mBay = L.marker([35.73,-90.55], {icon: du}).bindPopup('This is Bay').addTo(nineteenhundred);
+const mElDorado = L.marker([33.2,-92.65], {icon: du}).bindPopup('This is El Dorado').addTo(nineteenhundred);
+const mRome = L.marker([34.25,-85.18], {icon: du}).bindPopup('This is Rome').addTo(nineteenhundred);
+const mHuntsville = L.marker([34.72,-86.58], {icon: du}).bindPopup('This is Huntsville').addTo(nineteenhundred);
+const mOneonta = L.marker([33.93,-86.47], {icon: du}).bindPopup('This is Oneonta').addTo(nineteenhundred);
+const mShadyGrove = L.marker([31.9,-86.15], {icon: du}).bindPopup('This is Shady Grove').addTo(nineteenhundred);
+const mGantt = L.marker([31.4,-86.48], {icon: du}).bindPopup('This is Gantt').addTo(nineteenhundred);
+const mDamascus = L.marker([33.97,-86.87], {icon: du}).bindPopup('This is Damascus').addTo(nineteenhundred);
+const mStockton = L.marker([30.98,-87.85], {icon: du}).bindPopup('This is Stockton').addTo(nineteenhundred);
+const mDrew = L.marker([33.8,-90.52], {icon: du}).bindPopup('This is Drew').addTo(nineteenhundred);
+const mLorman = L.marker([31.82,-91.05], {icon: du}).bindPopup('This is Lorman').addTo(nineteenhundred);
+const mHawthorne = L.marker([31.13,-93.27], {icon: du}).bindPopup('This is Hawthorne').addTo(nineteenhundred);
+const mWaxahachie = L.marker([32.38,-96.83], {icon: du}).bindPopup('This is Waxahachie').addTo(nineteenhundred);
+const mBeaumont = L.marker([30.07,-94.12], {icon: du}).bindPopup('This is Beaumont').addTo(nineteenhundred);
+const mToronto = L.marker([43.73,-79.37], {icon: du}).bindPopup('This is Toronto').addTo(nineteenhundred);
+const mStJohns = L.marker([47.47,-52.78], {icon: du}).bindPopup('This is St Johns').addTo(nineteenhundred);
+const mHaverhill = L.marker([42.78,-71.08], {icon: du}).bindPopup('This is Haverhill').addTo(nineteenhundred);
+const mMeriden = L.marker([41.53,-72.78], {icon: du}).bindPopup('This is Meriden').addTo(nineteenhundred);
+const mManhattan = L.marker([40.78,-73.97], {icon: du}).bindPopup('This is Manhattan').addTo(nineteenhundred);
+const mLinoLakes = L.marker([45.17,-93.08], {icon: du}).bindPopup('This is Lino Lakes').addTo(nineteenhundred);
+const mPhiladelphia = L.marker([39.95,-75.15], {icon: du}).bindPopup('This is Philadelphia').addTo(nineteenhundred);
+const mCheviot = L.marker([39.15,-84.6], {icon: du}).bindPopup('This is Cheviot').addTo(nineteenhundred);
+const mCherokeeSound = L.marker([26.47,-77.08], {icon: du}).bindPopup('This is Cherokee Sound').addTo(nineteenhundred);
+const mIrvington = L.marker([37.65,-76.42], {icon: du}).bindPopup('This is Irvington').addTo(nineteenhundred);
+const mMontgomery1 = L.marker([32.58,-86.45], {icon: du}).bindPopup('This is Montgomery1').addTo(nineteenhundred);
+const mRobbinisville1 = L.marker([35.32,-83.8], {icon: du}).bindPopup('This is Robbinisville1').addTo(nineteenhundred);
+const mRaleigh1 = L.marker([36.28,-78.63], {icon: du}).bindPopup('This is Raleigh1').addTo(nineteenhundred);
+const mHurdleMills = L.marker([36.27,-79.03], {icon: du}).bindPopup('This is Hurdle Mills').addTo(nineteenhundred);
+const mLeasburg = L.marker([36.4,-79.15], {icon: du}).bindPopup('This is Leasburg').addTo(nineteenhundred);
+const mEngelhard = L.marker([36.15,-76.14], {icon: du}).bindPopup('This is Engelhard').addTo(nineteenhundred);
+const mSwanQuarter1 = L.marker([35.68,-76.37], {icon: du}).bindPopup('This is Swan Quarter1').addTo(nineteenhundred);
+const mOcracoke2 = L.marker([35.23,-75.98], {icon: du}).bindPopup('This is Ocracoke2').addTo(nineteenhundred);
+const mHarkersIsland = L.marker([34.81,-76.56], {icon: du}).bindPopup('This is Harkers Island').addTo(nineteenhundred);
+const mNewOrleans2 = L.marker([30.41,-90.13], {icon: du}).bindPopup('This is New Orleans2').addTo(nineteenhundred);
+const mYale1 = L.marker([36.54,-96.6], {icon: du}).bindPopup('This is Yale1').addTo(nineteenhundred);
+const mAmericana = L.marker([-19.81,-47.85], {icon: du}).bindPopup('This is Americana').addTo(nineteenhundred);
+const mGilmer = L.marker([33,-94.89], {icon: du}).bindPopup('This is Gilmer').addTo(nineteenhundred);
+const mHouston1 = L.marker([29.99,-95.54], {icon: du}).bindPopup('This is Houston1').addTo(nineteenhundred);
+const mBrazos = L.marker([31.05,-96.39], {icon: du}).bindPopup('This is Brazos').addTo(nineteenhundred);
+const mWiseCounty = L.marker([33.61,-97.68], {icon: du}).bindPopup('This is Wise County').addTo(nineteenhundred);
+const mHenderson = L.marker([32.54,-94.8], {icon: du}).bindPopup('This is Henderson').addTo(nineteenhundred);
+const mTyler = L.marker([32.82,-95.35], {icon: du}).bindPopup('This is Tyler').addTo(nineteenhundred);
+const mClifton = L.marker([32.11,-97.54], {icon: du}).bindPopup('This is Clifton').addTo(nineteenhundred);
+const mDallas = L.marker([33.14,-96.88], {icon: du}).bindPopup('This is Dallas').addTo(nineteenhundred);
+const mGarland = L.marker([32.98,-96.66], {icon: du}).bindPopup('This is Garland').addTo(nineteenhundred);
+const mHouston2 = L.marker([30.22,-95.37], {icon: du}).bindPopup('This is Houston2').addTo(nineteenhundred);
+const mTroup = L.marker([32.31,-95.07], {icon: du}).bindPopup('This is Troup').addTo(nineteenhundred);
+const mHoneyGrove = L.marker([33.81,-95.88], {icon: du}).bindPopup('This is Honey Grove').addTo(nineteenhundred);
+const mTylerton = L.marker([38.34,-76.02], {icon: du}).bindPopup('This is Tylerton').addTo(nineteenhundred);
+
+// ncvs1 is duluth[46.78,-92.08],mineapolis[44.97,-93.27],masoncity[44.33,-93.2]cedarrapids[41°58′59″N 91°40′7],Chicago[41.87,-87.62],Youngstown [41.1,-80.65],erie[42.12,-80.08], binnghamton [42.1,-80.38],syracuse [43.03,-76.13]
+
+//ncvs2 is greenbay [44.3, -88] mineapolis[44.97,-93.27],masoncity[44.33,-93.2]cedarrapids[41°58′59″N 91°40′7],Chicago[41.87,-87.62],Youngstown [41.1,-80.65],erie[42.12,-80.08], binnghamton [42.1,-80.38],syracuse [43.03,-76.13]
+
+const ncvs2 = 
+L.polyline([
+[46.78,-92.08],
+[44.97,-93.27],
+[44.33,-93.2],
+[41.58,-91.40],
+[41.87,-87.62],
+[41.1,-80.65],
+[42.12,-80.08],
+[42.1,-80.38],
+[43.03,-76.13]]
+).addTo(nineteenfifty);
+
+const ncvs4 = 
+L.polyline([
+[44.3, -88],
+[44.97,-93.27],
+[44.33,-93.2],
+[41.58,-91.40],
+[41.87,-87.62],
+[41.1,-80.65],
+[42.12,-80.08],
+[42.1,-80.38],
+[43.03,-76.13]]
+).addTo(nineteenfifty);
+
+
+//1950s points
+const pAnchorage = L.marker([61.37,-150.47], {icon: dl}).bindPopup('This is Anchorage').addTo(nineteenfifty);
+const pBirmingham = L.marker([33.87,-87.33], {icon: dl}).bindPopup('This is Birmingham').addTo(nineteenfifty);
+const pMobile = L.marker([31.13,-88.05], {icon: dl}).bindPopup('This is Mobile').addTo(nineteenfifty);
+const pMontgomrey = L.marker([32.58,-86.45], {icon: dl}).bindPopup('This is Montgomrey').addTo(nineteenfifty);
+const pLittleRock = L.marker([35.22,-92.53], {icon: dl}).bindPopup('This is Little Rock').addTo(nineteenfifty);
+const pFlagstaff = L.marker([35.3,-112.03], {icon: dl}).bindPopup('This is Flagstaff').addTo(nineteenfifty);
+const pPhoenix = L.marker([33.72,-112.12], {icon: dl}).bindPopup('This is Phoenix').addTo(nineteenfifty);
+const pTuscon = L.marker([33.37,-111.53], {icon: dl}).bindPopup('This is Tuscon').addTo(nineteenfifty);
+const pBakersfield = L.marker([35.62,-119.28], {icon: dn}).bindPopup('This is Bakersfield').addTo(nineteenfifty);
+const pFresno = L.marker([37.25,-120.28], {icon: dn}).bindPopup('This is Fresno').addTo(nineteenfifty);
+const pLosAngeles = L.marker([34.08,-118.42], {icon: dn}).bindPopup('This is Los Angeles').addTo(nineteenfifty);
+const pModesto = L.marker([38.08,-121.63], {icon: dn}).bindPopup('This is Modesto').addTo(nineteenfifty);
+const pRiversideSanBrndino = L.marker([34.55,-117.63], {icon: dn}).bindPopup('This is Riverside SanBrndino').addTo(nineteenfifty);
+const pSacramento = L.marker([38.95,-121.8], {icon: dn}).bindPopup('This is Sacramento').addTo(nineteenfifty);
+const pSanDiego = L.marker([33.17,-117.25], {icon: dn}).bindPopup('This is San Diego').addTo(nineteenfifty);
+const pSanFrancisco = L.marker([38.37,-112.67], {icon: dn}).bindPopup('This is San Francisco').addTo(nineteenfifty);
+const pSanJose = L.marker([37.55,-122.47], {icon: dn}).bindPopup('This is San Jose').addTo(nineteenfifty);
+const pColoradoSprings = L.marker([39.38,-105.37], {icon: dn}).bindPopup('This is Colorado Springs').addTo(nineteenfifty);
+const pDenver = L.marker([40.38,-106.08], {icon: dn}).bindPopup('This is Denver').addTo(nineteenfifty);
+const pBridgeport = L.marker([41.3,-73.3], {icon: dn}).bindPopup('This is Bridgeport').addTo(nineteenfifty);
+const pHartford = L.marker([42.25,-73.12], {icon: dn}).bindPopup('This is Hartford').addTo(nineteenfifty);
+const pNewHaven = L.marker([41.5,-73.53], {icon: dn}).bindPopup('This is New Haven').addTo(nineteenfifty);
+const pWashingtonDC = L.marker([39.5,-77], {icon: dn}).bindPopup('This is WashingtonDC').addTo(nineteenfifty);
+const pWilmington1 = L.marker([40.22,-75.88], {icon: dn}).bindPopup('This is Wilmington1').addTo(nineteenfifty);
+const pFtLauderdale = L.marker([27.55,-81.83], {icon: dn}).bindPopup('This is FtLauderdale').addTo(nineteenfifty);
+const pJacksonville = L.marker([30.55,-82.08], {icon: dn}).bindPopup('This is Jacksonville').addTo(nineteenfifty);
+const pMiami = L.marker([26.5,-80.55], {icon: dn}).bindPopup('This is Miami').addTo(nineteenfifty);
+const pOrlando = L.marker([28.88,-81.62], {icon: dn}).bindPopup('This is Orlando').addTo(nineteenfifty);
+const pPensacola = L.marker([30.72,-87.33], {icon: dl}).bindPopup('This is Pensacola').addTo(nineteenfifty);
+const pTallahassee = L.marker([30.75,-84.42], {icon: dn}).bindPopup('This is Tallahassee').addTo(nineteenfifty);
+const pTampa = L.marker([28.55,-82.75], {icon: dn}).bindPopup('This is Tampa').addTo(nineteenfifty);
+const pWestPalm = L.marker([27.17,-80.08], {icon: dn}).bindPopup('This is West Palm Beach').addTo(nineteenfifty);
+const pAtlanta = L.marker([34.22,-84.63], {icon: dl}).bindPopup('This is Atlanta').addTo(nineteenfifty);
+const pAugusta = L.marker([33.78,-82.62], {icon: dl}).bindPopup('This is Augusta').addTo(nineteenfifty);
+const pColumbusGA = L.marker([32.8,-85.55], {icon: dl}).bindPopup('This is ColumbusGA').addTo(nineteenfifty);
+const pMacon = L.marker([33.38,-84.08], {icon: dl}).bindPopup('This is Macon').addTo(nineteenfifty);
+const pSavannah = L.marker([32.12,-81.13], {icon: dl}).bindPopup('This is Savannah').addTo(nineteenfifty);
+const pDesMoines = L.marker([41.97,-94.03], {icon: dn}).bindPopup('This is Des Moines').addTo(nineteenfifty);
+const pMasonCity = L.marker([44.55,-93.33], {icon: dn}).bindPopup('This is Mason City').addTo(nineteenfifty);
+const pQuadCities = L.marker([41.88,-90.97], {icon: dn}).bindPopup('This is Quad Cities').addTo(nineteenfifty);
+const pSiouxCity = L.marker([42.8,-96.63], {icon: dn}).bindPopup('This is Sioux City').addTo(nineteenfifty);
+const pBoise = L.marker([44,-116.33], {icon: dn}).bindPopup('This is Boise').addTo(nineteenfifty);
+const pIdahoFalls = L.marker([43.83,-112.55], {icon: dn}).bindPopup('This is Idaho Falls').addTo(nineteenfifty);
+const pChicago = L.marker([42.45,-88.03], {icon: dl}).bindPopup('This is Chicago').addTo(nineteenfifty);
+const pPeoria = L.marker([41.13,-89.97], {icon: dl}).bindPopup('This is Peoria').addTo(nineteenfifty);
+const pRockford = L.marker([42.45,-89.13], {icon: dl}).bindPopup('This is Rockford').addTo(nineteenfifty);
+const pSpringfield2 = L.marker([40.3,-90.08], {icon: dl}).bindPopup('This is Springfield2').addTo(nineteenfifty);
+const pEvansville = L.marker([38.62,-87.92], {icon: dl}).bindPopup('This is Evansville').addTo(nineteenfifty);
+const pFortWayne = L.marker([41.12,-85.22], {icon: dl}).bindPopup('This is Fort Wayne').addTo(nineteenfifty);
+const pGary = L.marker([41.97,-87.55], {icon: dl}).bindPopup('This is Gary').addTo(nineteenfifty);
+const pIndianapolis = L.marker([40.28,-86.25], {icon: dl}).bindPopup('This is Indianapolis').addTo(nineteenfifty);
+const pSouthBend = L.marker([42.12,-86.42], {icon: dl}).bindPopup('This is South Bend').addTo(nineteenfifty);
+const pTerreHaute = L.marker([39.78,-87.63], {icon: dl}).bindPopup('This is Terre Haute').addTo(nineteenfifty);
+const pWichita = L.marker([38.13,-97.55], {icon: dn}).bindPopup('This is Wichita').addTo(nineteenfifty);
+const pLexington = L.marker([38.03,-84.8], {icon: dl}).bindPopup('This is Lexington ').addTo(nineteenfifty);
+const pLouisville = L.marker([38.42,-86.25], {icon: dl}).bindPopup('This is Louisville').addTo(nineteenfifty);
+const pBatonRouge = L.marker([30.8,-91.28], {icon: dl}).bindPopup('This is Baton Rouge').addTo(nineteenfifty);
+const pNewOrleans = L.marker([30.97,-90.22], {icon: dl}).bindPopup('This is New Orleans').addTo(nineteenfifty);
+const pShreveport = L.marker([32.83,-94.22], {icon: dl}).bindPopup('This is Shreveport').addTo(nineteenfifty);
+const pBoston = L.marker([42.58,-71.08], {icon: dn}).bindPopup('This is Boston').addTo(nineteenfifty);
+const pSpringfield = L.marker([42.17,-72.97], {icon: dn}).bindPopup('This is Springfield').addTo(nineteenfifty);
+const pWorcester = L.marker([42.45,-72.3], {icon: dn}).bindPopup('This is Worcester').addTo(nineteenfifty);
+const pBaltimore = L.marker([39.47,-77], {icon: dn}).bindPopup('This is Baltimore').addTo(nineteenfifty);
+const pBangor = L.marker([45.33,-69.28], {icon: dn}).bindPopup('This is Bangor').addTo(nineteenfifty);
+const pPortlandME = L.marker([44.08,-70.42], {icon: dn}).bindPopup('This is PortlandME').addTo(nineteenfifty);
+const pAnnArbor = L.marker([42.45,-84.22], {icon: dn}).bindPopup('This is Ann Arbor').addTo(nineteenfifty);
+const pDetroit = L.marker([42.53,-83.05], {icon: dn}).bindPopup('This is Detroit').addTo(nineteenfifty);
+const pFlint = L.marker([43.03,-84.13], {icon: dn}).bindPopup('This is Flint').addTo(nineteenfifty);
+const pGrandRapids = L.marker([43.58,-86.08], {icon: dn}).bindPopup('This is Grand Rapids').addTo(nineteenfifty);
+const pLansing = L.marker([43.22,-84.88], {icon: dn}).bindPopup('This is Lansing').addTo(nineteenfifty);
+const pChisholm = L.marker([47.8,-93.45], {icon: mn}).bindPopup('This is Chisholm').addTo(nineteenfifty);
+const pDuluth = L.marker([47.3,-92.13], {icon: mn}).bindPopup('This is Duluth').addTo(nineteenfifty);
+const pMinneapolis = L.marker([45.62,-93.45], {icon: mn}).bindPopup('This is Minneapolis').addTo(nineteenfifty);
+const pStJames = L.marker([44.62,-95.03], {icon: mn}).bindPopup('This is St James').addTo(nineteenfifty);
+const pKansasCity = L.marker([39.13,-94.95], {icon: mn}).bindPopup('This is Kansas City').addTo(nineteenfifty);
+const pSpringfieldMO = L.marker([37.33,-93.47], {icon: dn}).bindPopup('This is SpringfieldMO').addTo(nineteenfifty);
+const pStJoseph = L.marker([40.25,-95.38], {icon: dn}).bindPopup('This is St Joseph').addTo(nineteenfifty);
+const pStLouis = L.marker([39.03,-90.3], {icon: dn}).bindPopup('This is St Louis').addTo(nineteenfifty);
+const pBillings = L.marker([46.3,-108.83], {icon: dn}).bindPopup('This is Billings').addTo(nineteenfifty);
+const pBrockway = L.marker([47.28,-106.25], {icon: dn}).bindPopup('This is Brockway').addTo(nineteenfifty);
+const pGreatFalls = L.marker([47.83,-111.47], {icon: dn}).bindPopup('This is Great Falls').addTo(nineteenfifty);
+const pMissoula = L.marker([47.42,-114], {icon: dn}).bindPopup('This is Missoula').addTo(nineteenfifty);
+const pAsheville = L.marker([35.97,-82.92], {icon: dn}).bindPopup('This is Asheville').addTo(nineteenfifty);
+const pCharlotte = L.marker([35.37,-81.38], {icon: dn}).bindPopup('This is Charlotte').addTo(nineteenfifty);
+const pDurham = L.marker([36.63,-79.5], {icon: dn}).bindPopup('This is Durham').addTo(nineteenfifty);
+const pFayetteville = L.marker([35.83,-79.45], {icon: dn}).bindPopup('This is Fayetteville').addTo(nineteenfifty);
+const pGreensboroWS = L.marker([37.12,-80.37], {icon: dn}).bindPopup('This is Greensboro WS').addTo(nineteenfifty);
+const pRaleigh2 = L.marker([36.28,-78.63], {icon: dn}).bindPopup('This is Raleigh2').addTo(nineteenfifty);
+const pBismarck = L.marker([47.33,-101.3], {icon: dn}).bindPopup('This is Bismarck').addTo(nineteenfifty);
+const pFargo = L.marker([47.45,-97.3], {icon: dn}).bindPopup('This is Fargo').addTo(nineteenfifty);
+const pMinot = L.marker([48.37,-101.47], {icon: dn}).bindPopup('This is Minot').addTo(nineteenfifty);
+const pLincoln = L.marker([41.33,-97.12], {icon: dn}).bindPopup('This is Lincoln').addTo(nineteenfifty);
+const pNorfolk1 = L.marker([42.03,-97.72], {icon: dn}).bindPopup('This is Norfolk1').addTo(nineteenfifty);
+const pNorthPlatte = L.marker([41.38,-101.45], {icon: dn}).bindPopup('This is North Platte').addTo(nineteenfifty);
+const pOmaha = L.marker([41.42,-96.55], {icon: dn}).bindPopup('This is Omaha').addTo(nineteenfifty);
+const pScottsBluff = L.marker([42.45,-104.08], {icon: dn}).bindPopup('This is Scotts Bluff').addTo(nineteenfifty);
+const pManchester = L.marker([43.63,-71.75], {icon: dn}).bindPopup('This is Manchester').addTo(nineteenfifty);
+const pTrenton = L.marker([40.62,-79.63], {icon: dn}).bindPopup('This is Trenton').addTo(nineteenfifty);
+const pAlbuquerque = L.marker([35.17,-107], {icon: dn}).bindPopup('This is Albuquerque').addTo(nineteenfifty);
+const pLasVegas = L.marker([36.28,-115.22], {icon: dn}).bindPopup('This is Las Vegas').addTo(nineteenfifty);
+const pReno = L.marker([39.87,-120.37], {icon: dn}).bindPopup('This is Reno').addTo(nineteenfifty);
+const pAlbany = L.marker([43.08,-74.25], {icon: dn}).bindPopup('This is Albany').addTo(nineteenfifty);
+const pBinghamton = L.marker([42.17,-80.63], {icon: dn}).bindPopup('This is Binghamton').addTo(nineteenfifty);
+const pBuffalo = L.marker([43.47,-79.45], {icon: dn}).bindPopup('This is Buffalo').addTo(nineteenfifty);
+const pRochester = L.marker([43.25,-78], {icon: ds}).bindPopup('This is Rochester').addTo(nineteenfifty);
+const pSyracuse = L.marker([43.05,-76.22], {icon: ds}).bindPopup('This is Syracuse ').addTo(nineteenfifty);
+const pAkron = L.marker([41.12,-81.87], {icon: dn}).bindPopup('This is Akron').addTo(nineteenfifty);
+const pCanton = L.marker([41.33,-81.62], {icon: dn}).bindPopup('This is Canton').addTo(nineteenfifty);
+const pCincinnati = L.marker([39.17,-84.83], {icon: dn}).bindPopup('This is Cincinnati').addTo(nineteenfifty);
+const pCleveland = L.marker([41.78,-82.12], {icon: dn}).bindPopup('This is Cleveland').addTo(nineteenfifty);
+const pColumbus1 = L.marker([40.58,-83], {icon: ds}).bindPopup('This is Columbus1').addTo(nineteenfifty);
+const pDayton = L.marker([40.25,-84.3], {icon: dn}).bindPopup('This is Dayton').addTo(nineteenfifty);
+const pLorainElyria = L.marker([41.72,-81.63], {icon: dn}).bindPopup('This is Lorain Elyria').addTo(nineteenfifty);
+const pToledo = L.marker([42.08,-83.95], {icon: dn}).bindPopup('This is Toledo').addTo(nineteenfifty);
+const pYoungstownWarren = L.marker([41.17,-81.08], {icon: dn}).bindPopup('This is Youngstown Warren').addTo(nineteenfifty);
+const pOklahomaCity = L.marker([35.78,-97.87], {icon: dn}).bindPopup('This is Oklahoma City').addTo(nineteenfifty);
+const pTulsa = L.marker([36.2,-96.55], {icon: dn}).bindPopup('This is Tulsa').addTo(nineteenfifty);
+const pPortlandVancouver = L.marker([45.87,-123.12], {icon: dn}).bindPopup('This is Portland-Vancouver').addTo(nineteenfifty);
+const pAtownBthlmEaston = L.marker([41,-75.78], {icon: dn}).bindPopup('This is AtownBthlm Easton').addTo(nineteenfifty);
+const pErie = L.marker([42.2,-80.13], {icon: dn}).bindPopup('This is Erie').addTo(nineteenfifty);
+const pHarrisburg = L.marker([40.45,-77.45], {icon: dn}).bindPopup('This is Harrisburg').addTo(nineteenfifty);
+const pPittsburgh = L.marker([40.72,-80.62], {icon: dn}).bindPopup('This is Pittsburgh').addTo(nineteenfifty);
+const pSCollegeWilliamsprt = L.marker([41.3,-82.63], {icon: dn}).bindPopup('This is SCollege-Williamsprt').addTo(nineteenfifty);
+const pScrantWilkesBarre = L.marker([41.67,-76.12], {icon: dn}).bindPopup('This is ScrantWilkes-Barre').addTo(nineteenfifty);
+const pProvidence = L.marker([42.37,-71.7], {icon: dn}).bindPopup('This is Providence').addTo(nineteenfifty);
+const pCharleston = L.marker([33.3,-80.53], {icon: dn}).bindPopup('This is Charleston').addTo(nineteenfifty);
+const pColumbia = L.marker([34,-81.55], {icon: dn}).bindPopup('This is Columbia').addTo(nineteenfifty);
+const pGreenville = L.marker([35.38,-82.63], {icon: dn}).bindPopup('This is Greenville').addTo(nineteenfifty);
+const pAberdeen = L.marker([45.75,-98.8], {icon: dn}).bindPopup('This is Aberdeen').addTo(nineteenfifty);
+const pLemmon = L.marker([46.55,-103.83], {icon: dn}).bindPopup('This is Lemmon').addTo(nineteenfifty);
+const pRapidCity = L.marker([44.22,-103.63], {icon: dn}).bindPopup('This is Rapid City').addTo(nineteenfifty);
+const pRedfield = L.marker([45.45,-98.87], {icon: dn}).bindPopup('This is Redfield').addTo(nineteenfifty);
+const pSiouxFalls = L.marker([44.17,-97.2], {icon: dn}).bindPopup('This is Sioux Falls').addTo(nineteenfifty);
+const pChattanooga = L.marker([35.55,-85.45], {icon: dn}).bindPopup('This is Chattanooga').addTo(nineteenfifty);
+const pKnoxville = L.marker([37,-83.63], {icon: dn}).bindPopup('This is Knoxville').addTo(nineteenfifty);
+const pMemphis = L.marker([35.2,-90.62], {icon: dn}).bindPopup('This is Memphis').addTo(nineteenfifty);
+const pNashville = L.marker([36.25,-87.28], {icon: dn}).bindPopup('This is Nashville').addTo(nineteenfifty);
+const pAmarilloLubbock = L.marker([35.3,-102.38], {icon: dn}).bindPopup('This is AmarilloLubbock').addTo(nineteenfifty);
+const pAustin = L.marker([30.45,-98.22], {icon: dn}).bindPopup('This is Austin').addTo(nineteenfifty);
+const pCorpusChristi = L.marker([28.22,-97.67], {icon: dn}).bindPopup('This is Corpus Christi').addTo(nineteenfifty);
+const pDallasFtWorth = L.marker([33.28,-97.33], {icon: dn}).bindPopup('This is Dallas FtWorth').addTo(nineteenfifty);
+const pElPaso1 = L.marker([32.25,-106.8], {icon: dn}).bindPopup('This is El Paso1').addTo(nineteenfifty);
+const pHouston3 = L.marker([30.25,-84.63], {icon: dn}).bindPopup('This is Houston3').addTo(nineteenfifty);
+const pLubbock = L.marker([33.95,-102.47], {icon: dn}).bindPopup('This is Lubbock').addTo(nineteenfifty);
+const pOdessa = L.marker([32.42,-102.58], {icon: dn}).bindPopup('This is Odessa').addTo(nineteenfifty);
+const pSanAntonio = L.marker([29.7,-98.8], {icon: dn}).bindPopup('This is San Antonio').addTo(nineteenfifty);
+const pOgden = L.marker([41.37,-112.58], {icon: dn}).bindPopup('This is Ogden').addTo(nineteenfifty);
+const pProvoOrem = L.marker([40.38,-112.08], {icon: dn}).bindPopup('This is ProvoOrem').addTo(nineteenfifty);
+const pSaltLake = L.marker([41.25,-112.47], {icon: dn}).bindPopup('This is Salt Lake City').addTo(nineteenfifty);
+const pNorfolk = L.marker([37.38,-76.47], {icon: dl}).bindPopup('This is Norfolk').addTo(nineteenfifty);
+const pRichmond = L.marker([37.9,-77.72], {icon: dl}).bindPopup('This is Richmond').addTo(nineteenfifty);
+const pRoanoke = L.marker([37.45,-80.55], {icon: dl}).bindPopup('This is Roanoke').addTo(nineteenfifty);
+const pBurlington = L.marker([44.78,-73.33], {icon: dn}).bindPopup('This is Burlington').addTo(nineteenfifty);
+const pRutland = L.marker([44,-73.62], {icon: dn}).bindPopup('This is Rutland').addTo(nineteenfifty);
+const pSeattle = L.marker([48,-85.63], {icon: dn}).bindPopup('This is Seattle').addTo(nineteenfifty);
+const pSpokane = L.marker([48.08,-117.7], {icon: dn}).bindPopup('This is Spokane').addTo(nineteenfifty);
+const pWallaWalla = L.marker([46.83,-118.53], {icon: dn}).bindPopup('This is Walla Walla').addTo(nineteenfifty);
+const pMadison = L.marker([43.05,-89.67], {icon: dn}).bindPopup('This is Madison').addTo(nineteenfifty);
+const pMilwaukee = L.marker([43.13,-88.97], {icon: dn}).bindPopup('This is Milwaukee').addTo(nineteenfifty);
+const pCharlestonWV = L.marker([38.55,-82.05], {icon: dl}).bindPopup('This is CharlestonWV').addTo(nineteenfifty);
+const pHuntingtonAshland = L.marker([38.7,-82.63], {icon: dl}).bindPopup('This is HuntingtonAshland').addTo(nineteenfifty);
+const pBurgettstown = L.marker([40.7,-80.43], {icon: dl}).bindPopup('This is Burgettstown').addTo(nineteenfifty);
+const pMentor = L.marker([42.12,-81.38], {icon: dl}).bindPopup('This is Mentor').addTo(nineteenfifty);
+const pEuclid = L.marker([41.72,-81.53], {icon: dl}).bindPopup('This is Euclid').addTo(nineteenfifty);
+const pJenera = L.marker([41.14,-83.73], {icon: dl}).bindPopup('This is Jenera').addTo(nineteenfifty);
+const pLongBottom = L.marker([39.41,-81.78], {icon: dl}).bindPopup('This is Long Bottom').addTo(nineteenfifty);
+const pIronton = L.marker([38.85,-82.68], {icon: dl}).bindPopup('This is Ironton').addTo(nineteenfifty);
+const pBladensburg = L.marker([40.69,-82.29], {icon: dl}).bindPopup('This is Bladensburg').addTo(nineteenfifty);
+const pColumbus = L.marker([40.21,-83.03], {icon: dl}).bindPopup('This is Columbus').addTo(nineteenfifty);
+const pHanover = L.marker([38.1,-77.44], {icon: dl}).bindPopup('This is Hanover').addTo(nineteenfifty);
+const pMontgomery2 = L.marker([32.8,-86.31], {icon: dl}).bindPopup('This is Montgomery2').addTo(nineteenfifty);
+const pRobbinisville = L.marker([35.72,-83.76], {icon: dl}).bindPopup('This is Robbinisville').addTo(nineteenfifty);
+const pWilmington = L.marker([34.53,-77.97], {icon: dl}).bindPopup('This is Wilmington').addTo(nineteenfifty);
+const pGoldston = L.marker([35.87,-79.36], {icon: dl}).bindPopup('This is Goldston').addTo(nineteenfifty);
+const pRaleigh3 = L.marker([36.1,-78.65], {icon: dl}).bindPopup('This is Raleigh3').addTo(nineteenfifty);
+const pOcracoke = L.marker([35.49,-76.01], {icon: dl}).bindPopup('This is Ocracoke').addTo(nineteenfifty);
+const pYale2 = L.marker([-96.6,36.54], {icon: dl}).bindPopup('This is Yale2').addTo(nineteenfifty);
+const pDumas = L.marker([-102.04,36.67], {icon: dl}).bindPopup('This is Dumas').addTo(nineteenfifty);
+const pElkhart = L.marker([-95.57,32.65], {icon: dl}).bindPopup('This is Elkhart').addTo(nineteenfifty);
+const pGrandPrarie = L.marker([-97,32.98], {icon: dl}).bindPopup('This is Grand Prarie').addTo(nineteenfifty);
+const pKilgore1 = L.marker([-94.92,33.68], {icon: dl}).bindPopup('This is Kilgore1').addTo(nineteenfifty);
+const pSilsbee = L.marker([-94.1,31.5], {icon: dl}).bindPopup('This is Silsbee').addTo(nineteenfifty);
+const pSnyder = L.marker([-101.01,34.52], {icon: dl}).bindPopup('This is Snyder').addTo(nineteenfifty);
+const pKilgore2 = L.marker([-94.92,33.68], {icon: dl}).bindPopup('This is Kilgore2').addTo(nineteenfifty);
+const pRoyseCity = L.marker([-96.32,33.22], {icon: dl}).bindPopup('This is Royse City').addTo(nineteenfifty);
+const pPerryton = L.marker([-100.81,37.56], {icon: dl}).bindPopup('This is Perryton').addTo(nineteenfifty);
+const pRichardson = L.marker([-96.72,33], {icon: dl}).bindPopup('This is Richardson').addTo(nineteenfifty);
+const pPlano = L.marker([-96.69,33.08], {icon: dl}).bindPopup('This is Plano').addTo(nineteenfifty);
+const pCarrollton = L.marker([-96.68,33.2], {icon: dl}).bindPopup('This is Carrollton').addTo(nineteenfifty);
+const pHouston = L.marker([30.25,-84.63], {icon: dl}).bindPopup('This is Houston').addTo(nineteenfifty);
+const pElPaso = L.marker([32.25,-106.8], {icon: dl}).bindPopup('This is El Paso').addTo(nineteenfifty);
+const pLeander = L.marker([-98.0390039379727,31.6018367212461], {icon: dl}).bindPopup('This is Leander').addTo(nineteenfifty);
+const pSantaFe = L.marker([36.12,-106.58], {icon: dn}).bindPopup('This is Santa Fe').addTo(nineteenfifty);
+const pEugene = L.marker([44.08,-123.13], {icon: dn}).bindPopup('This is Eugene').addTo(nineteenfifty);
+const pJackson = L.marker([32.47,-90.3], {icon: dn}).bindPopup('This is Jackson').addTo(nineteenfifty);
+
+//1970s points
+const qBrunswick = L.marker([41.45,-81.83], {icon: dn}).bindPopup('This is Brunswick').addTo(nineteenseventy);
+const qBentonRidge = L.marker([41.15,-83.72], {icon: dn}).bindPopup('This is Benton Ridge').addTo(nineteenseventy);
+const qMontgomery = L.marker([-86.31,32.8], {icon: dn}).bindPopup('This is Montgomery').addTo(nineteenseventy);
+const qRaleigh = L.marker([36.06,-78.66], {icon: dn}).bindPopup('This is Raleigh').addTo(nineteenseventy);
+const qInes = L.marker([36.5,-78.1], {icon: dn}).bindPopup('This is Inez').addTo(nineteenseventy);
+const qSwanQuarter = L.marker([35.63,-76.25], {icon: dn}).bindPopup('This is Swan Quarter').addTo(nineteenseventy);
+const qYale = L.marker([36.54,-96.6], {icon: dn}).bindPopup('This is Yale').addTo(nineteenseventy);
+const qDeSoto = L.marker([32.81,-96.83], {icon: dn}).bindPopup('This is DeSoto').addTo(nineteenseventy);
+const qUxbridge = L.marker([42.35,-71.67], {icon: dn}).bindPopup('This is Uxbridge').addTo(nineteenseventy);
+const qMiami = L.marker([26.5,-80.55], {icon: dn}).bindPopup('This is Miami2').addTo(nineteenseventy);
+
+
+</script>
+</body>
+</html>

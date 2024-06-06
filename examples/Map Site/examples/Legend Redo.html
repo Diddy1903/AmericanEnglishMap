@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Leaflet legend redo</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+        }
+		.leaflet-container {
+			height: 600px;
+			width: 700px;
+			max-width: 100%;
+			max-height: 95%;
+		}
+
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="../src/leaflet.legend.css" />
+    <script type="text/javascript" src="../src/leaflet.legend.js"></script>
+</head>
+<body>
+<div id='map'></div>
+<script>
+
+const eighteenseventy = L.layerGroup();
+
+	const ds = L.icon({
+    iconUrl: 'marker/marker-red.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [-15, -15] }); 
+
+const dFarmington = L.marker([44.86,-70.16], {icon: ds}).bindPopup('This is Farmington').addTo(eighteenseventy);
+
+const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'});
+
+const map = L.map('map', {
+	center: [33.22,-110.47],
+	zoom: 2.3,
+	layers: [osm, eighteenseventy]});
+
+		
+const baseLayers = {'OpenStreetMap': osm};
+const overlays = {'Late 19th century': eighteenseventy,};
+const layerControl = L.control.layers(baseLayers, overlays).addTo(map);
+const seventeenhundred = L.layerGroup();
+layerControl.addOverlay(seventeenhundred, 'seventeenhundred');
+
+const legend = L.control.Legend({
+            position: "bottomleft",
+            collapsed: false,
+            symbolWidth: 24,
+            opacity: 1,
+            column: 2,
+            legends: [{
+                label: "diphthongal /ei/",
+                type: "image",
+                url: "marker/marker-red.png",
+            }, {
+                label: "monophthongal /ei/",
+                type: "image",
+                url: "marker/purple.png"
+                  }, {
+                label: "pane-pain unmerged",
+                type: "circle",
+                radius: 6,
+                color: "#FF0000",
+                fillColor: "#FF0000",
+                weight: 2,
+              
+            },{
+                label: "tense-lax mergers",
+                type: "polyline",
+                color: "#FF0000",
+                fillColor: "#FF0000",
+                weight: 2,
+
+                        }, {
+                label: "pre-L mergers",
+                type: "polyline",
+                color: "#0000FF",
+                fillColor: "#0000FF",
+                dashArray: [5, 5],
+                weight: 2
+}
+]
+        })
+        .addTo(map);
+
+
+
+
+
+
+</script>
+</body>
+</html>

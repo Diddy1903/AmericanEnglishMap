@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+
+	<title>American English History</title>
+
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="shortcut icon" type="image/x-icon" href="leaf-red.png" />
+
+	<link href="https://leafletjs.com/atom.xml" type="application/atom+xml" rel="alternate" title="Leaflet Dev Blog Atom Feed" />
+
+	<link rel="stylesheet" href="normalize.css">
+<link rel="stylesheet" href="main2.css">	
+
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,300' rel='stylesheet' type='text/css'>
+
+	<script src="../../docs/highlight/highlight.pack.js"></script>
+	<link rel="stylesheet" href="../../docs/highlight/styles/github-gist.css" />
+
+	<!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+	<script>
+		ACCESS_TOKEN = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+		MB_ATTR = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+		MB_URL = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + ACCESS_TOKEN;
+		OSM_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+		OSM_ATTRIB = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+	</script>
+</head>
+<body>
+
+<header>
+	<h1>American English History</h1>
+
+<hr>
+
+<nav>
+	<ul class="nav">
+		<li><span>Introduction</span></li>
+		<li><a href="FrontVowels.html">Front vowels</a></li>
+		<li><a href="CentralVowels.html">Central Vowels</a></li>
+		<li><a href="BackVowels.html">Low Back Vowels</a></li>
+		<li><a href="Diphthongs.html">Diphthongs</a></li>
+		<li><a href="PreRVowels.html">Pre-R Vowels</a></li>
+		<li><a href="Consonants.html">Consonants</a></li>
+		<li><a href="Reference.html">Reference</a></li>
+	</ul>
+</nav>
+
+<hr>
+<br>
+</header>
+<main>
+
+<p>The American English history map is an attempt to make a timeseries map for all historical periods of English in the Americas. It presents comprehensive histories of mainland North American English, African American Vernacular English, Indigenous pidgins and Carribean creoles. This is meant to be a supplement to maps like Rick Aschmamn's, by adding sequenced series of data that apply groups outside of the targets of the Atlas of North American Ennglish.</p>
+<p>The maps are presented like this:</p>
+
+<table>
+<tr><td>
+<img src="mihon.png" alt="example of a map" style="width:500px;height:500px;">
+</td></tr>
+</table>
+
+<p>The ethnic symbols are there due to necessity, as the significant ethnic variation in pronunciaton in North America, makes it difficult to compare accent variation on a single map. The symbols on each dot represent the source of the data. With geographic location, References for the autobiography are shown at the bottom of each page.</p>
+
+<h2>Phonemic symbols</h2>
+<p>The first section is the monophthongs shown in Table 1, with examples words taken from Well's lexical sets written beneath them. Those without the : length mark are the checked vowels, often refered to as "short" vowels. The two with the length mark are the long monophthongs (ANAE: "ingliding vowels").</p>
+
+<table style="width:60%">
+<tr><td>
+<table id="general">
+<caption>Table 1. Monophthongs (checked and ingliding vowels)</caption>
+<tr>
+	<td>/i/<br>kit</td><td>/u/<br>foot</td><td>/&#596;:/<br>thought</td>
+</tr>
+<tr>
+	<td>/e/<br>dress</td><td>/e/<br>comma</td><td>/o/<br>lot</td>
+</tr>
+<tr>
+	<td>/a/<br>trap</td><td>/&#601;/<br>strut</td><td>/a:/<br>palm</td>
+</tr>
+</table>
+</td>
+<td>
+<img src="mihon.png" alt="example of a map" style="width:200px;height:200px;">
+</td></tr>
+</table>
+
+<p>A few marginal monophthongs are not given symbols: The "New England Short O" (transcribed in other sources as /&#629/) which distinguished "road/rode", the monophthongal /e:/ phoneme distinguishing "pane/pain" in Newfoundland, and the raised BATH in New York City English, which distinguishes can (verb)/can (noun). </p>
+
+<p>
+In table 2, we see the diphthongs. They are all ended with "u" or "i" matching the binarist notation used by Kurath and the Atlas of North American English. 
+</p>
+
+
+<table style="width:60%">
+<tr><td>
+<table id="general">
+<caption>Table 2. Uplgliding Diphthongs</caption>
+<tr>
+	<td>/ii/<br>fleece</td><td>/iu/<br>music</td><td>/uu/<br>goose</td>
+</tr>
+<tr>
+	<td>/ei/<br>face</td><td></td><td>/ou/<br>goat</td>
+</tr>
+<tr>
+	<td>/ai/<br>price</td><td>/oi/<br>choice</td><td>/au/<br>mouth</td>
+</tr>
+</table>
+</td>
+<td>
+<img src="mihon.png" alt="example of a map" style="width:200px;height:200px;">
+</td></tr>
+</table>
+
+<p>They are described as diphthongs, though their quality varies. There is debate over whether /iu/ is a phoneme or simply /uu/ preceded by a consonant cluster.</p>
+
+<p>While vowels before /r/ in rhotic accents (/3:r/ is treated as a vowel here, this  is controversial.) can be described as allophones of other vowels, several of them become vowels on their own right in non-rhotic, i.e. r-dropping dialects.  Symbols vowels before post-vocalic r are shown in Table 3.</p>
+
+<table id="general">
+<caption>Table 3. Pre-R vowels</caption>
+<tr>
+	<td>/i:r/<br>near</td><td></td><td>/u:r/<br>cure</td>
+</tr>
+<tr>
+	<td>/e:r/<br>chair</td><td>/&#601:r/<br></td><td>/o:r/<br>force</td>
+</tr>
+<tr>
+	<td></td><td>/a:r/<br>start</td><td>/&#596;:r/<br>north</td>
+</tr>
+</table>
+
+
+<p>The length symbol ":" is simply to keep /e:r/ and /i:r/ visually distinct from "er" "ir" in spelling, and doesn't necessarily describe the vowels' length.  The "Vowels Before r" map includes both the rhotic vowels in Table 3, and vowels before intervocalic r.</p>
+
+<p>Consonants are written here in this order:</p>
+
+<table id="general">
+<caption>Table 3. Consonants</caption>
+<tr><td></td><td></td><td>labial</td><td>dental</td><td>alveolar</td><td>palatal</td><td>velar</td><td>glottal</td></tr>
+<tr>
+	<td rowspan=2>sonorant<br></td><td>nasal</td><td>/m/<br>ma</td><td><br></td><td>/n/<br>no</td><td><br></td><td>/ng/<br></td><td><br></td>
+</tr>
+<tr><td>approximant</td><td><br></td><td><br></td><td>/l/<br>lull</td><td>/r/<br>roar</td><td>/w/<br></td><td><br></td>
+</tr>
+<tr>
+	<td rowspan=2>resonant</td><td>plosive/stop*<br></td><td>/p/: pop<br>/b/: bob</td><td><br></td><td>/t/: taught<br> /d/: did</td><td><br></td><td><br></td><td rowspan=2>/h/<br>ha</td>
+</tr>
+<tr>
+	<td>fricative</td><td>/f/:foe<br>/v/:vov</td><td>/th/: thaw<br>/th/: though</td><td>/s/: so<br>/z/: zoo</td><td><br></td><td><br></td>
+</tr>
+</table>
+<p>*So called voiced stops often lack voicing in English, and are better describes as unaspirated stops. </p>
+
+
+
+<footer style="background-color:Tomato";>
+<p>&copy; Diddy MapMaker, Maps &copy; Leaflet.com</p>
+</footer>
+</main>
+
+</body>
+</html>
