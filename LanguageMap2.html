@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+
+	<title>American English History - Back Upgliding Vowels</title>
+
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	
+
+	<link rel="shortcut icon" type="image/x-icon" href="../../docs/images/favicon.ico" />
+
+	<link href="https://leafletjs.com/atom.xml" type="application/atom+xml" rel="alternate" title="Leaflet Dev Blog Atom Feed" />
+
+	<link rel="stylesheet" href="normalize.css">
+	
+
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,300' rel='stylesheet' type='text/css'>
+
+	<script src="../../docs/highlight/highlight.pack.js"></script>
+	<link rel="stylesheet" href="../../docs/highlight/styles/github-gist.css" />
+
+	<!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+	
+	<script>
+		ACCESS_TOKEN = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+		MB_ATTR = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+		MB_URL = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + ACCESS_TOKEN;
+		OSM_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+		OSM_ATTRIB = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+	</script>
+</head>
+<body>
+
+<header>
+	<h1>American English History</h1>
+<hr>
+
+
+
+<br>
+</header>
+
+
+<div class="tab">
+  <button class="tablinks" onclick="openCity(event, 'FrontVowels')"  id="defaultOpen">Front Vowels</button>
+    <button class="tablinks" onclick="openCity(event, 'MidVowels')" >Central Vowels</button>
+  <button class="tablinks" onclick="openCity(event, 'BackVowels')">Back Vowels</button>
+	<button class="tablinks" onclick="openCity(event, 'Diphthongs')">Diphthongs</button>
+  <button class="tablinks" onclick="openCity(event, 'PreRVowels')">Pre-R Vowels</button>
+   <button class="tablinks" onclick="openCity(event, 'PreLVowels')">Conditional mergers</button>
+  <button class="tablinks" onclick="openCity(event, 'Consonants')">Consonants</button>
+</div>
+
+<div id="FrontVowels" class="tabcontent">
+ <div class="container">
+<table><tr><td><p style="font-family:verdana"><b>Front Vowels</b></p><p class=table>/&#230;/ as in "trap", /&#603;/ as in "dress", <br>/&#618;/ as in "kit"<br>/ei/ as in "face"*, /ii/ as in "fleece"<br>
+<span style="font-size:11px;">*In pane-pain unmerged accents /ei/ is two phonemes, <br>/ei/ and /e:/, derived from Middle English /ai/ and /a:/</span>
+<hr>/&#230;/,/&#603;/ retraction:<br>Dashed blue: Low Back Merger, a trigger for<br>retraction in the Low Back Merger Shift<br>Dark blue: /&#230;/ retraction  <br>Darker blue: /&#603;/ and /&#618;/ retraction.   
+<br><br>Northern cities Vowel Shift:<br>  dashed line: /&#230;/ raising (Stage 1)<br> thick solid line:  /&#603;/ and /&#652;/ retraction (Stage 3).
+<br><br>  Southern/African American vowel shift: <br>thin dash: monophthong /ai/ (SVS Stage 1 for white speakers)<br> thick dash: raised /&#230;/ (AAVS stage 1 for Black speakers)<br>Dark red: /&#603;/-/ei/ reversal  (SVS/AAVS Stage 2)<br>Darker Red: /&#618;/-/ii/ reversal (SVS/AAVS Stage 3)
+</p></td><td>
+<iframe src="Map Front Vowel.html" width="780" height="500" style="max-width: 100%; max-height: 90vh; box-sizing: border-box;"></iframe></td></tr></table>
+</div>
+</div>
+
+<div id="MidVowels" class="tabcontent">
+<div class="container">  
+<table><tr><td><p style="font-family:verdana"><b>Central Vowels</b></p><p class=table>/&#652;/ as in "strut",/&#650;/ as in "put",/&#601;/ as in "commA"*<br><span style="font-size:11px">*Many Caribbean creoles lack central /&#601;/, using unreduced vowels instead. Merger of<br>unstressed /ow/ (e.g. "yellow") and /&#601;/ is more widespread in the South than the North.</span></p>
+<hr>Western Pennsylvania Vowel Shift:<br>Monophthongal /au/, lowered /&#652;/<br><br>Northern cities Vowel Shift:<br>  dashed line: /&#230;/ raising (Stage 1)<br> thin solid line: /o/ fronting (Stage 2)<br> thick solid line: /&#603;/ and /&#652;/ retraction (Stage 3).<br><br>Weak vowel unmerged: /&#601;/ and /&#618;/ distinguished in weak syllables<br><br>Syllable timing: Low durational difference<br>between stressed/unstressed syllables              
+</p></td><td>
+<iframe src="Map Mid Vowels.html"  width="780" height="500" style="max-width: 100%; max-height: 90vh; box-sizing: border-box;"></iframe></td></tr></table>
+</div>
+</div>
+
+
+
+<div id="BackVowels" class="tabcontent">
+<table class="contain"><tr><td><p style="font-family:verdana"> <b>Low Back Vowels</b></p><p class=table>tense: /a:/ as in "father", /o/ as in "lot", /&#596;:/ as in "thought"<br><span style="font-size:11px">*The /a:/ phoneme, distinct from /æ/ is absent prior to the late 18th century.</span></p><hr>Low back merger (cot-caught merger):<br>merger of /o/ and /&#596;:/<br><br>
+Northern cities Vowel Shift:<br>  dashed line: /&#230;/ raising<br> thin solid line: /o/ fronting<br>thick solid line:  /&#603;/ and /&#652;/ retraction<br>(/&#596;:/ lowering was initially described as a stage of the shift,<br> however this is disputed by later studies)
+<td>
+<iframe src="Map Back Vowel.html"  width="780" height="500" style="max-width: 100%; max-height: 90vh; box-sizing: border-box;"></iframe></td></tr></table>
+</div>
+</div>
+
+
+
+<div id="Diphthongs" class="tabcontent">
+ <div class="container">
+<table><tr><td><p style="font-family:verdana"> <b>Non-front Diphthongs</b></p><p class=table> 
+/uu/ as in "goose", /ou/ as in "goat"*, /au/ as in "mouth"<br> /ai/ as in "price", /oi/ as in "choice"<br>
+<span style="font-size:8px">*For accents with New England Short-O, /ou/ is two phonemes, /ow/ and /ɵ/, derived from Middle English /ow/ and /o:/</span><hr>
+Smoothing of /ai/:<br> Dashed = glide-weakening of /ai/<br>solid = monophthongal /ai/ + voiced obstruents<br>
+dark red= predominantly monophthongal /ai/ 
+<br><br>Central /ai/ and /au/: <br>Small dash=Canadian raising of /ai/ <br>big-dash=Canadian raising of /ai/&/au/ <br>thin line=Older Tidewater Raising of /ai/&/au/ <br>thick=/ai/&/au/ always central<br><br>Western Pennsylvania Vowel Shift:<br>Monophthongal /au/, lowered /^/ 
+</p></td><td>
+<iframe src="Map Diphthong.html" width="780" height="500" style="max-width: 100%; max-height: 90vh; box-sizing: border-box;"></iframe></td></tr></table>
+</div>
+</div>
+
+<div id="PreRVowels" class="tabcontent">
+<div class="container">
+<table><tr><td><p style="font-family:verdana"> <b>Vowels before R</b></p><p>/&#604;r/ as in "nurse",/ər/ as in lettER*<br>/i:r/ as in "near",/e:r/ as in "stair", /a:r/ as in "star" <br>/u:r/ as in "cure", /o:r/ as in "force", /&#596;:r/ as in "north"<br><span style="font-size:8px;">*/&#604;r/ and /ər/ are absent in 1700s, with /&#652;+r/ being used instead (Grandgent, 1892). This is also the case in Jamaican and Guyanese Creole.</span><hr>
+mary-marry-merry merger:<br>thin dash: marry-merry (/&#230;rV/+/&#603;rV/) merger<br>solid: Mary-merry-marry (/&#230;//&#603;rV//e:rV/) merger<br>(mergers of /^rV/and/erV/ described in description box)<br><br>/i:r/=/e:r/, NEAR-SQUARE merger</p></td><td>
+<iframe src="Map PreR.html"  width="780" height="500" style="max-width: 100%; max-height: 90vh; box-sizing: border-box;"></iframe></td></tr></table>
+</div>
+</div>
+
+<div id="PreLVowels" class="tabcontent">
+<div class="container">
+<table><tr><td><p style="font-family:verdana"><b>Conditional Mergers</b></p><p class=table>Vowel mergers before /n/,/l/,/g/ and after alveolars<hr>/el/-/eil/, /il/-/iil/: FELL-FAIL & FILL-FEEL mergers<br>/ul/-/uwl/,/uwl/-/owl/, GULL-GOAL,POOL-PULL mergers<br>/aun/=/^ng/ ng-assimilation, "down"-"dung" homphones<br>/æg/-/εg/-/eig/: BAG-VAGUE merger<br>/ɔʃ/=/ɔɪʃ/,/ɔ:rʃ/ upglided <br>/in/=/εn/: PIN-PEN merger<br><br>Yod-dropping: /iu/-/uu/ merger after /t/,/d/,/n/<br>(yod insertion in 'car' /kjar/ 'garden' /gjarden/, included for contrast)<br><br>L-deletion in clusters: /l/ is absent before labials, /p//b//f//v/</p></td><td>
+<iframe src="Map PreL.html"  width="780" height="500" style="max-width: 100%; max-height: 90vh; box-sizing: border-box;"></iframe></td></tr></table>
+</div>
+</div>
+
+<div id="Consonants" class="tabcontent">
+<div class="container">
+<table><tr><td><p style="font-family:verdana"> <b>Consonants</b></p><p class=table>Resonants: /r/ "rump", /l/ "lump"*<br>/m/ "hum", /n/ "hun", /ŋ/ "hung"<br>/j/ "yore", /w/ "wore"<hr>Obstruents (voiced <b>in bold</b>): <br>stops: /p/ "pit", /t/ "tin", /k/ "cut",<br><b>/b/ "bit", /d/ "din", /g/ "gut"</b><br><br>fricatives: /s/ "sap", /f/ "fat", /θ/ "thigh"*, /ʃ/ "shoe"<br><b>/z/ "zap", /v/ "vat"***, /ð/ "this"**, /ʒ/ "pleasure"*</b><br><br>affricates: /tʃ/ "cheep", <b>/dʒ/ "jeep"</b><br>
+<span style="font-size:8px";>*Mutations of /l/ are described on the "Conditional Mergers" map<br>**/θ/,/ð/ can be stopped to /t/,/d/ or fronted to /f/,/v/<br>***/v/ can be mergered with /b/ (V-B confusion) or /w/ (V-W confusion)<br>****/ʒ/ often absent in Caribbean creoles. /ʃ/,/ʒ/,/tʃ/,/dʒ/ merged with /s//ts/ for many Native Americans</span></p><hr>
+<p>h-dropping:<br>thin dash: before /w/<br>thick dash: before /j/<br>solid line: all contexts<br><br>Pre-vowel Consonant Cluster Reduction:<br>Final clusters reduced before a word starting with vowel</p></td><td>
+<iframe src="Map Consonant.html"  width="780" height="500" style="max-width: 100%; max-height: 90vh; box-sizing: border-box;"></iframe></td></tr></table>
+</div>
+</div>
+
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+document.getElementById("defaultOpen").click();
+</script>
+</script>
+
+	
+<main>
+<h2>Audio Sources</h2>
+<ul>
+<li>DARE fieldwork recordings
+<li>Linguistic Atlas Project fieldwork recordings
+<li>Linguistic Atlas Project fieldwork recordings
+<li>Recordings of Americans born in the 1800s
+<li>Dictionary of Newfoundland
+<li>Rick Aschman's Map
+<li>Accents of English archive
+</ul>
+
+
+<h2>Full Bibilography</h2>
+<ul>
+
+<li>Allen, Harold. <i>The Linguistic Atlas of the Upper Midwest</i> vol. 3, University of Minnesota Press 1973.
+<li>Babbitt, E. H. The English of the lower classes in New York City and vicinity. Dialect Notes 1:457-64, 1896. 
+<li>Boberg, C. (2001). The phonological status of western New England. American Speech, 76(1), 3-29.
+<li>Boberg, Charles. "Geolinguistic diffusion and the US–Canada border." Language variation and change 12.1 (2000): 1-24.
+<li>Childs, Becky, and Walt Wolfram. "Bahamian English: Phonology." A handbook of varieties of English 1 (2004): 435-449.
+<li>Clarke, Sandra, Paul De Decker, and Gerard Van Herk. "Canadian Raising in Newfoundland?." Listening to the Past: Audio Records of Accents of English (2017): 395.
+<li>Durian, D. (2012). A new perspective on vowel variation across the 19th and 20th centuries in Columbus, OH (Doctoral dissertation, The Ohio State University).
+<li>Emerson, O.F. Ithica Dialect. <i>Dialect Notes,</i> vol. 1,85-173. 
+<li>Fogle, Deena. "Indianapolis, Indiana: A prototype of Midland convergence." (2008).
+<li>Franklin, Benjamin. <i>"A Scheme of New Alphabet and Reformed Mode of Spelling.</i> 1768.
+<li>Frazer, Timothy C. "South Midland pronunciation in the North Central states." American Speech 53.1 (1978): 40-48.
+<li>Fridland, Valerie, and Tyler Kendall. "Western United States." Listening to the past: Audio records of accents of English (2017): 325-49.
+<li>Gordon, Matthew J., and Christopher Strelluf. "Evidence of American regional dialects in early recordings." Listening to the past: Audio records of accents of English (2017): 232-56.
+<li>Grandgent, Charles H. "Half and Hæf" <i>Dialect Notes</i> vol. 1, p.269-275. 1892
+<li>Hale E. <i>A Spelling-Book, Northampton,</i> 1799.
+<li>Jones, Taylor. Variation in African American English: The great migration and regional differentiation. Diss. University of Pennsylvania, 2020.
+<li>Kenyon, J.S.. The Phonology of Western Reserve (Word- List). Dialect Notes 4:387-404, 1913. 
+<li>Kurath, Hans, and Raven I. McDavid. 1961. The pronunciation of English in the Atlantic states. Ann Arbor: University of Michigan Press.
+<li>Labov, W., Ash, S., & Boberg, C. (2006). The atlas of North American English: Phonetics, phonology, and sound change: A multimedia reference tool. Mouton de Gruyter.
+<li>Labov, William, Ingrid Rosenfelder, and Josef Fruehwald. "One hundred years of sound change in Philadelphia: Linear incrementation, reversal, and reanalysis." Language 89.1 (2013): 30-65.
+<li>Labov, William. Sociolinguistic patterns. Philadelphia: University of Pennsylvania Press,  1972.
+<li>Linguistic Atlas Project. Lexington, KY: University of Kentucky, 2025.
+<li>Lowell, James Russell <i>The Biglow Papers,</i> 1848.
+<li>McLarty, Jason, Tyler Kendall, and Charlie Farrington. "7. Investigating the Development of the Contemporary Oregonian English Vowel System." Publication of the American Dialect Society 101.1 (2016): 135-157.
+<li>Perry, William. <i>The Only Sure Guide to the English To Mass,</i> vol. 8, 1785.
+<li>Primer, Sylvester. "Charleston Provincialisms." <i>Transactions and Proceedings of the Modern Language Association of America</i>, Vol. 3, Transactions of the Modern Language Association of America 1887 (1887), pp. 84-99
+<li>Reed, Carroll E. "The pronunciation of English in the Pacific Northwest." Language 37.4 (1961): 559-564.
+<li>Thomas, Erik R. (2001). An Acoustic Analysis of Vowel Variation in New World English. Publication of the American Dialect Society 85. Durham, N.C.: Duke Univ. Press
+<li>Thomas. <i>New American Spelling-Book</i>1785.
+<li>Webster, Noah. <i>A Compendious Dictionary o Language</i> 1806.
+<li>Wells, John Christopher. <i>Accents of English: Beyond the British Isles. 3.</i> Vol. 3. Cambridge University Press, 1982.
+</ul>
+
+
+
+<footer style="background-color:Tomato";>
+<p>&copy; Diddy MapMaker, Maps &copy; Leaflet.com</p>
+</footer>
+
+
+</body>
+</html>

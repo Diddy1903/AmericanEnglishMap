@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Leaflet Front Vowels2</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+
+        }
+		.leaflet-container {
+			height: 800px;
+			width: 900px;
+			max-width: 100%;
+			max-height: 95%;
+		}
+		p {
+  display: block;
+      padding : 0;
+    margin : 0;
+    line-height : 20px;
+			}
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="../src/leaflet.legend.css" />
+    <script type="text/javascript" src="../src/leaflet.legend.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+
+<script>
+
+var map = L.map("map", {
+	center: [23.22,-110.47],
+	zoom: 2.3,
+    });
+const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+
+
+var LMBS1_Bahamas = L.polygon([	
+		[26.056574, -75.947179],
+		[27.007219, -77.454088],
+	[27.115265,-79.284825],//BahamaN
+	[25.688459,-79.570533],//BahamaW
+	[24.287966,-79.957765],//BahamaS1
+	[23.222102,-79.584147],//BahamaS2
+	[19.106504,-69.726559],//
+	[19.021064,-68.740844],//Samana2
+	[19.332364,-68.345248],//
+	[20.025452,-68.576013],
+	[20.025452,-68.576013],	
+[19.332364,-68.345248],//	
+[19.021064,-68.740844],//Samana2	
+[19.106504,-69.726559],//	
+[23.222102,-79.584147],//BahamaS2	
+[24.287966,-79.957765],//BahamaS1	
+[25.688459,-79.570533],//BahamaW	
+[27.115265,-79.284825],//BahamaN	
+	[27.007219, -77.454088],
+	[26.056574, -75.947179],
+],{       color: 'blue',
+		fillColor: '#2986cc',
+		fillOpacity: 0.25,		
+	}).bindPopup('backed /a/<br>(Wells, 1983').addTo(map);	
+</script>
+</body>
+</html>

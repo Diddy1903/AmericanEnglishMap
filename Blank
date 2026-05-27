@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Leaflet Front Vowels2</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+
+        }
+		.leaflet-container {
+			height: 800px;
+			width: 900px;
+			max-width: 100%;
+			max-height: 95%;
+		}
+		p {
+  display: block;
+      padding : 0;
+    margin : 0;
+    line-height : 20px;
+			}
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="../src/leaflet.legend.css" />
+    <script type="text/javascript" src="../src/leaflet.legend.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+
+<script>
+
+var map = L.map("map", {
+	center: [23.22,-110.47],
+	zoom: 2.3,
+    });
+const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+
+
+
+</script>
+</body>
+</html>
