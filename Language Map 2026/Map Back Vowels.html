@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Leaflet Map in Table</title>
+  <style>
+
+body {
+  margin: 0;
+	line-height: 1.5;
+	color: black;
+	background-color:#faf0e6;
+	font-size:17px;
+}
+
+h1 {
+	font-family: Georgia, Times, "Times New Roman";
+	text-align:center;
+	font-size:50px;
+	Color:#454545
+}
+
+h2 {
+	font-size:28px;
+	Color:#454545
+
+}
+    /* IMPORTANT: map container must have a height */
+    .map-cell {
+      width: 780px;
+      height: 500px;
+    }
+    ul.topnav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+ul.topnav li {float: left;}
+
+ul.topnav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+ul.topnav li a:hover:not(.active) {background-color: #111;}
+
+ul.topnav li a.active {background-color: #04AA6D;}
+
+ul.topnav li.right {float: right;}
+
+@media screen and (max-width: 600px) {
+  ul.topnav li.right, 
+  ul.topnav li {float: none;}
+}
+
+  </style>
+  <!-- Leaflet CSS -->
+  	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+ 	<link rel="stylesheet" href="../src/leaflet.legend.css" />
+     <script type="text/javascript" src="../src/leaflet.legend.js"></script>
+
+
+
+
+</head>
+
+<body>
+<header>
+	<h1>American English History</h1>
+<hr>
+<br>
+</header>
+                        <ul class="topnav">
+                        
+                            <li>
+                                <a href="Map Front Vowels.html" title="Front Vowels">Front Vowels</a>
+                            </li>
+                        
+                            <li >
+                                <a href="Map Mid Vowels.html" title="Central Vowels">Central Vowels</a>
+                            </li>
+                        
+                            <li >
+                                <a href="Map Back Vowels.html" title="Low Back Vowels">Low Back Vowels</a>
+                            </li>
+                        
+                            <li >
+                                <a href="Map Diphthongs.html" title="Diphthongs">Diphthongs</a>
+                            </li>
+                        
+                            <li >
+                                <a href="Map PreR.html" title="Vowels Before R">Vowels Before R</a>
+                            </li>
+                        
+                            <li >
+                                <a href="Map PreL.html" title="Conditional Mergers">Conditional Mergers</a>
+                            </li>
+                            
+                            <li>
+                                <a href="Map Consonants.html" title="Consonants">Consonants</a>
+                            </li>
+                        
+                            <li>
+                                <a href="Map Oceania.html" title="Oceania">Oceania</a>
+                            </li>
+                        </ul>
+                    
+<table>
+  <tr>
+  <td>
+<table class="contain"><tr><td><p style="font-family:verdana"><b>Low Back Vowels</b></p><p class=table>tense: /a:/ as in "father", /ɒ/ as in "lot"**, /&#596;:/ as in "thought"<br><span style="font-size:11px">*The /a:/ phoneme, distinct from /æ/ is absent prior to the late 18th century<br>**The CLOTH set (historical /ɒf/,/ɒs/ and /ɒθ/ words) is shifted to /C:/ in North America and variably in the Caribbean.</span></p><hr>Low back merger (cot-caught merger):<br>merger of /ɒ/ and /&#596;:/<br><br>
+Northern cities Vowel Shift:<br>  dashed line: /&#230;/ raising<br> thin solid line: /ɒ/ fronting<br>thick solid line:  /&#603;/ and /&#652;/ retraction<br>(/&#596;:/ lowering was initially described as a stage of the shift,<br> however this is disputed by later studies)
+</td>
+    <td>
+      <div id="map" class="map-cell" width="780" height="500"></div>
+    </td>
+  </tr>
+</table>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="text/javascript" src="../src/leaflet.legend.js"></script>
+
+<script>
+
+var map = L.map("map", {
+	center: [23.22,-110.47],
+	zoom: 2.3,
+    });
+const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+
+
+const W1700 = L.layerGroup();
+const W1800 = L.layerGroup();
+const W1850 = L.layerGroup();
+const W1870 = L.layerGroup();
+const W1900 = L.layerGroup();
+const W1950 = L.layerGroup();
+const W1970 = L.layerGroup();
+const B1800 = L.layerGroup();
+const B1850 = L.layerGroup();
+const B1870 = L.layerGroup();
+const B1900 = L.layerGroup();
+const B1950 = L.layerGroup();
+const B1970 = L.layerGroup();
+const N1700 = L.layerGroup();
+const N1800 = L.layerGroup();
+const N1850 = L.layerGroup();
+const N1870 = L.layerGroup();
+const N1900 = L.layerGroup();
+const N1950 = L.layerGroup();
+const N1970 = L.layerGroup();
+const L1950 = L.layerGroup();
+const L1970 = L.layerGroup();
+const A1900 = L.layerGroup();
+const A1950 = L.layerGroup();
+const A1970 = L.layerGroup();
+
+
+
+const baseLayers = {'OpenStreetMap': osm};
+const overlays = {'White (born 1700-1799)': W1700};
+const layerControl = L.control.layers(baseLayers, overlays).addTo(map);
+
+
+layerControl.addOverlay(W1850, '— (b. 1800-1875)');
+layerControl.addOverlay(W1870, '— (b. 1875-1899)');
+layerControl.addOverlay(W1900, '— (b. 1900-1945)');
+layerControl.addOverlay(W1950, '— (b. 1946-1975)');
+layerControl.addOverlay(W1970, '— (b. 1975-)');
+layerControl.addOverlay(B1850, 'Black/Creole (born 1800-1875)');
+layerControl.addOverlay(B1870, '— (b. 1875-1899)');
+layerControl.addOverlay(B1900, '— (b. 1900-1945)');
+layerControl.addOverlay(B1950, '— (b. 1946-1975)');
+layerControl.addOverlay(B1970, '— (b. 1975-)');
+layerControl.addOverlay(N1900, 'Indigenous (born 1900-1945)');
+layerControl.addOverlay(N1950, '— (b. 1945-)');
+layerControl.addOverlay(L1950, 'US Latinos (born 1946-1975)');
+layerControl.addOverlay(L1970, '— (b. 1975-)');
+layerControl.addOverlay(A1900, 'Asians (born 1900-1945)');
+layerControl.addOverlay(A1950, '— (b. 1946-1975)');
+layerControl.addOverlay(A1970, '— (b. 1975-)');
+
+
+	const a = L.icon({
+    iconUrl: 'square-red.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [0, 0] }); 
+	const b = L.icon({
+    iconUrl: 'square-blue.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [0, 0] });
+	const c = L.icon({
+    iconUrl: 'square-gray.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [0, 0] }); 
+	const d = L.icon({
+    iconUrl: 'square-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [0, 0] }); 
+	const e = L.icon({
+    iconUrl: 'square-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [0, 0] });
+	const f = L.icon({
+    iconUrl: 'square-blue.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [0, 0] }); 
+
+    const legend = L.control.Legend({
+            position: "bottomleft",
+            collapsed: false,
+            symbolWidth: 20,
+            opacity: 1,
+            column: 3,
+		title: "Marker Shape || Marker Color || Lines",
+            legends: [{
+                label: "/ɑ:/ = /æ/",
+                type: "image",
+                url: "circle-white.png"
+            }, {
+                label: "/ɑ:/ unmerged",
+                type: "image",
+                url: "rhombus-white.png"
+            }, {
+                label: "/ɑ:/ = /ɒ/ (≠/æ/)",
+                type: "image",
+                url: "square-white.png",
+            }, {
+                label: "/ɑ:/ = /ɔ:/ (≠/ɒ/)",
+                type: "image",
+                url: "star-white.png"
+            }, {
+                label: "",
+                color: "#FFFF",
+                fillColor: "#FFFF",
+            }, {
+                label: "round /ɒ/",
+                type: "rectangle",
+                color: "#black",
+                fillColor: "#FFFF00",
+            }, {
+                label: "unround /ɒ/",
+                type: "rectangle",
+                color: "#FF0000",
+                fillColor: "#FF0000",
+            }, {
+                label: "/ɒ/ = /æ/",
+                type: "rectangle",
+                color: "#FFFF",
+                fillColor: "FF0000",
+       
+            }, {
+                label: "",
+                type: "polygon",
+				sides: 3,
+                color: "#FFFF",
+                fillColor: "#FFFF",
+            }, {
+                label: "",
+                type: "polygon",
+				sides: 3,
+                color: "#FFFF",
+                fillColor: "#FFFF",
+            }, {
+                label: "Low Back Merger",
+                type: "polygon",
+				sides: 5,
+                color: "#0000FF",
+                fillColor: "#87CEEB",
+            }, {
+                label: "Northern Cities Shift",
+               	type: "polygon",
+				sides: 5,
+                color: "#8B0000",
+                fillColor: "#FFBF00",
+                            }, {
+                label: "Upgliding /ɔ:/",
+                type: "polygon",
+				sides: 5,
+                color: "#0000FF",
+                fillColor: "#90ee90",
+            }, {
+                label: "Raised /ɔ:/",
+               	type: "polyline",
+                color: "#black",
+
+            }, {
+                label: "/a:/ in BATH",
+               	type: "polyline",
+                color: "#FF0000",
+
+ 			}]
+        })
+        .addTo(map);
+
+var LMBS0 = L.polygon([
+	[49.2827,-123.1207],//Vancouver
+	[53.5461,-113.4938],//Edmonton
+	[46.1368,-60.1942],//Sydney
+	[42.69,-71.19], //Boston
+	[42.53,-83.05],//Windsor
+	[46.5219,-84.3461],//SltSteMarie
+	[47.3,-92.13],//Duluth
+	[46.3,-108.83], //Billings
+	[41.38,-101.45],//NorthPlatte
+	[42.8,-96.63], //SiouxCity
+	[33.14,-96.88],  //Dallas
+	[35.3,-102.38], //Amarillo
+	[32.25,-106.8],//ElPaso
+	[33.17,-117.25],//SanDiego
+	[37.55,-122.47], //Sanfrancisco
+	
+	],{       color: 'blue',
+		fillColor: '#2986cc',
+		fillOpacity: 0.25,
+	}).addTo(W1950);
+	
+		var NCVS2_1950 = L.polygon([
+[45.05,-87.27],//GreenBay
+[43.03,-84.13],//Flint
+[42.53,-83.05],//Detroit
+[43.47,-79.45],//Buffalo
+[43.12,-76.10],//Syracuse
+[42.27,-76.82],//Elmira
+[41.34,-81.65],//Cleveland
+[41.21,-82.60],//Sandusky
+[41.49,-83.64],//Toledo
+[41.06,-88.52],//Joliet
+[38.25,-90.15],//StLouisE
+[38.65,-90.9],//StLouisW
+[41.13,-89.97],//Peoria
+[42.03,-95.22],//SIowa
+[45.140512,-99.457763],//Dakotas1
+[45.707618,-97.556268],//Dakotas2
+[47.3,-92.13],//Duluth
+	[46.5219,-84.3461],//SltSteMarie
+		[42.53,-83.05],//Windsor
+ 
+
+	
+],{       color: 'brown',
+		fillColor: '#FFBF00',
+		fillOpacity: 0.25,
+	}).bindPopup('Northern Cities Shift /o/ fronting').addTo(W1950);
+	
+var traplot = L.polygon([
+[19.005234,-76.330222],
+[17.670433,-89.868400],//Belize1
+[15.987975,-89.516759],//Belize2
+[15.818922,-84.593785],
+[12.409999,-87.670644],
+[11.205591,-86.439900],
+[12.238268,-76.681863],
+[15.141309,-74.484106],
+
+],{       color: 'red',
+		fillColor: '#f02',
+		fillOpacity: 0.5,
+	}).bindPopup('SVS1: monophthong /ai/').addTo(W1900).addTo(W1950);
+
+var traplot_Guyana = L.polygon([
+[8.539602,-59.720110],
+[8.539602,-59.720110],
+[4.611331,-57.873995],
+[7.190145,-56.115790],
+  
+],{       color: 'red',
+		fillColor: '#f02',
+		fillOpacity: 0.5,
+	}).bindPopup('SVS1: monophthong /ai/').addTo(W1900).addTo(W1950);	
+	
+	var NCVS1 = L.polygon([
+[42.8,-96.63],//SiouxCity
+[47.3,-92.13],//Duluth
+[43.03,-84.13],//Flint
+[42.53,-83.05],//Detroit
+[43.47,-79.45],//Buffalo
+[42.82,-73.77],//Albany
+[42.27,-76.82],//Elmira
+[42.08,-83.95],//Toledo
+[41.13,-89.97],//Peoria
+	
+],{       color: 'brown',
+		fillColor: '#FFBF00',
+		fillOpacity: 0.25,
+	}).bindPopup('This is NCVS').addTo(W1950);
+
+var hiTHOUGHT = L.polygon([
+[39.35,-76.61], //baltimore
+[41,-75.78],//allentown
+[42,-71.43], //providence
+
+],{       color: 'brown',
+		fillColor: '#FFBF00',
+		fillOpacity: 0.25,
+	}).bindPopup('Raised /):/').addTo(W1950);
+	
+var diphTHOUGHT = L.polygon([
+	[32.42,-102.58],//odessa
+	[30.8,-91.28],//baton rouge
+	[31.13,-88.05],//mobile
+	[34.19,-81.08],//columbia
+	[34.53,-77.97],//wilmington
+	[36.63,-79.5],//durham
+	[36.15,-86.77],//nashville
+	[35.22,-92.53],//little rock
+	[35.3,-102.38],//amarillo
+	
+	],{       color: 'brown',
+		fillColor: '#FFBF00',
+		fillOpacity: 0.25,
+	}).bindPopup('Upgliding /):/').addTo(W1950);
+	
+	var BATHNL = L.polygon([
+	 [47.784363,-59.970287],
+ [49.935479,-57.534367],
+ [48.828205,-52.377256],
+ [46.195941,-52.841538],
+ [47.164116,-59.808373],
+],{       color: 'red',
+		fillColor: '#f02',
+		fillOpacity: 0.5,
+	}).bindPopup('/a:/ in BATH').addTo(W1900).addTo(W1950);
+		
+	
+
+
+const A1900MercedCalifornia= L.marker([37.3022,-120.482], {icon: d}).bindPopup('Merced, California<br><span style=font-size:11px>Japanese-Americans (Asian b. 1900-44)</span><br> in d').addTo(A1900);
+const A1900SanFranciscoCalifornia= L.marker([37.7749,-122.4194], {icon: d}).bindPopup('San Francisco, California<br><span style=font-size:11px>Chinese, Filipino and Japanese (Asian b. 1900-44)</span><br> in d').addTo(A1900);
+const A1950SanFranciscoCalifornia= L.marker([37.7749,-122.4194], {icon: d}).bindPopup('San Francisco, California<br><span style=font-size:11px>Chinese, Filipino and Japanese (Asian b. 1945-74)</span><br> in d').addTo(A1950);
+const A1950MinneapolisMinnesota= L.marker([44.9778,-93.265], {icon: d}).bindPopup('Minneapolis, Minnesota<br><span style=font-size:11px>Hmong-Americans (Asian b. 1945-74)</span><br> in d').addTo(A1950);
+const A1950TrinidadTrinidadandTobago= L.marker([10.5,-61.3], {icon: d}).bindPopup('Trinidad, Trinidad and Tobago<br><span style=font-size:11px>Indian (Asian b. 1945-74)</span><br> in d').addTo(A1950);
+const A1950GeorgetownGuyana= L.marker([6.801111,-58.155], {icon: d}).bindPopup('Georgetown, Guyana<br><span style=font-size:11px>Indian (Asian b. 1945-74)</span><br> in d').addTo(A1950);
+const A1970NewYorkNewYork= L.marker([40.7128,-74.006], {icon: d}).bindPopup('New York, New York<br><span style=font-size:11px>(Asian b. 1975-99)</span><br> in d').addTo(A1970);
+const A1970BergenCountyNewJersey= L.marker([40.96,-74.07], {icon: d}).bindPopup('Bergen County, New Jersey<br><span style=font-size:11px>Korean (Asian b. 1975-99)</span><br> in d').addTo(A1970);
+const A1970SanFranciscoCalifornia= L.marker([37.7749,-122.4194], {icon: d}).bindPopup('San Francisco, California<br><span style=font-size:11px>Chinese, Filipino and Japanese (Asian b. 1975-99)</span><br> in d').addTo(A1970);
+const A1970SeattleWashington= L.marker([47.6062,-122.3321], {icon: d}).bindPopup('Seattle, Washington<br><span style=font-size:11px>Japanese-Americans (Asian b. 1975-99)</span><br> in d').addTo(A1970);
+const B1900GrandTurkTurksandCaicossample= L.marker([21.472222,-71.138889], {icon: d}).bindPopup('Grand Turk, Turks and Caicos<br><span style=font-size:11px>(Black b. 1900-44)</span><br>sample in d').addTo(B1900);
+const B1950GrandTurkTurksandCaicossample= L.marker([21.472222,-71.138889], {icon: d}).bindPopup('Grand Turk, Turks and Caicos<br><span style=font-size:11px>(Black b. 1945-74)</span><br>sample in d').addTo(B1950);
+const B1970GrandTurkTurksandCaicossample= L.marker([21.472222,-71.138889], {icon: d}).bindPopup('Grand Turk, Turks and Caicos<br><span style=font-size:11px>(Black b. 1975-99)</span><br>sample in d').addTo(B1970);
+const B1850SkidawayGeorgiaSpeaker139= L.marker([31.9457,-81.0517], {icon: d}).bindPopup('Skidaway, Georgia<br><span style=font-size:11px>(Black b. 1844)</span><br>Speaker 139 in d').addTo(B1850);
+const B1850CharlottesvilleVirginiaSpeaker140= L.marker([38.0293,-78.4767], {icon: d}).bindPopup('Charlottesville, Virginia<br><span style=font-size:11px>(Black b. 1848)</span><br>Speaker 140 in d').addTo(B1850);
+const B1850DallasCountyAlabamaSpeaker141= L.marker([32.2332,-87.1423], {icon: d}).bindPopup('Dallas County, Alabama<br><span style=font-size:11px>(Black b. 1856)</span><br>Speaker 141 in d').addTo(B1850);
+const B1850HempsteadTexasSpeaker142= L.marker([30.0977,-96.0805], {icon: d}).bindPopup('Hempstead, Texas<br><span style=font-size:11px>(Black b. 1855)</span><br>Speaker 142 in d').addTo(B1850);
+const B1850TylerTexasSpeaker143= L.marker([32.3513,-95.3011], {icon: d}).bindPopup('Tyler, Texas<br><span style=font-size:11px>(Black b. 1859)</span><br>Speaker 143 in d').addTo(B1850);
+const B1850SpartaGeorgiaLAMSASINF1111= L.marker([33.0963,-83.24445], {icon: d}).bindPopup(' Sparta, Georgia<br><span style=font-size:11px>(Black b. 1863)</span><br>(GA25N) LAMSAS INF1111 in d').addTo(B1850);
+const B1850MonroeGeorgiaLAMSASINF1129= L.marker([33.9491,-83.53472], {icon: d}).bindPopup(' Monroe, Georgia<br><span style=font-size:11px>(Black b. 1854)</span><br>(GA35N) LAMSAS INF1129 in d').addTo(B1850);
+const B1850CahoqueNorthCarolinaLAMSASINF0757= L.marker([35.0955,-76.62889], {icon: d}).bindPopup(' Cahoque, North Carolina<br><span style=font-size:11px>(Black b. 1859)</span><br>(NC14N) LAMSAS INF0757 in d').addTo(B1850);
+const B1850CalabashNorthCarolinaLAMSASINF0783= L.marker([34.2402,-77.91666], {icon: d}).bindPopup(' Calabash, North Carolina<br><span style=font-size:11px>(Black b. 1848)</span><br>(NC24N) LAMSAS INF0783 in d').addTo(B1850);
+const B1850NashvilleNorthCarolinaLAMSASINF0811= L.marker([35.2833,-78.91722], {icon: d}).bindPopup(' Nashville, North Carolina<br><span style=font-size:11px>(Black b. 1857)</span><br>(NC36N) LAMSAS INF0811 in d').addTo(B1850);
+const B1850MoultonNorthCarolinaLAMSASINF0816= L.marker([36.4863,-78.17111], {icon: d}).bindPopup(' Moulton, North Carolina<br><span style=font-size:11px>(Black b. 1855)</span><br>(NC38N) LAMSAS INF0816 in d').addTo(B1850);
+const B1850WadesboroNorthCarolinaLAMSASINF0841= L.marker([35.4708,-79.77778], {icon: d}).bindPopup(' Wadesboro, North Carolina<br><span style=font-size:11px>(Black b. 1847)</span><br>(NC52N) LAMSAS INF0841 in d').addTo(B1850);
+const B1850OakCityNorthCarolinaLAMSASINF0743= L.marker([36.2011,-76.76889], {icon: d}).bindPopup(' Oak City, North Carolina<br><span style=font-size:11px>(Black b. 1854)</span><br>(NC8N) LAMSAS INF0743 in d').addTo(B1850);
+const B1850BeaufortSouthCarolinaLAMSASINF0949= L.marker([32.8625,-81.11945], {icon: d}).bindPopup(' Beaufort, South Carolina<br><span style=font-size:11px>(Black b. 1871)</span><br>(SC18N) LAMSAS INF0949 in d').addTo(B1850);
+const B1850CamdenSouthCarolinaLAMSASINF0966= L.marker([34.4758,-80.14917], {icon: d}).bindPopup(' Camden, South Carolina<br><span style=font-size:11px>(Black b. 1872)</span><br>(SC22N) LAMSAS INF0966 in d').addTo(B1850);
+const B1850SumterSouthCarolinaLAMSASINF0975= L.marker([34.3752,-79.97611], {icon: d}).bindPopup(' Sumter, South Carolina<br><span style=font-size:11px>(Black b. 1865)</span><br>(SC24N) LAMSAS INF0975 in d').addTo(B1850);
+const B1850NewberrySouthCarolinaLAMSASINF1020= L.marker([34.9583,-81.95834], {icon: d}).bindPopup(' Newberry, South Carolina<br><span style=font-size:11px>(Black b. 1873)</span><br>(SC38N) LAMSAS INF1020 in d').addTo(B1850);
+const B1850GeorgetownSouthCarolinaLAMSASINF0903= L.marker([33.7083,79.8175], {icon: d}).bindPopup(' Georgetown, South Carolina<br><span style=font-size:11px>(Black b. 1869)</span><br>(SC6N) LAMSAS INF0903 in d').addTo(B1850);
+const B1850GeorgetownSouthCarolinaLAMSASINF0908= L.marker([33.433,-79.12167], {icon: d}).bindPopup(' Georgetown, South Carolina<br><span style=font-size:11px>(Black b. 1865)</span><br>(SC7N) LAMSAS INF0908 in d').addTo(B1850);
+const B1850OldhamsVirginiaLAMSASINF0599= L.marker([37.5888,-77.28194], {icon: d}).bindPopup(' Oldhams, Virginia<br><span style=font-size:11px>(Black b. 1856)</span><br>(VA12N) LAMSAS INF0599 in d').addTo(B1850);
+const B1850HoldcroftVirginiaLAMSASINF0621= L.marker([37.3858,76.3175], {icon: d}).bindPopup(' Holdcroft, Virginia<br><span style=font-size:11px>(Black b. 1861)</span><br>(VA21N) LAMSAS INF0621 in d').addTo(B1850);
+const B1850CumberlandVirginiaLAMSASINF0662= L.marker([37.6397,-78.72417], {icon: d}).bindPopup(' Cumberland, Virginia<br><span style=font-size:11px>(Black b. 1849)</span><br>(VA43N) LAMSAS INF0662 in d').addTo(B1850);
+const B1850HaymarketVirginiaLAMSASINF0583= L.marker([39.1152,-77.69527], {icon: d}).bindPopup(' Haymarket, Virginia<br><span style=font-size:11px>(Black b. 1846)</span><br>LAMSAS INF0583 in d').addTo(B1850);
+const B1850SharonConnecticutLANECT183= L.marker([41.8667,-73.45], {icon: d}).bindPopup(' Sharon, Connecticut<br><span style=font-size:11px>(Black b. 1850)</span><br>LANE CT183  in d').addTo(B1850);
+const B1850PortlandMaineLANEME78= L.marker([43.667,-70.267], {icon: d}).bindPopup(' Portland, Maine<br><span style=font-size:11px>(Black b. 1854)</span><br>LANE ME78  in d').addTo(B1850);
+const B1870MinneapolisMinnesotaLAUM35= L.marker([44.9777,-93.265], {icon: d}).bindPopup('Minneapolis, Minnesota<br><span style=font-size:11px>(Black b. 1876)</span><br>LAUM 35 in d').addTo(B1870);
+const B1870GanadaTexasSpeaker160= L.marker([29.04,-96.515], {icon: d}).bindPopup('Ganada, Texas<br><span style=font-size:11px>(Black b. 1892)</span><br>Speaker 160 in d').addTo(B1870);
+const B1870MetterGeorgiaLAMSASINF1076= L.marker([32.1602,-82.01972], {icon: d}).bindPopup(' Metter, Georgia<br><span style=font-size:11px>(Black b. 1874)</span><br>(GA11N) LAMSAS INF1076 in d').addTo(B1870);
+const B1870LanierGeorgiaLAMSASINF1053= L.marker([32.05,-81.13333], {icon: d}).bindPopup(' Lanier, Georgia<br><span style=font-size:11px>(Black b. 1879)</span><br>(GA2N) LAMSAS INF1053 in d').addTo(B1870);
+const B1870AthensGeorgiaLAMSASINF1126= L.marker([34.0377,-83.21278], {icon: d}).bindPopup(' Athens, Georgia<br><span style=font-size:11px>(Black b. 1897)</span><br>(GA34N) LAMSAS INF1126 in d').addTo(B1870);
+const B1870ConyersGeorgiaLAMSASINF1130= L.marker([33.9458,-83.53278], {icon: d}).bindPopup(' Conyers, Georgia<br><span style=font-size:11px>(Black b. 1878)</span><br>(GA36N) LAMSAS INF1130 in d').addTo(B1870);
+const B1870AtlantaGeorgiaLAMSASINF1131= L.marker([33.7947,-83.71333], {icon: d}).bindPopup(' Atlanta, Georgia<br><span style=font-size:11px>(Black b. 1889)</span><br>(GA37N) LAMSAS INF1131 in d').addTo(B1870);
+const B1870CharlestonSouthCarolinaLAMSASINF0923= L.marker([33.088,-79.46139], {icon: d}).bindPopup(' Charleston, South Carolina<br><span style=font-size:11px>(Black b. 1890)</span><br>(SC11N) LAMSAS INF0923 in d').addTo(B1870);
+const B1870MillettvilleSouthCarolinaLAMSASINF0943= L.marker([33.2969,81.035], {icon: d}).bindPopup(' Millettville, South Carolina<br><span style=font-size:11px>(Black b. 1879)</span><br>(SC16N) LAMSAS INF0943 in d').addTo(B1870);
+const B1870HiltonHeadSouthCarolinaLAMSASINF0954= L.marker([32.3788,-80.69278], {icon: d}).bindPopup(' Hilton Head, South Carolina<br><span style=font-size:11px>(Black b. 1893)</span><br>(SC19N) LAMSAS INF0954 in d').addTo(B1870);
+const B1870GreenvilleSouthCarolinaLAMSASINF1032= L.marker([34.5033,-82.65028], {icon: d}).bindPopup(' Greenville, South Carolina<br><span style=font-size:11px>(Black b. 1880)</span><br>(SC42N) LAMSAS INF1032 in d').addTo(B1870);
+const B1870WatertownTennesseeLAGSINF303= L.marker([36.1,-86.137222], {icon: d}).bindPopup('Watertown, Tennessee<br><span style=font-size:11px>(Black b. 1894)</span><br>(DASS) LAGS INF303 in d').addTo(B1870);
+const B1870RussellvilleAlabamaLAGSINF364= L.marker([34.500556,-87.740278], {icon: d}).bindPopup('Russellville, Alabama<br><span style=font-size:11px>(Black b. 1892)</span><br>(DASS) LAGS INF364 in d').addTo(B1870);
+const B1870TroyAlabamaLAGSINF434= L.marker([31.803333,-85.986667], {icon: d}).bindPopup('Troy, Alabama<br><span style=font-size:11px>(Black b. 1886)</span><br>(DASS) LAGS INF434 in d').addTo(B1870);
+const B1870ElDoradoArkansasLAGSINF748= L.marker([33.236111,-92.641667], {icon: d}).bindPopup('El Dorado, Arkansas<br><span style=font-size:11px>(Black b. 1893)</span><br>(DASS) LAGS INF748 in d').addTo(B1870);
+const B1870BeverlyRidgeIllinoisLANCSIL12JN= L.marker([41.7014,-87.6563], {icon: d}).bindPopup(' Beverly Ridge, Illinois<br><span style=font-size:11px>(Black b. 1877)</span><br>LANCS IL12JN in d').addTo(B1870);
+const B1870JonestownKentuckyLANCSKY17NA= L.marker([37.977,-84.4966], {icon: d}).bindPopup(' Jonestown, Kentucky<br><span style=font-size:11px>(Black b. 1887)</span><br>LANCS KY17NA in d').addTo(B1870);
+const B1870JeffersontownKentuckyLANCSKY7NA= L.marker([38.1942,-85.5644], {icon: d}).bindPopup(' Jeffersontown, Kentucky<br><span style=font-size:11px>(Black b. 1898)</span><br>LANCS KY7NA in d').addTo(B1870);
+const B1870WindyHillsKentuckyLANCSKY7NE= L.marker([38.16,-85.3816], {icon: d}).bindPopup(' Windy Hills, Kentucky<br><span style=font-size:11px>(Black b. 1893)</span><br>LANCS KY7NE in d').addTo(B1870);
+const B1900LouisvilleGeorgiaLAMSASINF1044= L.marker([33.4861,-82.04166], {icon: d}).bindPopup(' Louisville, Georgia<br><span style=font-size:11px>(Black b. 1922)</span><br>(GA17N) LAMSAS INF1044 in d').addTo(B1900);
+const B1900SavannahGeorgiaLAMSASINF1044= L.marker([34.8802,-83.01972], {icon: d}).bindPopup(' Savannah, Georgia<br><span style=font-size:11px>(Black b. 1901)</span><br>(GA1N) LAMSAS INF1044 in d').addTo(B1900);
+const B1900MilledgevilleGeorgiaLAMSASINF1108= L.marker([32.8513,-83.62083], {icon: d}).bindPopup(' Milledgeville, Georgia<br><span style=font-size:11px>(Black b. 1900)</span><br>(GA24N) LAMSAS INF1108 in d').addTo(B1900);
+const B1900CovingtonTennesseeLAGSINF505= L.marker([35.564167,-89.646389], {icon: d}).bindPopup('Covington, Tennessee<br><span style=font-size:11px>(Black b. 1912)</span><br>(DASS) LAGS INF505 in d').addTo(B1900);
+const B1900LafayetteSpringsMississippiLAGSINF543= L.marker([34.3173,-89.262105], {icon: d}).bindPopup('Lafayette Springs, Mississippi<br><span style=font-size:11px>(Black b. 1910)</span><br>(DASS) LAGS INF543 in d').addTo(B1900);
+const B1900LessleyMississippiLAGSINF609A= L.marker([31.161664,-91.429571], {icon: d}).bindPopup('Lessley, Mississippi<br><span style=font-size:11px>(Black b. 1911)</span><br>(DASS) LAGS INF609A in d').addTo(B1900);
+const B1900ChicagoIllinoisLANCSIL12HN= L.marker([41.8781,-87.6298], {icon: d}).bindPopup(' Chicago, Illinois<br><span style=font-size:11px>(Black b. 1923)</span><br>LANCS IL12HN in d').addTo(B1900);
+const B1900BeverlyRidgeIllinoisLANCSIL12LN= L.marker([41.7014,-87.6563], {icon: d}).bindPopup(' Beverly Ridge, Illinois<br><span style=font-size:11px>(Black b. 1925)</span><br>LANCS IL12LN in d').addTo(B1900);
+const B1900BahamasBahamasdescription= L.marker([25.0343,-77.3963], {icon: d}).bindPopup('Bahamas, Bahamas<br><span style=font-size:11px>(Black b. 1900-44)</span><br>description in d').addTo(B1900);
+const B1900JamaicaJamaicadescription= L.marker([18.1096,-77.2975], {icon: f}).bindPopup('Jamaica, Jamaica<br><span style=font-size:11px>(Black b. 1900-44)</span><br>description in f').addTo(B1900);
+const B1900TrinidadTrinidaddescription= L.marker([10.6918,-61.2225], {icon: e}).bindPopup('Trinidad, Trinidad<br><span style=font-size:11px>(Black b. 1900-44)</span><br>description in e').addTo(B1900);
+const B1900GuyanaGuyanadescription= L.marker([4.8604,-58.9302], {icon: f}).bindPopup('Guyana, Guyana<br><span style=font-size:11px>(Black b. 1900-44)</span><br>description in f').addTo(B1900);
+const B1900BarbadosBarbadosdescription= L.marker([13.1939,-59.5432], {icon: f}).bindPopup('Barbados, Barbados<br><span style=font-size:11px>(Black b. 1900-44)</span><br>description in f').addTo(B1900);
+const B1900MonserratMonserratdescription= L.marker([16.7425,-62.1874], {icon: f}).bindPopup('Monserrat, Monserrat<br><span style=font-size:11px>(Black b. 1900-44)</span><br>description in f').addTo(B1900);
+const B1900BermudaBermudadescription= L.marker([45.23,-61.3], {icon: d}).bindPopup('Bermuda, Bermuda<br><span style=font-size:11px>(Black b. 1900-44)</span><br>description in d').addTo(B1900);
+const B1900GrenadaGrenadaSpeaker138= L.marker([12.03,-61.45], {icon: a}).bindPopup('Grenada, Grenada<br><span style=font-size:11px>(Black b. 1918)</span><br>Speaker 138 in a').addTo(B1900);
+const B1900WilmingtonNorthCarolinaSpeaker144= L.marker([34.2257,-77.9447], {icon: d}).bindPopup('Wilmington, North Carolina<br><span style=font-size:11px>(Black b. 1905)</span><br>Speaker 144 in d').addTo(B1900);
+const B1900InezNorthCarolinaSpeaker146= L.marker([36.2707,-78.0718], {icon: d}).bindPopup('Inez, North Carolina<br><span style=font-size:11px>(Black b. 1930)</span><br>Speaker 146 in d').addTo(B1900);
+const B1900RedSpringsNorthCarolinaSpeaker148= L.marker([34.8149,-79.18], {icon: d}).bindPopup('Red Springs, North Carolina<br><span style=font-size:11px>(Black b. 1927)</span><br>Speaker 148 in d').addTo(B1900);
+const B1900OcracokeNorthCarolinaSpeaker150= L.marker([35.1143,-75.9813], {icon: d}).bindPopup('Ocracoke, North Carolina<br><span style=font-size:11px>(Black b. 1904)</span><br>Speaker 150 in d').addTo(B1900);
+const B1900OcracokeNorthCarolinaSpeaker151= L.marker([35.1143,-75.9813], {icon: d}).bindPopup('Ocracoke, North Carolina<br><span style=font-size:11px>(Black b. 1915)</span><br>Speaker 151 in d').addTo(B1900);
+const B1900EngelhardNorthCarolinaSpeaker152= L.marker([35.5082,-75.9949], {icon: d}).bindPopup('Engelhard, North Carolina<br><span style=font-size:11px>(Black b. 1906)</span><br>Speaker 152 in d').addTo(B1900);
+const B1900SwanQuarteNorthCarolinaSpeaker153= L.marker([35.4054,-76.3294], {icon: d}).bindPopup('Swan Quarte, North Carolina<br><span style=font-size:11px>(Black b. 1909)</span><br>Speaker 153 in d').addTo(B1900);
+const B1900EngelhardNorthCarolinaSpeaker154= L.marker([35.5082,-75.9949], {icon: d}).bindPopup('Engelhard, North Carolina<br><span style=font-size:11px>(Black b. 1910)</span><br>Speaker 154 in d').addTo(B1900);
+const B1900SpringvilleTexasSpeaker161= L.marker([29.04,-96.515], {icon: d}).bindPopup('Springville, Texas<br><span style=font-size:11px>(Black b. 1912)</span><br>Speaker 161 in d').addTo(B1900);
+const B1900SpringvilleTexasSpeaker162= L.marker([30.6744,-96.37], {icon: d}).bindPopup('Springville, Texas<br><span style=font-size:11px>(Black b. 1920)</span><br>Speaker 162 in d').addTo(B1900);
+const B1900MidwayTexasSpeaker163= L.marker([31.0246,-95.7516], {icon: d}).bindPopup('Midway, Texas<br><span style=font-size:11px>(Black b. 1922)</span><br>Speaker 163 in d').addTo(B1900);
+const B1900BryanTexasSpeaker164= L.marker([30.6744,-96.37], {icon: d}).bindPopup('Bryan, Texas<br><span style=font-size:11px>(Black b. 1937)</span><br>Speaker 164 in d').addTo(B1900);
+const B1900WilmingtonNorthCarolinasample= L.marker([35.53,-77.31], {icon: d}).bindPopup('Wilmington, North Carolina<br><span style=font-size:11px>(Black b. 1900-44)</span><br>sample in d').addTo(B1900);
+const B1900DallasTexasLAGSINF847= L.marker([32.779167,-96.808889], {icon: d}).bindPopup('Dallas, Texas<br><span style=font-size:11px>(Black b. 1943)</span><br>(DASS) LAGS INF847 in d').addTo(B1900);
+const B1900BayIslandsHondurasdescription= L.marker([16.383333,-86.4], {icon: d}).bindPopup('Bay Islands, Honduras<br><span style=font-size:11px>(Black b. 1900-44)</span><br>description in d').addTo(B1900);
+const B1900RoatanHondurasdescription= L.marker([16.383333,-86.4], {icon: d}).bindPopup('Roatan, Honduras<br><span style=font-size:11px>(Black b. 1900-44)</span><br>description in d').addTo(B1900);
+const B1900RoseauDominicadescription= L.marker([15.301389,-61.388333], {icon: d}).bindPopup('Roseau, Dominica<br><span style=font-size:11px>(Black b. 1900-44)</span><br>description in d').addTo(B1900);
+const B1950FultonGeorgiaLAGSINF100= L.marker([33.79,-84.47], {icon: d}).bindPopup('Fulton, Georgia<br><span style=font-size:11px>(Black b. 1965)</span><br>(DASS) LAGS INF100 in d').addTo(B1950);
+const B1950TampaFloridaLAGSINF270= L.marker([27.9475,-82.458611], {icon: d}).bindPopup('Tampa, Florida<br><span style=font-size:11px>(Black b. 1958)</span><br>(DASS) LAGS INF270 in d').addTo(B1950);
+const B1950DallasTexasLAGSINF847= L.marker([32.7767,-96.797], {icon: d}).bindPopup('Dallas, Texas<br><span style=font-size:11px>(Black b. 1943)</span><br>(DASS) LAGS INF847 in d').addTo(B1950);
+const B1950SanAntonioTexasLAGSINF888= L.marker([29.425,-98.493889], {icon: d}).bindPopup('San Antonio, Texas<br><span style=font-size:11px>(Black b. 1958)</span><br>(DASS) LAGS INF888 in d').addTo(B1950);
+const B1950ColumbiaSouthCarolinasample= L.marker([34.0007,-81.0348], {icon: d}).bindPopup('Columbia, South Carolina<br><span style=font-size:11px>(Black b. 1945-74)</span><br>sample in d').addTo(B1950);
+const B1950AtlantaGeorgiasample= L.marker([33.749,-84.388], {icon: d}).bindPopup('Atlanta, Georgia<br><span style=font-size:11px>(Black b. 1945-74)</span><br>sample in d').addTo(B1950);
+const B1950NewOrleansLouisianasample= L.marker([29.9511,-90.0715], {icon: d}).bindPopup('New Orleans, Louisiana<br><span style=font-size:11px>(Black b. 1945-74)</span><br>sample in d').addTo(B1950);
+const B1950LosAngelesCaliforniasample= L.marker([34.0522,-118.2437], {icon: d}).bindPopup('Los Angeles, California<br><span style=font-size:11px>(Black b. 1945-74)</span><br>sample in d').addTo(B1950);
+const B1950DetroitMichigansample= L.marker([42.3314,-83.0458], {icon: d}).bindPopup('Detroit, Michigan<br><span style=font-size:11px>(Black b. 1945-74)</span><br>sample in d').addTo(B1950);
+const B1950NYCNewYorksample= L.marker([40.7128,-74.006], {icon: d}).bindPopup('NYC, New York<br><span style=font-size:11px>(Black b. 1945-74)</span><br>sample in d').addTo(B1950);
+const B1950SamanaDominicanRepublicsample= L.marker([19.12,-69.19], {icon: d}).bindPopup('Samana, Dominican Republic<br><span style=font-size:11px>(Black b. 1945-74)</span><br>sample in d').addTo(B1950);
+const B1950BahamasBahamasdescription= L.marker([25.0343,-77.3963], {icon: d}).bindPopup('Bahamas, Bahamas<br><span style=font-size:11px>(Black b. 1945-74)</span><br>description in d').addTo(B1950);
+const B1950JamaicaJamaicadescription= L.marker([18.1096,-77.2975], {icon: f}).bindPopup('Jamaica, Jamaica<br><span style=font-size:11px>(Black b. 1945-74)</span><br>description in f').addTo(B1950);
+const B1950TrinidadTrinidaddescription= L.marker([10.6918,-61.2225], {icon: e}).bindPopup('Trinidad, Trinidad<br><span style=font-size:11px>(Black b. 1945-74)</span><br>description in e').addTo(B1950);
+const B1950GuyanaGuyanadescription= L.marker([4.8604,-58.9302], {icon: f}).bindPopup('Guyana, Guyana<br><span style=font-size:11px>(Black b. 1945-74)</span><br>description in f').addTo(B1950);
+const B1950BarbadosBarbadosdescription= L.marker([13.1939,-59.5432], {icon: f}).bindPopup('Barbados, Barbados<br><span style=font-size:11px>(Black b. 1945-74)</span><br>description in f').addTo(B1950);
+const B1950MonserratUnitedKingdomdescription= L.marker([16.7425,-62.1874], {icon: f}).bindPopup('Monserrat, United Kingdom<br><span style=font-size:11px>(Black b. 1945-74)</span><br>description in f').addTo(B1950);
+const B1950BelizeBelizesample= L.marker([17.1899,-88.4976], {icon: d}).bindPopup('Belize, Belize<br><span style=font-size:11px>(Black b. 1945-74)</span><br>sample in d').addTo(B1950);
+const B1950NicaraguaNicaraguasample= L.marker([12.8654,-85.2072], {icon: d}).bindPopup('Nicaragua, Nicaragua<br><span style=font-size:11px>(Black b. 1945-74)</span><br>sample in d').addTo(B1950);
+const B1950BermudaBermudasample= L.marker([32.3078,-64.7505], {icon: d}).bindPopup('Bermuda, Bermuda<br><span style=font-size:11px>(Black b. 1945-74)</span><br>sample in d').addTo(B1950);
+const B1950NovaScotiaNovaScotiadescription= L.marker([45.23,-61.3], {icon: d}).bindPopup('Nova Scotia, Nova Scotia<br><span style=font-size:11px>(Black b. 1945-74)</span><br>description in d').addTo(B1950);
+const B1950SamanaDominicanRepublicdescription= L.marker([19.12,-69.19], {icon: d}).bindPopup('Samana, Dominican Republic<br><span style=font-size:11px>(Black b. 1945-74)</span><br>description in d').addTo(B1950);
+const B1950WilmingtonNorthCarolinaSpeaker145= L.marker([34.2257,-77.9447], {icon: d}).bindPopup('Wilmington, North Carolina<br><span style=font-size:11px>(Black b. 1955)</span><br>Speaker 145 in d').addTo(B1950);
+const B1950MaxtonNorthCarolinaSpeaker149= L.marker([34.7352,-79.3517], {icon: d}).bindPopup('Maxton, North Carolina<br><span style=font-size:11px>(Black b. 1974)</span><br>Speaker 149 in d').addTo(B1950);
+const B1900EngelhardNorthCarolinaSpeaker155= L.marker([35.5082,-75.9949], {icon: d}).bindPopup('Engelhard, North Carolina<br><span style=font-size:11px>(Black b. 1935)</span><br>Speaker 155 in d').addTo(B1900);
+const B1950MemphisTennesseeSpeaker158= L.marker([35.1495,-90.049], {icon: d}).bindPopup('Memphis, Tennessee<br><span style=font-size:11px>(Black b. 1954)</span><br>Speaker 158 in d').addTo(B1950);
+const B1950MemphisTennesseeSpeaker159= L.marker([35.1495,-90.049], {icon: d}).bindPopup('Memphis, Tennessee<br><span style=font-size:11px>(Black b. 1972)</span><br>Speaker 159 in d').addTo(B1950);
+const B1950HoustonTexasSpeaker165= L.marker([29.7604,-95.3698], {icon: d}).bindPopup('Houston, Texas<br><span style=font-size:11px>(Black b. 1946)</span><br>Speaker 165 in d').addTo(B1950);
+const B1950SpringvilleTexasSpeaker166= L.marker([30.6744,-96.37], {icon: d}).bindPopup('Springville, Texas<br><span style=font-size:11px>(Black b. 1961)</span><br>Speaker 166 in d').addTo(B1950);
+const B1950AustinTexasSpeaker167= L.marker([30.2672,-97.7431], {icon: d}).bindPopup('Austin, Texas<br><span style=font-size:11px>(Black b. 1961)</span><br>Speaker 167 in d').addTo(B1950);
+const B1950SilsbeeTexasSpeaker168= L.marker([30.3491,-94.1774], {icon: d}).bindPopup('Silsbee, Texas<br><span style=font-size:11px>(Black b. 1969)</span><br>Speaker 168 in d').addTo(B1950);
+const B1950SilsbeeTexasSpeaker169= L.marker([30.3491,-94.1774], {icon: d}).bindPopup('Silsbee, Texas<br><span style=font-size:11px>(Black b. 1970)</span><br>Speaker 169 in d').addTo(B1950);
+const B1950KilgoreTexasSpeaker170= L.marker([32.3865,-94.8755], {icon: d}).bindPopup('Kilgore, Texas<br><span style=font-size:11px>(Black b. 1972)</span><br>Speaker 170 in d').addTo(B1950);
+const B1950DallasTexasSpeaker171= L.marker([32.7767,-96.797], {icon: d}).bindPopup('Dallas, Texas<br><span style=font-size:11px>(Black b. 1972)</span><br>Speaker 171 in d').addTo(B1950);
+const B1950SanAntonioTexas888= L.marker([29.425,-98.493889], {icon: d}).bindPopup('San Antonio, Texas<br><span style=font-size:11px>(Black b. 1945-74)</span><br>888 in d').addTo(B1950);
+const B1970RahwayNewJerseyRahway= L.marker([39.3898,-74.5249], {icon: d}).bindPopup('Rahway, New Jersey<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Rahway in d').addTo(B1970);
+const B1970TrentonNewJerseyTrenton= L.marker([40.8887,-74.0111], {icon: d}).bindPopup('Trenton, New Jersey<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Trenton in d').addTo(B1970);
+const B1970KansasCityKansasKansasCity= L.marker([39.1142,-94.6275], {icon: d}).bindPopup('Kansas City, Kansas<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Kansas City in d').addTo(B1970);
+const B1970KansasCityMissouriKansasCity= L.marker([39.0997,-94.5786], {icon: d}).bindPopup('Kansas City, Missouri<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Kansas City in d').addTo(B1970);
+const B1970PhiladelphiaPennsylvaniaPhiladelphia1= L.marker([39.95,-75.15], {icon: d}).bindPopup('Philadelphia, Pennsylvania<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Philadelphia1 in d').addTo(B1970);
+const B1970MobileAlabamaMobile= L.marker([31.13,-88.05], {icon: d}).bindPopup('Mobile, Alabama<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Mobile in d').addTo(B1970);
+const B1970EurekaSpringsArkansasEurekaSprings= L.marker([36.4,-93.74], {icon: d}).bindPopup('Eureka Springs, Arkansas<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Eureka Springs in d').addTo(B1970);
+const B1970LittleRockArkansasLittleRock= L.marker([35.22,-92.53], {icon: d}).bindPopup('Little Rock, Arkansas<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Little Rock in d').addTo(B1970);
+const B1970AnaheimCaliforniaAnaheim= L.marker([33.82,-117.9], {icon: d}).bindPopup('Anaheim, California<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Anaheim in d').addTo(B1970);
+const B1970BakersfieldCaliforniaBakersfield= L.marker([35.62,-119.28], {icon: d}).bindPopup('Bakersfield, California<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Bakersfield in d').addTo(B1970);
+const B1970LosAngelesCaliforniaLosAngeles= L.marker([34.08,-118.42], {icon: d}).bindPopup('Los Angeles, California<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Los Angeles in d').addTo(B1970);
+const B1970OaklandCaliforniaOakland= L.marker([37.8044,-122.2711], {icon: d}).bindPopup('Oakland, California<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Oakland in d').addTo(B1970);
+const B1970ParksdaleCaliforniaParksdale= L.marker([36.875,-119.7921], {icon: d}).bindPopup('Parksdale, California<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Parksdale in d').addTo(B1970);
+const B1970PasadenaCaliforniaPasadena= L.marker([34.1478,-118.1445], {icon: d}).bindPopup('Pasadena, California<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Pasadena in d').addTo(B1970);
+const B1970RichmondCaliforniaRichmond= L.marker([37.9358,-122.3477], {icon: d}).bindPopup('Richmond, California<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Richmond in d').addTo(B1970);
+const B1970StocktonCaliforniaStockton= L.marker([37.9577,-121.2908], {icon: d}).bindPopup('Stockton, California<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Stockton in d').addTo(B1970);
+const B1970ColoradoSpringsColoradoColoradoSprings= L.marker([38.8339,-104.8214], {icon: d}).bindPopup('Colorado Springs, Colorado<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Colorado Springs in d').addTo(B1970);
+const B1970NewHavenConnecticutNewHaven= L.marker([41.3083,-72.9279], {icon: d}).bindPopup('New Haven, Connecticut<br><span style=font-size:11px>(Black b. 1975-99)</span><br>New Haven in d').addTo(B1970);
+const B1970WashingtonDCDistrictofColumbiaWashingtonDC= L.marker([38.9072,-77.0369], {icon: d}).bindPopup('Washington DC, District of Columbia<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Washington DC in d').addTo(B1970);
+const B1970FtLauderdaleFloridaFtLauderdale= L.marker([26.1224,-80.1373], {icon: d}).bindPopup('Ft. Lauderdale, Florida<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Ft. Lauderdale in d').addTo(B1970);
+const B1970GainesvilleFloridaGainesville= L.marker([29.6516,-82.3248], {icon: d}).bindPopup('Gainesville, Florida<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Gainesville in d').addTo(B1970);
+const B1970JacksonvilleFloridaJacksonville= L.marker([30.3322,-81.6557], {icon: d}).bindPopup('Jacksonville, Florida<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Jacksonville in d').addTo(B1970);
+const B1970MiamiFloridaMiami= L.marker([25.7617,-80.1918], {icon: d}).bindPopup('Miami, Florida<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Miami in d').addTo(B1970);
+const B1970OcalaFloridaOcala= L.marker([29.1872,-82.1401], {icon: d}).bindPopup('Ocala, Florida<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Ocala in d').addTo(B1970);
+const B1970OrlandoFloridaOrlando= L.marker([28.5383,-81.3792], {icon: d}).bindPopup('Orlando, Florida<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Orlando in d').addTo(B1970);
+const B1970TampaFloridaTampa= L.marker([27.9506,-82.4572], {icon: d}).bindPopup('Tampa, Florida<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Tampa in d').addTo(B1970);
+const B1970AtlantaGeorgiaAtlanta= L.marker([33.749,-84.388], {icon: d}).bindPopup('Atlanta, Georgia<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Atlanta in d').addTo(B1970);
+const B1970AugustaGeorgiaAugusta= L.marker([33.4735,-82.0105], {icon: d}).bindPopup('Augusta, Georgia<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Augusta in d').addTo(B1970);
+const B1970BedfordIllinoisBedford= L.marker([41.8764,-87.6601], {icon: d}).bindPopup('Bedford, Illinois<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Bedford in d').addTo(B1970);
+const B1970CarbondaleIllinoisCarbondale= L.marker([37.7273,-89.2168], {icon: d}).bindPopup('Carbondale, Illinois<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Carbondale in d').addTo(B1970);
+const B1970ChicagoIllinoisChicago= L.marker([41.8781,-87.6298], {icon: d}).bindPopup('Chicago, Illinois<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Chicago in d').addTo(B1970);
+const B1970RockfordIllinoisRockford= L.marker([42.2711,-89.0937], {icon: d}).bindPopup('Rockford, Illinois<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Rockford in d').addTo(B1970);
+const B1970IndianapolisIndianaIndianapolis= L.marker([39.7684,-86.1581], {icon: d}).bindPopup('Indianapolis, Indiana<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Indianapolis in d').addTo(B1970);
+const B1970LouisvilleKentuckyLouisville= L.marker([38.2527,-85.7585], {icon: d}).bindPopup('Louisville, Kentucky<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Louisville in d').addTo(B1970);
+const B1970LakeCharlesLouisianaLakeCharles= L.marker([30.2266,-93.2174], {icon: d}).bindPopup('Lake Charles, Louisiana<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Lake Charles in d').addTo(B1970);
+const B1970NewOrleans3LouisianaNewOrleans= L.marker([29.9511,-90.0715], {icon: d}).bindPopup('New Orleans3, Louisiana<br><span style=font-size:11px>(Black b. 1975-99)</span><br>New Orleans in d').addTo(B1970);
+const B1970PlaquemineLouisianaPlaquemine= L.marker([30.2899,-91.234], {icon: d}).bindPopup('Plaquemine, Louisiana<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Plaquemine in d').addTo(B1970);
+const B1970LeicesterMassachusettsLeicester= L.marker([42.2437,-71.9081], {icon: d}).bindPopup('Leicester, Massachusetts<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Leicester in d').addTo(B1970);
+const B1970SpencerMassachusettsSpencer= L.marker([42.2445,-71.992], {icon: d}).bindPopup('Spencer, Massachusetts<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Spencer in d').addTo(B1970);
+const B1970BaltimoreMarylandBaltimore= L.marker([39.2904,-76.6122], {icon: d}).bindPopup('Baltimore, Maryland<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Baltimore in d').addTo(B1970);
+const B1970DetroitMichiganDetroit= L.marker([42.3314,-83.0458], {icon: d}).bindPopup('Detroit, Michigan<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Detroit in d').addTo(B1970);
+const B1970FlintMichiganFlint= L.marker([43.0125,-83.6875], {icon: d}).bindPopup('Flint, Michigan<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Flint in d').addTo(B1970);
+const B1970FranklinTownshipMichiganFranklinTownship= L.marker([42.5906,-83.3052], {icon: d}).bindPopup('Franklin Township, Michigan<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Franklin Township in d').addTo(B1970);
+const B1970KalamazooMichiganKalamazoo= L.marker([42.2917,-85.5872], {icon: d}).bindPopup('Kalamazoo, Michigan<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Kalamazoo in d').addTo(B1970);
+const B1970MinneapolisMinnesotaMinneapolis= L.marker([44.9778,-93.265], {icon: d}).bindPopup('Minneapolis, Minnesota<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Minneapolis in d').addTo(B1970);
+const B1970StLouisMissouriStLouis= L.marker([38.627,-90.1994], {icon: d}).bindPopup('St. Louis, Missouri<br><span style=font-size:11px>(Black b. 1975-99)</span><br>St. Louis in d').addTo(B1970);
+const B1970JacksonMississippiJackson= L.marker([32.2988,-90.1848], {icon: d}).bindPopup('Jackson, Mississippi<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Jackson in d').addTo(B1970);
+const B1970OceanSpringsMississippiOceanSprings= L.marker([30.411,-88.8275], {icon: d}).bindPopup('Ocean Springs, Mississippi<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Ocean Springs in d').addTo(B1970);
+const B1970CharlotteNorthCarolinaCharlotte= L.marker([35.2271,-80.8431], {icon: d}).bindPopup('Charlotte, North Carolina<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Charlotte in d').addTo(B1970);
+const B1970DurhamRaleighNorthCarolinaDurhamRaleigh= L.marker([35.994,-78.8986], {icon: d}).bindPopup('Durham-Raleigh, North Carolina<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Durham-Raleigh in d').addTo(B1970);
+const B1970GreensboroNorthCarolinaGreensboro= L.marker([35.7796,-78.6382], {icon: d}).bindPopup('Greensboro, North Carolina<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Greensboro in d').addTo(B1970);
+const B1970LaurinburgNorthCarolinaLaurinburg= L.marker([36.0726,-79.792], {icon: d}).bindPopup('Laurinburg, North Carolina<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Laurinburg in d').addTo(B1970);
+const B1970MoorsevilleNorthCarolinaMoorseville= L.marker([34.7743,-79.4628], {icon: d}).bindPopup('Moorseville, North Carolina<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Moorseville in d').addTo(B1970);
+const B1970PinehurstNorthCarolinaPinehurst= L.marker([35.5849,-80.8101], {icon: d}).bindPopup('Pinehurst, North Carolina<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Pinehurst in d').addTo(B1970);
+const B1970SmithfieldNorthCarolinaSmithfield= L.marker([35.1954,-79.4692], {icon: d}).bindPopup('Smithfield, North Carolina<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Smithfield in d').addTo(B1970);
+const B1970WilsonNorthCarolinaWilson= L.marker([35.5085,-78.3397], {icon: d}).bindPopup('Wilson, North Carolina<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Wilson in d').addTo(B1970);
+const B1970PleasantvilleNewJerseyPleasantville= L.marker([35.7213,-77.9155], {icon: d}).bindPopup('Pleasantville, New Jersey<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Pleasantville in d').addTo(B1970);
+const B1970TeaneckNewJerseyTeaneck= L.marker([40.6082,-74.2776], {icon: d}).bindPopup('Teaneck, New Jersey<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Teaneck in d').addTo(B1970);
+const B1970NYCNewYorkNYC= L.marker([40.2171,-74.7429], {icon: d}).bindPopup('NYC, New York<br><span style=font-size:11px>(Black b. 1975-99)</span><br>NYC in d').addTo(B1970);
+const B1970TonawandaNewYorkTonawanda= L.marker([40.7128,-74.006], {icon: d}).bindPopup('Tonawanda, New York<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Tonawanda in d').addTo(B1970);
+const B1970WhitePlainsNewYorkWhitePlains= L.marker([43.0203,-78.8803], {icon: d}).bindPopup('White Plains, New York<br><span style=font-size:11px>(Black b. 1975-99)</span><br>White Plains in d').addTo(B1970);
+const B1970CantonOhioCanton= L.marker([41.033,-73.7629], {icon: d}).bindPopup('Canton, Ohio<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Canton in d').addTo(B1970);
+const B1970CincinattiOhioCincinatti= L.marker([40.7989,-81.3784], {icon: d}).bindPopup('Cincinatti, Ohio<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Cincinatti in d').addTo(B1970);
+const B1970ClevelandOhioCleveland= L.marker([39.1031,-84.512], {icon: d}).bindPopup('Cleveland, Ohio<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Cleveland in d').addTo(B1970);
+const B1970ColumbusOhioColumbus= L.marker([41.4993,-81.6944], {icon: d}).bindPopup('Columbus, Ohio<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Columbus in d').addTo(B1970);
+const B1970GahanaOhioGahana= L.marker([39.9612,-82.9988], {icon: d}).bindPopup('Gahana, Ohio<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Gahana in d').addTo(B1970);
+const B1970TulsaOklahomaTulsa= L.marker([40.0192,-82.8796], {icon: d}).bindPopup('Tulsa, Oklahoma<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Tulsa in d').addTo(B1970);
+const B1970CorvalisOregonCorvalis= L.marker([36.1536,-95.9928], {icon: d}).bindPopup('Corvalis, Oregon<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Corvalis in d').addTo(B1970);
+const B1970ParkesburgPennsylvaniaParkesburg= L.marker([44.5646,-123.262], {icon: d}).bindPopup('Parkesburg, Pennsylvania<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Parkesburg in d').addTo(B1970);
+const B1970PhiladelphiaPennsylvaniaPhiladelphia= L.marker([39.9587,-75.9186], {icon: d}).bindPopup('Philadelphia, Pennsylvania<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Philadelphia in d').addTo(B1970);
+const B1970BambergSouthCarolinaBamberg= L.marker([39.9526,-75.1652], {icon: d}).bindPopup('Bamberg, South Carolina<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Bamberg in d').addTo(B1970);
+const B1970GreenvilleSouthCarolinaGreenville= L.marker([33.2974,-81.0345], {icon: d}).bindPopup('Greenville, South Carolina<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Greenville in d').addTo(B1970);
+const B1970ArlingtonTexasArlington= L.marker([34.8526,-82.394], {icon: d}).bindPopup('Arlington, Texas<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Arlington in d').addTo(B1970);
+const B1970MemphisTennesseeMemphis= L.marker([32.7357,-97.1081], {icon: d}).bindPopup('Memphis, Tennessee<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Memphis in d').addTo(B1970);
+const B1970DFWTexasDFW= L.marker([35.1495,-90.049], {icon: d}).bindPopup('DFW, Texas<br><span style=font-size:11px>(Black b. 1975-99)</span><br>DFW in d').addTo(B1970);
+const B1970HoustonTexasHouston= L.marker([32.8998,-97.0403], {icon: d}).bindPopup('Houston, Texas<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Houston in d').addTo(B1970);
+const B1970AshburnVirginiaAshburn= L.marker([29.7604,-95.3698], {icon: d}).bindPopup('Ashburn, Virginia<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Ashburn in d').addTo(B1970);
+const B1970HalifaxCountyVirginiaHalifaxCounty= L.marker([39.0437,-77.4875], {icon: d}).bindPopup('Halifax County, Virginia<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Halifax County in d').addTo(B1970);
+const B1970NorfolkVirginiaNorfolk= L.marker([36.6982,-78.9288], {icon: d}).bindPopup('Norfolk, Virginia<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Norfolk in d').addTo(B1970);
+const B1970StaffordCountyVirginiaStaffordCounty= L.marker([36.8508,-76.2859], {icon: d}).bindPopup('Stafford County, Virginia<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Stafford County in d').addTo(B1970);
+const B1970SuffolkVirginiaSuffolk= L.marker([38.4335,-77.4083], {icon: d}).bindPopup('Suffolk, Virginia<br><span style=font-size:11px>(Black b. 1975-99)</span><br>Suffolk in d').addTo(B1970);
+const B1970LiberiaNorthCarolinaSpeaker147= L.marker([36.4385,-79.6878], {icon: d}).bindPopup('Liberia, North Carolina<br><span style=font-size:11px>(Black b. 1985)</span><br>Speaker 147 in d').addTo(B1970);
+const B1970EngelhardNorthCarolinaSpeaker156= L.marker([35.5082,-75.9949], {icon: d}).bindPopup('Engelhard, North Carolina<br><span style=font-size:11px>(Black b. 1981)</span><br>Speaker 156 in d').addTo(B1970);
+const B1970ColumbusOhioSpeaker157= L.marker([39.9612,-82.9988], {icon: d}).bindPopup('Columbus, Ohio<br><span style=font-size:11px>(Black b. 1970)</span><br>Speaker 157 in d').addTo(B1970);
+const B1970WashingtonDCDCsample= L.marker([39.5,-77], {icon: d}).bindPopup('Washington DC, DC<br><span style=font-size:11px>(Black b. 1975-99)</span><br>sample in d').addTo(B1970);
+const B1970BaltimoreMarylandsample= L.marker([39.41,-76.63], {icon: d}).bindPopup('Baltimore, Maryland<br><span style=font-size:11px>(Black b. 1975-99)</span><br>sample in d').addTo(B1970);
+const B1970PhiladelphiaPennsylvaniasample= L.marker([39.95,-75.15], {icon: d}).bindPopup('Philadelphia, Pennsylvania<br><span style=font-size:11px>(Black b. 1975-99)</span><br>sample in d').addTo(B1970);
+const B1970NewYorkCityNewYorksample= L.marker([41.2,-74.16], {icon: d}).bindPopup('New York City, New York<br><span style=font-size:11px>(Black b. 1975-99)</span><br>sample in d').addTo(B1970);
+const B1970BahamasBahamasdescription= L.marker([25.0343,-77.3963], {icon: d}).bindPopup('Bahamas, Bahamas<br><span style=font-size:11px>(Black b. 1975-99)</span><br>description in d').addTo(B1970);
+const L1950CueroTexasSpeaker172= L.marker([33.59,-96.23], {icon: d}).bindPopup('Cuero, Texas<br><span style=font-size:11px>(Hispanic b. 1920)</span><br>Speaker 172 in d').addTo(L1950);
+const L1950EdinburghTexasSpeaker173= L.marker([29.0924,-97.2894], {icon: d}).bindPopup('Edinburgh, Texas<br><span style=font-size:11px>(Hispanic b. 1936)</span><br>Speaker 173 in d').addTo(L1950);
+const L1950NewYorkNewYorksample= L.marker([40.712778,-74.006111], {icon: d}).bindPopup('New York, New York<br><span style=font-size:11px>Puerto Rican (Hispanic b. 1945-74)</span><br>sample in d').addTo(L1950);
+const L1950LiberalKansas= L.marker([26.3017,-98.1633], {icon: d}).bindPopup('Liberal, Kansas<br><span style=font-size:11px>(Hispanic b. 1945-74)</span><br> in d').addTo(L1950);
+const L1950RaleighNorthCarolina= L.marker([37.0436,-100.921], {icon: d}).bindPopup('Raleigh, North Carolina<br><span style=font-size:11px>(Hispanic b. 1945-74)</span><br> in d').addTo(L1950);
+const L1950DurhamNorthCarolina= L.marker([35.7796,-78.6382], {icon: d}).bindPopup('Durham, North Carolina<br><span style=font-size:11px>(Hispanic b. 1945-74)</span><br> in d').addTo(L1950);
+const L1950HickoryNorthCarolina= L.marker([35.994,-78.8986], {icon: d}).bindPopup('Hickory, North Carolina<br><span style=font-size:11px>(Hispanic b. 1945-74)</span><br> in d').addTo(L1950);
+const L1950NewYorkNewYork= L.marker([40.712778,-74.006111], {icon: d}).bindPopup('New York, New York<br><span style=font-size:11px>Puerto Rican (Hispanic b. 1945-74)</span><br> in d').addTo(L1950);
+const L1950DonnaTexasSpeaker174= L.marker([35.7332,-81.3412], {icon: d}).bindPopup('Donna, Texas<br><span style=font-size:11px>(Hispanic b. 1946)</span><br>Speaker 174 in d').addTo(L1950);
+const L1950CotulaTexasSpeaker175= L.marker([26.1704,-98.0522], {icon: d}).bindPopup('Cotula, Texas<br><span style=font-size:11px>(Hispanic b. 1950)</span><br>Speaker 175 in d').addTo(L1950);
+const L1950LaredoTexasSpeaker176= L.marker([28.4361,-99.2359], {icon: d}).bindPopup('Laredo, Texas<br><span style=font-size:11px>(Hispanic b. 1959)</span><br>Speaker 176 in d').addTo(L1950);
+const L1950SanAntonioTexasSpeaker177= L.marker([27.5306,-99.4803], {icon: d}).bindPopup('SanAntonio, Texas<br><span style=font-size:11px>(Hispanic b. 1961)</span><br>Speaker 177 in d').addTo(L1950);
+const L1950McAllenTexasSpeaker178= L.marker([29.4241,-98.4936], {icon: d}).bindPopup('McAllen, Texas<br><span style=font-size:11px>(Hispanic b. 1966)</span><br>Speaker 178 in d').addTo(L1950);
+const L1950SpringvilleTexasSpeaker179= L.marker([30.6744,-96.37], {icon: d}).bindPopup('Springville, Texas<br><span style=font-size:11px>(Hispanic b. 1970)</span><br>Speaker 179 in d').addTo(L1950);
+const L1950BovinaTexasSpeaker180= L.marker([26.2034,-98.23], {icon: d}).bindPopup('Bovina, Texas<br><span style=font-size:11px>(Hispanic b. 1970)</span><br>Speaker 180 in d').addTo(L1950);
+const L1950ElPasoTexasSpeaker182= L.marker([34.5165,-102.8857], {icon: d}).bindPopup('El Paso, Texas<br><span style=font-size:11px>(Hispanic b. 1972)</span><br>Speaker 182 in d').addTo(L1950);
+const L1950SnyderTexasSpeaker183= L.marker([31.7619,-106.485], {icon: d}).bindPopup('Snyder, Texas<br><span style=font-size:11px>(Hispanic b. 1973)</span><br>Speaker 183 in d').addTo(L1950);
+const L1970NYCLNewYorksample= L.marker([40.7128,-74.006], {icon: d}).bindPopup('NYCL, New York<br><span style=font-size:11px>(Hispanic b. 1975-99)</span><br>sample in d').addTo(L1970);
+const L1970ChicagoIllinoissample= L.marker([32.7171,-100.9176], {icon: d}).bindPopup('Chicago, Illinois<br><span style=font-size:11px>(Hispanic b. 1975-99)</span><br>sample in d').addTo(L1970);
+const L1970SanAntonioTexasSpeaker184= L.marker([41.8781,-87.6298], {icon: d}).bindPopup('San Antonio, Texas<br><span style=font-size:11px>(Hispanic b. 1978)</span><br>Speaker 184 in d').addTo(L1970);
+const L1970SilerCityNorthCarolinaSpeaker185= L.marker([35.7232,-79.4625], {icon: d}).bindPopup('Siler City, North Carolina<br><span style=font-size:11px>(Hispanic b. 1986)</span><br>Speaker 185 in d').addTo(L1970);
+const N1900LumbeeNorthCarolinaSpeaker189= L.marker([34.5723,-79.0177], {icon: d}).bindPopup('Lumbee, North Carolina<br><span style=font-size:11px>Lumbee (Indigenous b. 1919)</span><br>Speaker 189 in d').addTo(N1900);
+const N1900QuinaltIndianReservationWashingtonsample= L.marker([47.326944,-124.256111], {icon: d}).bindPopup('Quinalt Indian Reservation, Washington<br><span style=font-size:11px>Quinalt (Indigenous b. 1900-44)</span><br>sample in d').addTo(N1900);
+const N1950LumbeeNorthCarolinaSpeaker190= L.marker([34.5723,-79.0177], {icon: d}).bindPopup('Lumbee, North Carolina<br><span style=font-size:11px>Lumbee (Indigenous b. 1980)</span><br>Speaker 190 in d').addTo(N1950);
+const N1950CherokeeNorthCarolinaSpeaker191= L.marker([35.4745,-83.3143], {icon: d}).bindPopup('Cherokee, North Carolina<br><span style=font-size:11px>Cherokee (Indigenous b. 1953)</span><br>Speaker 191 in d').addTo(N1950);
+const N1950NavajoArizonaSpeaker192= L.marker([36.0678,-109.0452], {icon: d}).bindPopup('Navajo, Arizona<br><span style=font-size:11px>Navajo (Indigenous b. 1976)</span><br>Speaker 192 in d').addTo(N1950);
+const N1950TubaCityArizonasample= L.marker([36.125,-111.247222], {icon: d}).bindPopup('Tuba City, Arizona<br><span style=font-size:11px>Navajo and Western Apache (Indigenous b. 1945-74)</span><br>sample in d').addTo(N1950);
+const W1700PhiladelphiaPennsylvaniadescription= L.marker([39.95,-75.15], {icon: a}).bindPopup('Philadelphia, Pennsylvania<br><span style=font-size:11px>(White b. 1700-99)</span><br>description in a').addTo(W1700);
+const W1700HartfordConnecticutdescription= L.marker([41.98,-72.68], {icon: a}).bindPopup('Hartford, Connecticut<br><span style=font-size:11px>(White b. 1700-99)</span><br>description in a').addTo(W1700);
+const W1700WorcesterMassachusettsdescription= L.marker([42.45,-72.3], {icon: a}).bindPopup('Worcester, Massachusetts<br><span style=font-size:11px>(White b. 1700-99)</span><br>description in a').addTo(W1700);
+const W1700RowleyMassachusettsdescription= L.marker([42.72,-70.87], {icon: a}).bindPopup('Rowley, Massachusetts<br><span style=font-size:11px>(White b. 1700-99)</span><br>description in a').addTo(W1700);
+const W1850BelmontMassachusettsSpeaker4= L.marker([43.14,-71.21], {icon: b}).bindPopup('Belmont, Massachusetts<br><span style=font-size:11px>(White b. 1844)</span><br>Speaker 4 in b').addTo(W1850);
+const W1850WesternReserveOhiodescription= L.marker([41.238333,-80.814444], {icon: d}).bindPopup('Western Reserve, Ohio<br><span style=font-size:11px>(White b. 1845-74)</span><br>description in d').addTo(W1850);
+const W1850NewYorkCityNewYorkdescription= L.marker([41.2,-74.16], {icon: d}).bindPopup('New York City, New York<br><span style=font-size:11px>(White b. 1845-74)</span><br>description in d').addTo(W1850);
+const W1850SuffolkVirginiaSpeaker53= L.marker([37.54,-76.06], {icon: d}).bindPopup('Suffolk, Virginia<br><span style=font-size:11px>(White b. 1846)</span><br>Speaker 53 in d').addTo(W1850);
+const W1850WorthingtonOhioLANCSOH28A= L.marker([40.32,-82.84], {icon: b}).bindPopup('Worthington, Ohio<br><span style=font-size:11px>(White b. 1846)</span><br>LANCS OH28A in b').addTo(W1850);
+const W1850ReynoldsburgOhioLANCSOH28B= L.marker([40.32,-82.84], {icon: b}).bindPopup('Reynoldsburg, Ohio<br><span style=font-size:11px>(White b. 1854)</span><br>LANCS OH28B in b').addTo(W1850);
+const W1850IthicaNewYorkdescription= L.marker([43.05,-76.43], {icon: d}).bindPopup('Ithica, New York<br><span style=font-size:11px>(White b. 1845-74)</span><br>description in d').addTo(W1850);
+const W1850PennsylvaniaPennsylvaniadescription= L.marker([40.03,-75.15], {icon: d}).bindPopup('Pennsylvania, Pennsylvania<br><span style=font-size:11px>(White b. 1845-74)</span><br>description in d').addTo(W1850);
+const W1850MarylandMarylanddescription= L.marker([40.53,-75.35], {icon: d}).bindPopup('Maryland, Maryland<br><span style=font-size:11px>(White b. 1845-74)</span><br>description in d').addTo(W1850);
+const W1850ValleyofVirginiaVirginiadescription= L.marker([37.34,-76.65], {icon: d}).bindPopup('Valley of Virginia, Virginia<br><span style=font-size:11px>(White b. 1845-74)</span><br>description in d').addTo(W1850);
+const W1850WesternTennesseeTennesseedescription= L.marker([39.04,-86.82], {icon: d}).bindPopup('Western Tennessee, Tennessee<br><span style=font-size:11px>(White b. 1845-74)</span><br>description in d').addTo(W1850);
+const W1850CharlestonSouthCarolinadescription= L.marker([33.3,-80.53], {icon: d}).bindPopup('Charleston, South Carolina<br><span style=font-size:11px>(White b. 1845-74)</span><br>description in d').addTo(W1850);
+const W1850PortlandMainePEAS5= L.marker([43.66,-70.255], {icon: d}).bindPopup('Portland, Maine<br><span style=font-size:11px>(White b. 1865)</span><br>LANE 360.3 PEAS 5 in d').addTo(W1850);
+const W1850ConcordNewHampshirePEAS6= L.marker([43.53,-71.53], {icon: b}).bindPopup('Concord, New Hampshire<br><span style=font-size:11px>(White b. 1862)</span><br>LANE 315.1 PEAS 6 in b').addTo(W1850);
+const W1850BostonMassachusettsPEAS11= L.marker([42.69,-71.19], {icon: d}).bindPopup('Boston, Massachusetts<br><span style=font-size:11px>(White b. 1858)</span><br>LANE 150.4 PEAS 11 in d').addTo(W1850);
+const W1850ProvidenceRhodeIslandPEAS21= L.marker([42.2,-71.43], {icon: b}).bindPopup('Providence, Rhode Island<br><span style=font-size:11px>(White b. 1868)</span><br>LANE 80.2 PEAS 21 in b').addTo(W1850);
+const W1850GranbyMassachusettsPEAS26= L.marker([42.68,-72.54], {icon: d}).bindPopup('Granby, Massachusetts<br><span style=font-size:11px>(White b. 1858)</span><br>LANE 219.2 PEAS 26 in d').addTo(W1850);
+const W1850DeerfieldMassachusettsPEAS28= L.marker([42.83,-72.63], {icon: b}).bindPopup('Deerfield, Massachusetts<br><span style=font-size:11px>(White b. 1865)</span><br>LANE 228.2 PEAS 28 in b').addTo(W1850);
+const W1850LitchfieldConnecticutPEAS35= L.marker([42,-73.38], {icon: d}).bindPopup('Litchfield, Connecticut<br><span style=font-size:11px>(White b. 1856)</span><br>LANE 16.2 PEAS 35 in d').addTo(W1850);
+const W1850PittsfieldMassachusettsPEAS37= L.marker([42.64,-73.24], {icon: b}).bindPopup('Pittsfield, Massachusetts<br><span style=font-size:11px>(White b. 1846)</span><br>LANE 242.2 PEAS 37 in b').addTo(W1850);
+const W1850AlbanyNewYorkPEAS43= L.marker([42.82,-73.77], {icon: d}).bindPopup('Albany, New York<br><span style=font-size:11px>(White b. 1856)</span><br>LAMSAS INF0058(NY18C!) PEAS 43 in d').addTo(W1850);
+const W1850BrooklynNewYorkPEAS63= L.marker([40.84,-73.96], {icon: d}).bindPopup('Brooklyn, New York<br><span style=font-size:11px>(White b. 1872)</span><br>LAMSAS  PEAS 63 in d').addTo(W1850);
+const W1850HarrisburgPennsylvaniaPEAS75= L.marker([40.52,-76.91], {icon: d}).bindPopup('Harrisburg, Pennsylvania<br><span style=font-size:11px>(White b. 1871)</span><br>LAMSAS INF0264(PA9C!) PEAS 75 in d').addTo(W1850);
+const W1850ReadingPennsylvaniaPEAS76= L.marker([40.59,-75.97], {icon: d}).bindPopup('Reading, Pennsylvania<br><span style=font-size:11px>(White b. 1870)</span><br>LAMSAS INF0253(PA6D!) PEAS 76 in d').addTo(W1850);
+const W1850WheelingWestVirginiaPEAS88= L.marker([40.38,-80.69], {icon: d}).bindPopup('Wheeling, West Virginia<br><span style=font-size:11px>(White b. 1870)</span><br>LAMSAS INF0493(WV52C!) PEAS 88 in d').addTo(W1850);
+const W1850PointPleasantWestVirginiaPEAS92= L.marker([39.14,-82.18], {icon: d}).bindPopup('Point Pleasant, West Virginia<br><span style=font-size:11px>(White b. 1871)</span><br>LAMSAS INF0459(WV37B!) PEAS 92 in d').addTo(W1850);
+const W1850BaltimoreMarylandPEAS98= L.marker([39.41,-76.63], {icon: b}).bindPopup('Baltimore, Maryland<br><span style=font-size:11px>(White b. 1861)</span><br>LAMSAS INF0543(MD13E!) PEAS 98 in b').addTo(W1850);
+const W1850StaffordVirginiaPEAS106= L.marker([38.8,-77.46], {icon: d}).bindPopup('Stafford, Virginia<br><span style=font-size:11px>(White b. 1864)</span><br>LAMSAS INF0594(VA9B!) PEAS 106 in d').addTo(W1850);
+const W1850RichmondVirginiaPEAS111= L.marker([37.93,-77.44], {icon: d}).bindPopup('Richmond, Virginia<br><span style=font-size:11px>(White b. 1853)</span><br>LAMSAS INF0639(VA30D!) PEAS 111 in d').addTo(W1850);
+const W1850PetersburgVirginiaPEAS113= L.marker([37.52,-77.46], {icon: d}).bindPopup('Petersburg, Virginia<br><span style=font-size:11px>(White b. 1866)</span><br>LAMSAS INF0644(VA32C!) PEAS 113 in d').addTo(W1850);
+const W1850NewBernNorthCarolinaPEAS120= L.marker([35.5,-77.09], {icon: d}).bindPopup('New Bern, North Carolina<br><span style=font-size:11px>(White b. 1869)</span><br>LAMSAS INF0760(NC14C!) PEAS 120 in d').addTo(W1850);
+const W1850SavannahSouthCarolinaPEAS147= L.marker([32.48,-81.13], {icon: d}).bindPopup('Savannah, South Carolina<br><span style=font-size:11px>(White b. 1867)</span><br>LAMSAS INF1050(GA1F!) PEAS 147 in d').addTo(W1850);
+const W1850SanFranciscoCaliforniaFrankTracySwett= L.marker([38.37,-112.67], {icon: d}).bindPopup('San Francisco, California<br><span style=font-size:11px>(White b. 1873)</span><br>Frank Tracy Swett in d').addTo(W1850);
+const W1850PaipoongeTownshipOntarioLAUM3= L.marker([48.39,-89.52], {icon: d}).bindPopup('Paipoonge Township, Ontario<br><span style=font-size:11px>(White b. 1874)</span><br>LAUM 3 in d').addTo(W1850);
+const W1850DuluthMinnesotaLAUM15= L.marker([46.7867,-92.1005], {icon: d}).bindPopup('Duluth, Minnesota<br><span style=font-size:11px>(White b. 1871)</span><br>LAUM 15 in d').addTo(W1850);
+const W1850DuluthMinnesotaLAUM16= L.marker([46.7867,-92.1005], {icon: d}).bindPopup('Duluth, Minnesota<br><span style=font-size:11px>(White b. 1872)</span><br>LAUM 16 in d').addTo(W1850);
+const W1850FergusFallsMinnesotaLAUM19= L.marker([46.2839,-96.0801], {icon: d}).bindPopup('Fergus Falls, Minnesota<br><span style=font-size:11px>(White b. 1874)</span><br>LAUM 19 in d').addTo(W1850);
+const W1850BrainerdMinnesotaLAUM21= L.marker([46.3527,-94.202], {icon: d}).bindPopup('Brainerd, Minnesota<br><span style=font-size:11px>(White b. 1873)</span><br>LAUM 21 in d').addTo(W1850);
+const W1850MoraMinnesotaLAUM23= L.marker([45.8769,-93.2938], {icon: d}).bindPopup('Mora, Minnesota<br><span style=font-size:11px>(White b. 1872)</span><br>LAUM 23 in d').addTo(W1850);
+const W1850SaukCenterMinnesotaLAUM27= L.marker([45.7375,-94.9525], {icon: d}).bindPopup('Sauk Center, Minnesota<br><span style=font-size:11px>(White b. 1869)</span><br>LAUM 27 in d').addTo(W1850);
+const W1850MinneapolisMinnesotaLAUM31= L.marker([44.9777,-93.265], {icon: d}).bindPopup('Minneapolis, Minnesota<br><span style=font-size:11px>(White b. 1874)</span><br>LAUM 31 in d').addTo(W1850);
+const W1850MinneapolisMinnesotaLAUM32= L.marker([44.9777,-93.265], {icon: d}).bindPopup('Minneapolis, Minnesota<br><span style=font-size:11px>(White b. 1863)</span><br>LAUM 32 in d').addTo(W1850);
+const W1850LittleCanadaMinnesotaLAUM36= L.marker([45.0269,-93.0877], {icon: d}).bindPopup('Little Canada, Minnesota<br><span style=font-size:11px>(White b. 1873)</span><br>LAUM 36 in d').addTo(W1850);
+const W1850MarineonStCroixMinnesotaLAUM39= L.marker([45.1987,-92.7697], {icon: d}).bindPopup('Marine on St. Croix, Minnesota<br><span style=font-size:11px>(White b. 1864)</span><br>LAUM 39 in d').addTo(W1850);
+const W1850HutchinsonMinnesotaLAUM44= L.marker([44.8877,-94.3697], {icon: d}).bindPopup('Hutchinson, Minnesota<br><span style=font-size:11px>(White b. 1866)</span><br>LAUM 44 in d').addTo(W1850);
+const W1850HutchinsonMinnesotaLAUM45= L.marker([44.8877,-94.3697], {icon: d}).bindPopup('Hutchinson, Minnesota<br><span style=font-size:11px>(White b. 1872)</span><br>LAUM 45 in d').addTo(W1850);
+const W1850MarshallMinnesotaLAUM46= L.marker([44.4469,-95.7884], {icon: d}).bindPopup('Marshall, Minnesota<br><span style=font-size:11px>(White b. 1860)</span><br>LAUM 46 in d').addTo(W1850);
+const W1850FaribaultMinnesotaLAUM48= L.marker([44.295,-93.2688], {icon: d}).bindPopup('Faribault, Minnesota<br><span style=font-size:11px>(White b. 1872)</span><br>LAUM 48 in d').addTo(W1850);
+const W1850MankatoMinnesotaLAUM51= L.marker([44.166,-94.0092], {icon: d}).bindPopup('Mankato, Minnesota<br><span style=font-size:11px>(White b. 1870)</span><br>LAUM 51 in d').addTo(W1850);
+const W1850MankatoMinnesotaLAUM52= L.marker([44.166,-94.0092], {icon: d}).bindPopup('Mankato, Minnesota<br><span style=font-size:11px>(White b. 1867)</span><br>LAUM 52 in d').addTo(W1850);
+const W1850RedwingMinnesotaLAUM55= L.marker([44.5625,-92.5338], {icon: d}).bindPopup('Redwing, Minnesota<br><span style=font-size:11px>(White b. 1868)</span><br>LAUM 55 in d').addTo(W1850);
+const W1850WinonaMinnesotaLAUM56= L.marker([44.05,-91.6333], {icon: d}).bindPopup('Winona, Minnesota<br><span style=font-size:11px>(White b. 1859)</span><br>LAUM 56 in d').addTo(W1850);
+const W1850WorthingtonMinnesotaLAUM59= L.marker([43.6211,-95.5941], {icon: d}).bindPopup('Worthington, Minnesota<br><span style=font-size:11px>(White b. 1864)</span><br>LAUM 59 in d').addTo(W1850);
+const W1850AlbertLeaMinnesotaLAUM62= L.marker([43.6478,-93.3687], {icon: d}).bindPopup('Albert Lea, Minnesota<br><span style=font-size:11px>(White b. 1861)</span><br>LAUM 62 in d').addTo(W1850);
+const W1850SpringValleyMinnesotaLAUM65= L.marker([43.6855,-92.3868], {icon: d}).bindPopup('Spring Valley, Minnesota<br><span style=font-size:11px>(White b. 1859)</span><br>LAUM 65 in d').addTo(W1850);
+const W1850EstervilleIowaLAUM103= L.marker([43.4035,-94.843323], {icon: d}).bindPopup('Esterville, Iowa<br><span style=font-size:11px>(White b. 1872)</span><br>LAUM 103 in d').addTo(W1850);
+const W1850DecorahIowaLAUM107= L.marker([43.303307,-91.785706], {icon: d}).bindPopup('Decorah, Iowa<br><span style=font-size:11px>(White b. 1863)</span><br>LAUM 107 in d').addTo(W1850);
+const W1850FondaIowaLAUM113= L.marker([42.58278,-94.84583], {icon: d}).bindPopup('Fonda, Iowa<br><span style=font-size:11px>(White b. 1870)</span><br>LAUM 113 in d').addTo(W1850);
+const W1850BlairsburgIowaLAUM114= L.marker([42.47944,-93.64167], {icon: d}).bindPopup('Blairsburg, Iowa<br><span style=font-size:11px>(White b. 1872)</span><br>LAUM 114 in d').addTo(W1850);
+const W1850JanesvilleIowaLAUM116= L.marker([42.6439,-92.4652], {icon: d}).bindPopup('Janesville, Iowa<br><span style=font-size:11px>(White b. 1868)</span><br>LAUM 116 in d').addTo(W1850);
+const W1850EpworthIowaLAUM119= L.marker([42.44509,-90.93188], {icon: d}).bindPopup('Epworth, Iowa<br><span style=font-size:11px>(White b. 1874)</span><br>LAUM 119 in d').addTo(W1850);
+const W1850DubuqueIowaLAUM120= L.marker([42.516033,-90.718506], {icon: d}).bindPopup('Dubuque, Iowa<br><span style=font-size:11px>(White b. 1833)</span><br>LAUM 120 in d').addTo(W1850);
+const W1850OnowaIowaLAUM122= L.marker([42.026653,-96.097237], {icon: d}).bindPopup('Onowa, Iowa<br><span style=font-size:11px>(White b. 1872)</span><br>LAUM 122 in d').addTo(W1850);
+const W1850DesMoinesIowaLAUM129= L.marker([41.619549,-93.598022], {icon: d}).bindPopup('Des Moines, Iowa<br><span style=font-size:11px>(White b. 1869)</span><br>LAUM 129 in d').addTo(W1850);
+const W1850LaurelIowaLAUM132= L.marker([41.8841565,-92.9221412], {icon: d}).bindPopup('Laurel, Iowa<br><span style=font-size:11px>(White b. 1866)</span><br>LAUM 132 in d').addTo(W1850);
+const W1850OskaloosaIowaLAUM135= L.marker([41.299023,-92.653198], {icon: d}).bindPopup('Oskaloosa, Iowa<br><span style=font-size:11px>(White b. 1862)</span><br>LAUM 135 in d').addTo(W1850);
+const W1850WestBranchIowaLAUM137= L.marker([41.67141,-91.34662], {icon: d}).bindPopup('West Branch, Iowa<br><span style=font-size:11px>(White b. 1873)</span><br>LAUM 137 in d').addTo(W1850);
+const W1850SolonIowaLAUM138= L.marker([41.8072344,-91.4940604], {icon: d}).bindPopup('Solon, Iowa<br><span style=font-size:11px>(White b. 1869)</span><br>LAUM 138 in d').addTo(W1850);
+const W1850MaquoketaIowaLAUM139= L.marker([42.068909,-90.665691], {icon: d}).bindPopup('Maquoketa, Iowa<br><span style=font-size:11px>(White b. 1866)</span><br>LAUM 139 in d').addTo(W1850);
+const W1850PrincetonIowaLAUM141= L.marker([41.67475,-90.34041], {icon: d}).bindPopup('Princeton, Iowa<br><span style=font-size:11px>(White b. 1874)</span><br>LAUM 141 in d').addTo(W1850);
+const W1850ClarindaIowaLAUM142= L.marker([40.741935,-95.038313], {icon: d}).bindPopup('Clarinda, Iowa<br><span style=font-size:11px>(White b. 1869)</span><br>LAUM 142 in d').addTo(W1850);
+const W1850BloomfieldIowaLAUM146= L.marker([40.751122,-92.417007], {icon: d}).bindPopup('Bloomfield, Iowa<br><span style=font-size:11px>(White b. 1872)</span><br>LAUM 146 in d').addTo(W1850);
+const W1850GriswoldIowaLAUM151= L.marker([41.235278,-95.140556], {icon: d}).bindPopup('Griswold, Iowa<br><span style=font-size:11px>(White b. 1865)</span><br>LAUM 151 in d').addTo(W1850);
+const W1850IowaCityIowaLAUM152= L.marker([41.66113,-91.53017], {icon: d}).bindPopup('Iowa City, Iowa<br><span style=font-size:11px>(White b. 1868)</span><br>LAUM 152 in d').addTo(W1850);
+const W1850RollaNorthDakotaLAUM204= L.marker([48.859722,-99.618056], {icon: d}).bindPopup('Rolla, North Dakota<br><span style=font-size:11px>(White b. 1871)</span><br>LAUM 204 in d').addTo(W1850);
+const W1850PembinaNorthDakotaLAUM207= L.marker([48.9664,-97.2437], {icon: d}).bindPopup('Pembina, North Dakota<br><span style=font-size:11px>(White b. 1872)</span><br>LAUM 207 in d').addTo(W1850);
+const W1850FargoNorthDakotaLAUM220= L.marker([46.87,-96.83], {icon: d}).bindPopup('Fargo, North Dakota<br><span style=font-size:11px>(White b. 1868)</span><br>LAUM 220 in d').addTo(W1850);
+const W1850FtPierreSouthDakotaLAUM314= L.marker([44.367778,-100.383056], {icon: d}).bindPopup('Ft. Pierre, South Dakota<br><span style=font-size:11px>(White b. 1867)</span><br>LAUM 314 in d').addTo(W1850);
+const W1850BrookingsSouthDakotaLAUM317= L.marker([44.30215,-96.786311], {icon: d}).bindPopup('Brookings, South Dakota<br><span style=font-size:11px>(White b. 1870)</span><br>LAUM 317 in d').addTo(W1850);
+const W1850AlexandriaSouthDakotaLAUM327= L.marker([43.654167,-97.78], {icon: d}).bindPopup('Alexandria, South Dakota<br><span style=font-size:11px>(White b. 1873)</span><br>LAUM 327 in d').addTo(W1850);
+const W1850ValentineNebraskaLAUM403= L.marker([42.8731,-100.5506], {icon: d}).bindPopup('Valentine, Nebraska<br><span style=font-size:11px>(White b. 1871)</span><br>LAUM 403 in d').addTo(W1850);
+const W1850HartingtonNebraskaLAUM407= L.marker([42.6225,-97.2645], {icon: d}).bindPopup('Hartington, Nebraska<br><span style=font-size:11px>(White b. 1874)</span><br>LAUM 407 in d').addTo(W1850);
+const W1850BurwellNebraskaLAUM413= L.marker([41.7817,-99.1332], {icon: d}).bindPopup('Burwell, Nebraska<br><span style=font-size:11px>(White b. 1871)</span><br>LAUM 413 in d').addTo(W1850);
+const W1850NorfolkNebraskaLAUM415= L.marker([42.0283,-97.417], {icon: d}).bindPopup('Norfolk, Nebraska<br><span style=font-size:11px>(White b. 1870)</span><br>LAUM 415 in d').addTo(W1850);
+const W1850GrandIslandNebraskaLAUM422= L.marker([40.93,-98.34], {icon: d}).bindPopup('Grand Island, Nebraska<br><span style=font-size:11px>(White b. 1873)</span><br>LAUM 422 in d').addTo(W1850);
+const W1850LincolnNebraskaLAUM424= L.marker([40.8,-96.667], {icon: d}).bindPopup('Lincoln, Nebraska<br><span style=font-size:11px>(White b. 1866)</span><br>LAUM 424 in d').addTo(W1850);
+const W1850HumboldtNebraskaLAUM434= L.marker([40.165,-95.9458], {icon: d}).bindPopup('Humboldt, Nebraska<br><span style=font-size:11px>(White b. 1871)</span><br>LAUM 434 in d').addTo(W1850);
+const W1850HumboldtNebraskaLAUM435= L.marker([40.165,-95.9458], {icon: d}).bindPopup('Humboldt, Nebraska<br><span style=font-size:11px>(White b. 1865)</span><br>LAUM 435 in d').addTo(W1850);
+const W1850ElburnIllinoisLANCSIL10A= L.marker([41.8922,-88.4723], {icon: d}).bindPopup(' Elburn, Illinois<br><span style=font-size:11px>(White b. 1859)</span><br>LANCS IL10A in d').addTo(W1850);
+const W1850ParkRidgeIllinoisLANCSIL12A= L.marker([42.0111,-87.8406], {icon: d}).bindPopup(' Park Ridge, Illinois<br><span style=font-size:11px>(White b. 1870)</span><br>LANCS IL12A in d').addTo(W1850);
+const W1850FreeportIllinoisLANCSIL2= L.marker([42.2967,-89.6212], {icon: d}).bindPopup(' Freeport, Illinois<br><span style=font-size:11px>(White b. 1873)</span><br>LANCS IL2 in d').addTo(W1850);
+const W1850OquawkaIllinoisLANCSIL20A= L.marker([40.562,-90.5657], {icon: d}).bindPopup(' Oquawka, Illinois<br><span style=font-size:11px>(White b. 1864)</span><br>LANCS IL20A in d').addTo(W1850);
+const W1850NauvooIllinoisLANCSIL30A= L.marker([40.55,-91.3849], {icon: d}).bindPopup(' Nauvoo, Illinois<br><span style=font-size:11px>(White b. 1866)</span><br>LANCS IL30A in d').addTo(W1850);
+const W1850BeardstownIllinoisLANCSIL38A= L.marker([40.0175,-90.4243], {icon: d}).bindPopup(' Beardstown, Illinois<br><span style=font-size:11px>(White b. 1864)</span><br>LANCS IL38A in d').addTo(W1850);
+const W1850StoningtonIllinoisLANCSIL40= L.marker([39.64,-89.1929], {icon: d}).bindPopup(' Stonington, Illinois<br><span style=font-size:11px>(White b. 1863)</span><br>LANCS IL40 in d').addTo(W1850);
+const W1850ParisIllinoisLANCSIL42A= L.marker([39.6111,-87.6961], {icon: d}).bindPopup(' Paris, Illinois<br><span style=font-size:11px>(White b. 1859)</span><br>LANCS IL42A in d').addTo(W1850);
+const W1850EdwardsvilleIllinoisLANCSIL44A= L.marker([38.8114,-89.9532], {icon: d}).bindPopup(' Edwardsville, Illinois<br><span style=font-size:11px>(White b. 1866)</span><br>LANCS IL44A in d').addTo(W1850);
+const W1850PinhookIllinoisLANCSIL46A= L.marker([38.9116,-89.0332], {icon: d}).bindPopup(' Pinhook, Illinois<br><span style=font-size:11px>(White b. 1873)</span><br>LANCS IL46A in d').addTo(W1850);
+const W1850AlbionIllinoisLANCSIL50A= L.marker([38.3775,-88.0561], {icon: d}).bindPopup(' Albion, Illinois<br><span style=font-size:11px>(White b. 1853)</span><br>LANCS IL50A in d').addTo(W1850);
+const W1850HerrinIllinoisLANCSIL54= L.marker([37.8031,-89.0276], {icon: d}).bindPopup(' Herrin, Illinois<br><span style=font-size:11px>(White b. 1865)</span><br>LANCS IL54 in d').addTo(W1850);
+const W1850ThebesIllinoisLANCSIL56A= L.marker([37.2209,-89.4609], {icon: d}).bindPopup(' Thebes, Illinois<br><span style=font-size:11px>(White b. 1869)</span><br>LANCS IL56A in d').addTo(W1850);
+const W1850GolcondaIllinoisLANCSIL58A= L.marker([37.215,-88.2912], {icon: d}).bindPopup(' Golconda, Illinois<br><span style=font-size:11px>(White b. 1860)</span><br>LANCS IL58A in d').addTo(W1850);
+const W1850AmboyIllinoisLANCSIL8B= L.marker([41.7142,-89.3287], {icon: d}).bindPopup(' Amboy, Illinois<br><span style=font-size:11px>(White b. 1859)</span><br>LANCS IL8B in d').addTo(W1850);
+const W1850GraysonKentuckyLANCSKY10B= L.marker([38.3326,-82.9485], {icon: d}).bindPopup(' Grayson, Kentucky<br><span style=font-size:11px>(White b. 1868)</span><br>LANCS KY10B in d').addTo(W1850);
+const W1850ShrewsburyKentuckyLANCSKY12A= L.marker([37.3789,-86.3847], {icon: d}).bindPopup(' Shrewsbury, Kentucky<br><span style=font-size:11px>(White b. 1863)</span><br>LANCS KY12A in d').addTo(W1850);
+const W1850DixvilleKentuckyLANCSKY16A= L.marker([37.7059,-84.948], {icon: d}).bindPopup('Dixville, Kentucky<br><span style=font-size:11px>(White b. 1870)</span><br>LANCS KY16A in d').addTo(W1850);
+const W1850FrenchburgKentuckyLANCSKY20A= L.marker([37.9509,-83.6257], {icon: d}).bindPopup(' Frenchburg, Kentucky<br><span style=font-size:11px>(White b. 1866)</span><br>LANCS KY20A in d').addTo(W1850);
+const W1850BlueSpringKentuckyLANCSKY24A= L.marker([36.8289,-87.9375], {icon: d}).bindPopup(' Blue Spring, Kentucky<br><span style=font-size:11px>(White b. 1866)</span><br>LANCS KY24A in d').addTo(W1850);
+const W1850HollandKentuckyLANCSKY26A= L.marker([36.6989,-86.0683], {icon: d}).bindPopup(' Holland, Kentucky<br><span style=font-size:11px>(White b. 1870)</span><br>LANCS KY26A in d').addTo(W1850);
+const W1850WilliamsburgKentuckyLANCSKY28C= L.marker([36.7434,-84.1597], {icon: d}).bindPopup(' Williamsburg, Kentucky<br><span style=font-size:11px>(White b. 1870)</span><br>LANCS KY28C in d').addTo(W1850);
+const W1850BoonevilleKentuckyLANCSKY30A= L.marker([37.4762,-83.6749], {icon: d}).bindPopup(' Booneville, Kentucky<br><span style=font-size:11px>(White b. 1850)</span><br>LANCS KY30A in d').addTo(W1850);
+const W1850LineforkKentuckyLANCSKY34A= L.marker([37.0198,-82.9596], {icon: d}).bindPopup(' Linefork, Kentucky<br><span style=font-size:11px>(White b. 1865)</span><br>LANCS KY34A in d').addTo(W1850);
+const W1850MontereyKentuckyLANCSKY8B= L.marker([38.2521,-84.5221], {icon: d}).bindPopup(' Monterey, Kentucky<br><span style=font-size:11px>(White b. 1870)</span><br>LANCS KY8B in d').addTo(W1850);
+const W1850SummitMichiganLANCSMI10A= L.marker([43.5052,-86.2454], {icon: d}).bindPopup(' Summit, Michigan<br><span style=font-size:11px>(White b. 1868)</span><br>LANCS MI10A in d').addTo(W1850);
+const W1850IsabellaMichiganLANCSMI14A= L.marker([43.6917,-84.7942], {icon: d}).bindPopup(' Isabella, Michigan<br><span style=font-size:11px>(White b. 1873)</span><br>LANCS MI14A in d').addTo(W1850);
+const W1850BurnsMichiganLANCSMI18A= L.marker([42.494,-83.5855], {icon: d}).bindPopup(' Burns, Michigan<br><span style=font-size:11px>(White b. 1864)</span><br>LANCS MI18A in d').addTo(W1850);
+const W1850ChinaMichiganLANCSMI20A= L.marker([42.7572,-82.5402], {icon: d}).bindPopup(' China, Michigan<br><span style=font-size:11px>(White b. 1861)</span><br>LANCS MI20A in d').addTo(W1850);
+const W1850HowellMichiganLANCSMI22= L.marker([42.6073,-83.9294], {icon: d}).bindPopup(' Howell, Michigan<br><span style=font-size:11px>(White b. 1855)</span><br>LANCS MI22 in d').addTo(W1850);
+const W1850MarengoMichiganLANCSMI26A= L.marker([42.2994,-84.8776], {icon: d}).bindPopup(' Marengo, Michigan<br><span style=font-size:11px>(White b. 1867)</span><br>LANCS MI26A in d').addTo(W1850);
+const W1850AdrianMichiganLANCSMI28A= L.marker([41.8975,-84.0372], {icon: d}).bindPopup(' Adrian, Michigan<br><span style=font-size:11px>(White b. 1868)</span><br>LANCS MI28A in d').addTo(W1850);
+const W1850DundeeMichiganLANCSMI30A= L.marker([41.9573,-83.6597], {icon: d}).bindPopup(' Dundee, Michigan<br><span style=font-size:11px>(White b. 1846)</span><br>LANCS MI30A in d').addTo(W1850);
+const W1850WellsMichiganLANCSMI4A= L.marker([45.4641,-87.0702], {icon: d}).bindPopup(' Wells, Michigan<br><span style=font-size:11px>(White b. 1866)</span><br>LANCS MI4A in d').addTo(W1850);
+const W1850StJamesMichiganLANCSMI6A= L.marker([45.7454,-85.5226], {icon: d}).bindPopup(' St. James, Michigan<br><span style=font-size:11px>(White b. 1867)</span><br>LANCS MI6A in d').addTo(W1850);
+const W1850OldMissionMichiganLANCSMI8A= L.marker([44.9622,-85.4854], {icon: d}).bindPopup(' Old Mission, Michigan<br><span style=font-size:11px>(White b. 1870)</span><br>LANCS MI8A in d').addTo(W1850);
+const W1870ColumbusOhioLANCSOH28C = L.marker([40.32,-82.84], {icon: d}).bindPopup('Columbus, Ohio<br><span style=font-size:11px>(White b. 1896)</span><br>LANCS OH28C  in d').addTo(W1870);
+const W1870AtlantaGeorgiaPEAS157= L.marker([35.81,-84.13], {icon: d}).bindPopup('Atlanta, Georgia<br><span style=font-size:11px>(White b. 1873)</span><br>LAMSAS INF1140(GA37H!) PEAS 157 in d').addTo(W1870);
+const W1870NobleboroMainePEAS3= L.marker([44.27,-69.46], {icon: b}).bindPopup('Nobleboro, Maine<br><span style=font-size:11px>(White b. 1882)</span><br>LANE 384.2 PEAS 3 in b').addTo(W1870);
+const W1870BillericaMassachusettsPEAS8= L.marker([42.78,-71.3], {icon: b}).bindPopup('Billerica, Massachusetts<br><span style=font-size:11px>(White b. 1883)</span><br>LANE 160.2 PEAS 8 in b').addTo(W1870);
+const W1870PlymouthMassachusettsPEAS13= L.marker([42.11,-70.66], {icon: b}).bindPopup('Plymouth, Massachusetts<br><span style=font-size:11px>(White b. 1889)</span><br>LANE 112.2 PEAS 13 in b').addTo(W1870);
+const W1870NewportRhodeIslandPEAS17= L.marker([41.64,-71.32], {icon: b}).bindPopup('Newport, Rhode Island<br><span style=font-size:11px>(White b. 1880)</span><br>LANE 60.2 PEAS 17 in b').addTo(W1870);
+const W1870NewLondonConnecticutPEAS19= L.marker([41.58,-72.14], {icon: b}).bindPopup('New London, Connecticut<br><span style=font-size:11px>(White b. 1881)</span><br>LANE 32.2 PEAS 19 in b').addTo(W1870);
+const W1870NorthamptonMassachusettsPEAS27= L.marker([42.2,-72.39], {icon: b}).bindPopup('Northampton, Massachusetts<br><span style=font-size:11px>(White b. 1880)</span><br>LANE 226.2 PEAS 27 in b').addTo(W1870);
+const W1870NewHavenConnecticutPEAS32= L.marker([41.5,-73.53], {icon: b}).bindPopup('New Haven, Connecticut<br><span style=font-size:11px>(White b. 1886)</span><br>LANE 26.2 PEAS 32 in b').addTo(W1870);
+const W1870BurlingtonVermontPEAS39= L.marker([44.63,-73.23], {icon: d}).bindPopup('Burlington, Vermont<br><span style=font-size:11px>(White b. 1892)</span><br>LANE 280.3 PEAS 39 in d').addTo(W1870);
+const W1870PoughkeepsieNewYorkPEAS41= L.marker([41.87,-73.9], {icon: d}).bindPopup('Poughkeepsie, New York<br><span style=font-size:11px>(White b. 1875)</span><br>LAMSAS INF0045(NY12C!) PEAS 41 in d').addTo(W1870);
+const W1870FortEdwardNewYorkPEAS44= L.marker([43.39,-73.56], {icon: d}).bindPopup('Fort Edward, New York<br><span style=font-size:11px>(White b. 1879)</span><br>LAMSAS INF0068(NY24B!) PEAS 44 in d').addTo(W1870);
+const W1870UticaNewYorkPEAS45= L.marker([43.29,-75.24], {icon: d}).bindPopup('Utica, New York<br><span style=font-size:11px>(White b. 1889)</span><br>LAMSAS INF0106(NY37C!) PEAS 45 in d').addTo(W1870);
+const W1870BinghamtonNewYorkPEAS48= L.marker([42.28,-75.89], {icon: d}).bindPopup('Binghamton, New York<br><span style=font-size:11px>(White b. 1894)</span><br>LAMSAS INF0119(NY43C!) PEAS 48 in d').addTo(W1870);
+const W1870RochesterNewYorkPEAS53= L.marker([43.31,-77.61], {icon: d}).bindPopup('Rochester, New York<br><span style=font-size:11px>(White b. 1884)</span><br>LAMSAS INF0164(NY58E!) PEAS 53 in d').addTo(W1870);
+const W1870OrchardParkNewYorkPEAS56= L.marker([42.95,-78.72], {icon: d}).bindPopup('Orchard Park, New York<br><span style=font-size:11px>(White b. 1876)</span><br>LAMSAS INF0175(NY62D!) PEAS 56 in d').addTo(W1870);
+const W1870ManhattanNewYorkPEAS60= L.marker([40.95,-73.97], {icon: d}).bindPopup('Manhattan, New York<br><span style=font-size:11px>(White b. 1880)</span><br>LAMSAS INF0033(NY7K!) PEAS 60 in d').addTo(W1870);
+const W1870ManhattanNewYorkPEAS62= L.marker([40.95,-73.97], {icon: d}).bindPopup('Manhattan, New York<br><span style=font-size:11px>(White b. 1878)</span><br>LAMSAS INF0035(NY7M!) PEAS 62 in d').addTo(W1870);
+const W1870JerseyCityNewJerseyPEAS65= L.marker([40.81,-74.01], {icon: d}).bindPopup('Jersey City, New Jersey<br><span style=font-size:11px>(White b. 1876)</span><br>LAMSAS INF0225(NJ19B!) PEAS 65 in d').addTo(W1870);
+const W1870PhiladelphiaPennsylvaniaPEAS72= L.marker([40.03,-75.15], {icon: d}).bindPopup('Philadelphia, Pennsylvania<br><span style=font-size:11px>(White b. 1880)</span><br>LAMSAS INF0235(PA1F!) PEAS 72 in d').addTo(W1870);
+const W1870WilliamsburgPennsylvaniaPEAS79= L.marker([40.57,-78.2], {icon: d}).bindPopup('Williamsburg, Pennsylvania<br><span style=font-size:11px>(White b. 1889)</span><br>LAMSAS INF0304(PA28B!) PEAS 79 in d').addTo(W1870);
+const W1870CassvillePennsylvaniaPEAS80= L.marker([40.39,-78.03], {icon: e}).bindPopup('Cassville, Pennsylvania<br><span style=font-size:11px>(White b. 1903)</span><br>LAMSAS INF0316(PA34B!) PEAS 80 in e').addTo(W1870);
+const W1870SummervillePennsylvaniaPEAS82= L.marker([41.22,-79.18], {icon: e}).bindPopup('Summerville, Pennsylvania<br><span style=font-size:11px>(White b. 1899)</span><br>LAMSAS INF0371(PA59B!) PEAS 82 in e').addTo(W1870);
+const W1870ElizabethPennsylvaniaPEAS85= L.marker([40.37,-79.88], {icon: e}).bindPopup('Elizabeth, Pennsylvania<br><span style=font-size:11px>(White b. 1893)</span><br>LAMSAS INF0353(PA50C!) PEAS 85 in e').addTo(W1870);
+const W1870CharlestonWestVirginiaPEAS91= L.marker([38.48,-81.64], {icon: d}).bindPopup('Charleston, West Virginia<br><span style=font-size:11px>(White b. 1895)</span><br>LAMSAS INF0464(WV39C!) PEAS 91 in d').addTo(W1870);
+const W1870BaltimoreMarylandPEAS99= L.marker([39.35,-76.61], {icon: b}).bindPopup('Baltimore, Maryland<br><span style=font-size:11px>(White b. 1892)</span><br>LAMSAS INF0540(MD13B!) PEAS 99 in b').addTo(W1870);
+const W1870AnnapolisMarylandPEAS100= L.marker([39.03,-76.5], {icon: d}).bindPopup('Annapolis, Maryland<br><span style=font-size:11px>(White b. 1904)</span><br>LAMSAS INF0558(MD20C!) PEAS 100 in d').addTo(W1870);
+const W1870GeorgetownDCPEAS102= L.marker([38.97,-77.07], {icon: d}).bindPopup('Georgetown, DC<br><span style=font-size:11px>(White b. 1886)</span><br>LAMSAS INF0576(DC1B!) PEAS 102 in d').addTo(W1870);
+const W1870AlexandriaVirginiaPEAS103= L.marker([39.16,-77.07], {icon: d}).bindPopup('Alexandria, Virginia<br><span style=font-size:11px>(White b. 1890)</span><br>LAMSAS  PEAS 103 in d').addTo(W1870);
+const W1870WinchesterVirginiaPEAS105= L.marker([39.46,-78.18], {icon: d}).bindPopup('Winchester, Virginia<br><span style=font-size:11px>(White b. 1880)</span><br>LAMSAS INF0684(VA52C!) PEAS 105 in d').addTo(W1870);
+const W1870WiconicoChurchVirginiaPEAS108= L.marker([37.9,-76.38], {icon: d}).bindPopup('Wiconico Church, Virginia<br><span style=font-size:11px>(White b. 1890)</span><br>LAMSAS INF0606(VA14C!) PEAS 108 in d').addTo(W1870);
+const W1870RichmondVirginiaPEAS112= L.marker([37.62,-77.45], {icon: d}).bindPopup('Richmond, Virginia<br><span style=font-size:11px>(White b. 1887)</span><br>LAMSAS  PEAS 112 in d').addTo(W1870);
+const W1870NorfolkVirginiaPEAS114= L.marker([36.96,-76.32], {icon: d}).bindPopup('Norfolk, Virginia<br><span style=font-size:11px>(White b. 1888)</span><br>LAMSAS INF0655(VA39!) PEAS 114 in d').addTo(W1870);
+const W1870LynchburgVirginiaPEAS115= L.marker([37.5,-79.14], {icon: d}).bindPopup('Lynchburg, Virginia<br><span style=font-size:11px>(White b. 1880)</span><br>LAMSAS INF0671(VA46B!) PEAS 115 in d').addTo(W1870);
+const W1870LexingtonVirginiaPEAS117= L.marker([37.88,-79.45], {icon: d}).bindPopup('Lexington, Virginia<br><span style=font-size:11px>(White b. 1881)</span><br>LAMSAS INF0701(VA61B!) PEAS 117 in d').addTo(W1870);
+const W1870RoanokeVirginiaPEAS118= L.marker([37.36,-79.97], {icon: d}).bindPopup('Roanoke, Virginia<br><span style=font-size:11px>(White b. 1900)</span><br>LAMSAS INF0711(VA65C!) PEAS 118 in d').addTo(W1870);
+const W1870EdentonNorthCarolinaPEAS119= L.marker([36.67,-76.72], {icon: d}).bindPopup('Edenton, North Carolina<br><span style=font-size:11px>(White b. 1879)</span><br>LAMSAS INF0740(NC6!) PEAS 119 in d').addTo(W1870);
+const W1870WilmingtonNorthCarolinaPEAS121= L.marker([34.21,-77.886667], {icon: d}).bindPopup('Wilmington, North Carolina<br><span style=font-size:11px>(White b. 1887)</span><br>LAMSAS INF0781(NC23C!) PEAS 121 in d').addTo(W1870);
+const W1870FayettevilleNorthCarolinaPEAS123= L.marker([35.44,-78.95], {icon: d}).bindPopup('Fayetteville, North Carolina<br><span style=font-size:11px>(White b. 1898)</span><br>LAMSAS INF0791(NC26C!) PEAS 123 in d').addTo(W1870);
+const W1870RaleighNorthCarolinaPEAS126= L.marker([36.07,-78.6], {icon: d}).bindPopup('Raleigh, North Carolina<br><span style=font-size:11px>(White b. 1883)</span><br>LAMSAS INF0823(NC41!) PEAS 126 in d').addTo(W1870);
+const W1870CharlotteNorthCarolinaPEAS128= L.marker([35.58,-80.83], {icon: d}).bindPopup('Charlotte, North Carolina<br><span style=font-size:11px>(White b. 1890)</span><br>LAMSAS INF0850(NC56B!) PEAS 128 in d').addTo(W1870);
+const W1870AshevilleNorthCarolinaPEAS129= L.marker([35.86,-82.56], {icon: d}).bindPopup('Asheville, North Carolina<br><span style=font-size:11px>(White b. 1887)</span><br>LAMSAS INF0879(NC71C!) PEAS 129 in d').addTo(W1870);
+const W1870PawleysIslandSouthCarolinaPEAS130= L.marker([33.74,-79.12], {icon: d}).bindPopup('Pawleys Island, South Carolina<br><span style=font-size:11px>(White b. 1896)</span><br>LAMSAS INF0906(SC6C!) PEAS 130 in d').addTo(W1870);
+const W1870GeorgetownSCSouthCarolinaPEAS131= L.marker([33.56,-79.32], {icon: d}).bindPopup('GeorgetownSC, South Carolina<br><span style=font-size:11px>(White b. 1894)</span><br>LAMSAS INF0912(SC7D!) PEAS 131 in d').addTo(W1870);
+const W1870CharlestonSouthCarolinaPEAS135= L.marker([32.93,-79.96], {icon: d}).bindPopup('Charleston, South Carolina<br><span style=font-size:11px>(White b. 1884)</span><br>LAMSAS INF0931(SC11G!) PEAS 135 in d').addTo(W1870);
+const W1870BeaufortSouthCarolinaPEAS138= L.marker([32.54,-80.67], {icon: d}).bindPopup('Beaufort, South Carolina<br><span style=font-size:11px>(White b. 1885)</span><br>LAMSAS INF0952(SC18C!) PEAS 138 in d').addTo(W1870);
+const W1870ColumbiaSouthCarolinaPEAS142= L.marker([34.19,-81.08], {icon: d}).bindPopup('Columbia, South Carolina<br><span style=font-size:11px>(White b. 1916)</span><br>LAMSAS INF0982(SC25C!) PEAS 142 in d').addTo(W1870);
+const W1870NewberrySouthCarolinaPEAS144= L.marker([34.45,-81.61], {icon: d}).bindPopup('Newberry, South Carolina<br><span style=font-size:11px>(White b. 1887)</span><br>LAMSAS INF1024(SC38D!) PEAS 144 in d').addTo(W1870);
+const W1870GreenvilleSouthCarolinaPEAS146= L.marker([35.01,-82.4], {icon: d}).bindPopup('Greenville, South Carolina<br><span style=font-size:11px>(White b. 1883)</span><br>LAMSAS INF1035(SC42B!) PEAS 146 in d').addTo(W1870);
+const W1870AugustaGeorgiaPEAS153= L.marker([33.75,-82.06], {icon: d}).bindPopup('Augusta, Georgia<br><span style=font-size:11px>(White b. 1892)</span><br>LAMSAS  PEAS 153 in d').addTo(W1870);
+const W1870SwanRiverManitobaESRussenholt= L.marker([52.105,-101.2687], {icon: d}).bindPopup('Swan River, Manitoba<br><span style=font-size:11px>(White b. 1890)</span><br>E.S. Russenholt in d').addTo(W1870);
+const W1870UnknownManitobaDMMarshall= L.marker([43.8,-78.2], {icon: d}).bindPopup('Unknown, Manitoba<br><span style=font-size:11px>(White b. 1875-99)</span><br>D.M. Marshall in d').addTo(W1870);
+const W1870PortHopeOntarioJRMcIlree= L.marker([43.9518,-78.2922], {icon: b}).bindPopup('Port Hope, Ontario<br><span style=font-size:11px>(White b. 1875-99)</span><br>J.R. McIlree in b').addTo(W1870);
+const W1870BeniciaCaliforniaWilliamColby= L.marker([38.0494,-122.1586], {icon: d}).bindPopup('Benicia, California<br><span style=font-size:11px>(White b. 1875-99)</span><br>William Colby in d').addTo(W1870);
+const W1870HawthorneNevadaEmmaBowler= L.marker([38.5244,-118.6248], {icon: d}).bindPopup('Hawthorne, Nevada<br><span style=font-size:11px>(White b. 1875-99)</span><br>Emma Bowler in d').addTo(W1870);
+const W1870AustinNVNevadaWilliamThomas= L.marker([39.4927,-117.0709], {icon: d}).bindPopup('AustinNV, Nevada<br><span style=font-size:11px>(White b. 1875-99)</span><br>William Thomas in d').addTo(W1870);
+const W1870WhiteOakArkansasLAGSINF703= L.marker([33.88,-92.17], {icon: d}).bindPopup('White Oak, Arkansas<br><span style=font-size:11px>(White b. 1899)</span><br>(DASS) LAGS INF703 in d').addTo(W1870);
+const W1870NewnanGeorgiaLAGSINF117= L.marker([33.37,-84.78], {icon: d}).bindPopup('Newnan, Georgia<br><span style=font-size:11px>(White b. 1887)</span><br>(DASS) LAGS INF117 in d').addTo(W1870);
+const W1870AmericusGeorgiaLAGSINF166= L.marker([33.67,-84.22], {icon: d}).bindPopup('Americus, Georgia<br><span style=font-size:11px>(White b. 1892)</span><br>(DASS) LAGS INF166 in d').addTo(W1870);
+const W1870WinnfieldLouisianaLAGSINF811= L.marker([31.92,-92.63], {icon: d}).bindPopup('Winnfield, Louisiana<br><span style=font-size:11px>(White b. 1939)</span><br>(DASS) LAGS INF811 in d').addTo(W1870);
+const W1870NewOrleansLouisianaLAGSINF657x= L.marker([30.58,-90.13], {icon: d}).bindPopup('New Orleans, Louisiana<br><span style=font-size:11px>(White b. 1897)</span><br>(DASS) LAGS INF657x in d').addTo(W1870);
+const W1870MaconMississippiLAGSINF556= L.marker([32.83,-83.65], {icon: d}).bindPopup('Macon, Mississippi<br><span style=font-size:11px>(White b. 1897)</span><br>(DASS) LAGS INF556 in d').addTo(W1870);
+const W1870KilnMississippiLAGSINF625= L.marker([30.4,-89.43], {icon: d}).bindPopup('Kiln, Mississippi<br><span style=font-size:11px>(White b. 1892)</span><br>(DASS) LAGS INF625 in d').addTo(W1870);
+const W1870PhiladelphiaPennsylvaniasample= L.marker([39.95,-75.15], {icon: d}).bindPopup('Philadelphia, Pennsylvania<br><span style=font-size:11px>(White b. 1875-99)</span><br>sample in d').addTo(W1870);
+const W1870NashvilleTennesseeLAGSINF312= L.marker([36.15,-86.77], {icon: d}).bindPopup('Nashville, Tennessee<br><span style=font-size:11px>(White b. 1895)</span><br>(DASS) LAGS INF312 in d').addTo(W1870);
+const W1870BrownsvilleTennesseeLAGSINF503= L.marker([35.58,-89.25], {icon: d}).bindPopup('Brownsville, Tennessee<br><span style=font-size:11px>(White b. 1893)</span><br>(DASS) LAGS INF503 in d').addTo(W1870);
+const W1870BurnsOregonDAREOR013= L.marker([43.58,-119.5], {icon: d}).bindPopup('Burns, Oregon<br><span style=font-size:11px>(White b. 1883)</span><br>DARE OR013 in d').addTo(W1870);
+const W1870JordanValleyOregonDAREOR011= L.marker([42.97,-117.5], {icon: d}).bindPopup('Jordan Valley, Oregon<br><span style=font-size:11px>(White b. 1892)</span><br>DARE OR011 in d').addTo(W1870);
+const W1870JacksonvilleOregonDAREOR002= L.marker([42.3,-122.97], {icon: d}).bindPopup('Jacksonville, Oregon<br><span style=font-size:11px>(White b. 1893)</span><br>DARE OR002 in d').addTo(W1870);
+const W1870JunctionCityOregonDAREOR006= L.marker([44.22,-123.2], {icon: d}).bindPopup('Junction City, Oregon<br><span style=font-size:11px>(White b. 1900)</span><br>DARE OR006 in d').addTo(W1870);
+const W1870MadisonWisconsinSpeaker13= L.marker([44.39,-89.31], {icon: d}).bindPopup('Madison, Wisconsin<br><span style=font-size:11px>(White b. 1878)</span><br>(DARE OH 015 Speaker 13 in d').addTo(W1870);
+const W1870KalidaOhioSpeaker17= L.marker([41.26,-84.2], {icon: d}).bindPopup('Kalida, Ohio<br><span style=font-size:11px>(White b. 1898)</span><br>Speaker 17 in d').addTo(W1870);
+const W1900FiindlayOhioSpeaker18= L.marker([41.31,-83.7], {icon: d}).bindPopup('Fiindlay, Ohio<br><span style=font-size:11px>(White b. 1924)</span><br>Speaker 18 in d').addTo(W1900);
+const W1870RiipleyOhioSpeaker22= L.marker([39.06,-83.79], {icon: d}).bindPopup('Riipley, Ohio<br><span style=font-size:11px>(White b. 1897)</span><br>DARE OH 058 Speaker 22 in d').addTo(W1870);
+const W1870VernonOhioSpeaker25= L.marker([40.69,-82.46], {icon: d}).bindPopup('Vernon, Ohio<br><span style=font-size:11px>(White b. 1892)</span><br>DARE OH074 Speaker 25 in d').addTo(W1870);
+const W1950FredericktownOhioSpeaker26= L.marker([40.8,-82.58], {icon: d}).bindPopup('Fredericktown, Ohio<br><span style=font-size:11px>(White b. 1946)</span><br>Speaker 26 in d').addTo(W1950);
+const W1870BertrandVirginiaSpeaker54= L.marker([38.51,-76.5], {icon: d}).bindPopup('Bertrand, Virginia<br><span style=font-size:11px>(White b. 1897)</span><br>Speaker 54 in d').addTo(W1870);
+const W1870CrossSouthCarolinaSpeaker57= L.marker([34.06,-80.33], {icon: d}).bindPopup('Cross, South Carolina<br><span style=font-size:11px>(White b. 1894)</span><br>DARE SC019 Speaker 57 in d').addTo(W1870);
+const W1870MoultriieGeorgiaSpeaker58= L.marker([31.99,-83.74], {icon: d}).bindPopup('Moultriie, Georgia<br><span style=font-size:11px>(White b. 1890)</span><br>Speaker 58 in d').addTo(W1870);
+const W1870SladesvilleNorthCarolinaSpeaker79= L.marker([36.41,-76.45], {icon: d}).bindPopup('Sladesville, North Carolina<br><span style=font-size:11px>(White b. 1896)</span><br>Speaker 79 in d').addTo(W1870);
+const W1870OcracokeNorthCarolinaSpeaker83= L.marker([35.79,-75.78], {icon: d}).bindPopup('Ocracoke, North Carolina<br><span style=font-size:11px>(White b. 1884)</span><br>DARE NC 027 Speaker 83 in d').addTo(W1870);
+const W1870BarksdaleTexasSpeaker95= L.marker([30.71,-100.21], {icon: d}).bindPopup('Barksdale, Texas<br><span style=font-size:11px>(White b. 1878)</span><br>Speaker 95 in d').addTo(W1870);
+const W1870OglesbyTexasSpeaker96= L.marker([32.08,-97.49], {icon: d}).bindPopup('Oglesby, Texas<br><span style=font-size:11px>(White b. 1886)</span><br>Speaker 96 in d').addTo(W1870);
+const W1870ChappelHillTexasSpeaker97= L.marker([31.01,-96.25], {icon: d}).bindPopup('Chappel Hill, Texas<br><span style=font-size:11px>(White b. 1894)</span><br>Speaker 97 in d').addTo(W1870);
+const W1870IndependenceTexasSpeaker98= L.marker([30.94,-96.35], {icon: d}).bindPopup('Independence, Texas<br><span style=font-size:11px>(White b. 1895)</span><br>Speaker 98 in d').addTo(W1870);
+const W1870CanyonTexasSpeaker99= L.marker([35.34,-101.84], {icon: d}).bindPopup('Canyon, Texas<br><span style=font-size:11px>(White b. 1899)</span><br>Speaker 99 in d').addTo(W1870);
+const W1870GrandRapidsMichiganaGrandRapidsman= L.marker([43.58,-86.08], {icon: d}).bindPopup('Grand Rapids, Michigan<br><span style=font-size:11px>(White b. 1875-99)</span><br>a Grand Rapids man in d').addTo(W1870);
+const W1870BuffaloNewYorkBuffalowoman= L.marker([43.47,-79.45], {icon: d}).bindPopup('Buffalo, New York<br><span style=font-size:11px>(White b. 1875-99)</span><br>Buffalo woman in d').addTo(W1870);
+const W1870KansasCityKansasTwoKansascitymen= L.marker([39.1142,-94.6275], {icon: d}).bindPopup('Kansas City, Kansas<br><span style=font-size:11px>(White b. 1875-99)</span><br>Two Kansas city men in d').addTo(W1870);
+const W1870CulverIndianaDAREIN058= L.marker([41.217222,-86.421667], {icon: d}).bindPopup('Culver, Indiana<br><span style=font-size:11px>(White b. 1897)</span><br>DARE IN058 in d').addTo(W1870);
+const W1870LaGrangeIndianaDAREIN069= L.marker([41.648056,-85.418056], {icon: d}).bindPopup('LaGrange, Indiana<br><span style=font-size:11px>(White b. 1896)</span><br>DARE IN069 in d').addTo(W1870);
+const W1870DelphiIndianaDAREIN023= L.marker([40.583333,-86.666944], {icon: d}).bindPopup('Delphi, Indiana<br><span style=font-size:11px>(White b. 1891)</span><br>DARE IN023 in d').addTo(W1870);
+const W1870MitchellIndianaDAREIN032= L.marker([38.742222,-86.475556], {icon: d}).bindPopup('Mitchell, Indiana<br><span style=font-size:11px>(White b. 1899)</span><br>DARE IN032 in d').addTo(W1870);
+const W1870MuncieIndianaDAREIN054= L.marker([40.196667,-85.375], {icon: d}).bindPopup('Muncie, Indiana<br><span style=font-size:11px>(White b. 1884)</span><br>DARE IN054 in d').addTo(W1870);
+const W1870MetamoraIndianaDAREIN082= L.marker([39.445833,-85.128889], {icon: d}).bindPopup('Metamora, Indiana<br><span style=font-size:11px>(White b. 1893)</span><br>DARE IN082 in d').addTo(W1870);
+const W1870PortTownsendWashigntondescription= L.marker([48.115278,-122.76194], {icon: d}).bindPopup('Port Townsend, Washignton<br><span style=font-size:11px>(White b. 1875-99)</span><br>description in d').addTo(W1870);
+const W1870SeattleWashigntondescription= L.marker([47.603889,-122.33], {icon: d}).bindPopup('Seattle, Washignton<br><span style=font-size:11px>(White b. 1875-99)</span><br>description in d').addTo(W1870);
+const W1870SpokaneWashigntondescription= L.marker([47.658889,-117.425], {icon: d}).bindPopup('Spokane, Washignton<br><span style=font-size:11px>(White b. 1875-99)</span><br>description in d').addTo(W1870);
+const W1870VancouverWashigntondescription= L.marker([45.631111,-122.671667], {icon: d}).bindPopup('Vancouver, Washignton<br><span style=font-size:11px>(White b. 1875-99)</span><br>description in d').addTo(W1870);
+const W1870SpragueManitobaLAUM1= L.marker([49.035278,-95.639167], {icon: d}).bindPopup('Sprague, Manitoba<br><span style=font-size:11px>(White b. 1886)</span><br>LAUM 1 in d').addTo(W1870);
+const W1870RainyRiverOntarioLAUM2= L.marker([48.614935,-93.353202], {icon: d}).bindPopup('Rainy River, Ontario<br><span style=font-size:11px>(White b. 1889)</span><br>LAUM 2 in d').addTo(W1870);
+const W1870RoseauMinnesotaLAUM4= L.marker([48.771,-95.7698], {icon: d}).bindPopup('Roseau, Minnesota<br><span style=font-size:11px>(White b. 1893)</span><br>LAUM 4 in d').addTo(W1870);
+const W1870InternationalFallsMinnesotaLAUM5= L.marker([48.6021,-93.4094], {icon: d}).bindPopup('International Falls, Minnesota<br><span style=font-size:11px>(White b. 1898)</span><br>LAUM 5 in d').addTo(W1870);
+const W1870GrandMaraisMinnesotaLAUM6= L.marker([47.7429,-90.3265], {icon: d}).bindPopup('Grand Marais, Minnesota<br><span style=font-size:11px>(White b. 1879)</span><br>LAUM 6 in d').addTo(W1870);
+const W1870GentillyMinnesotaLAUM7= L.marker([47.8009,-96.4105], {icon: d}).bindPopup('Gentilly, Minnesota<br><span style=font-size:11px>(White b. 1881)</span><br>LAUM 7 in d').addTo(W1870);
+const W1870FisherMinnesotaLAUM8= L.marker([47.8003,-96.8009], {icon: d}).bindPopup('Fisher, Minnesota<br><span style=font-size:11px>(White b. 1889)</span><br>LAUM 8 in d').addTo(W1870);
+const W1870BemidjiMinnesotaLAUM10= L.marker([47.481,-94.8882], {icon: d}).bindPopup('Bemidji, Minnesota<br><span style=font-size:11px>(White b. 1889)</span><br>LAUM 10 in d').addTo(W1870);
+const W1870GrandRapidsMinnesotaLAUM11= L.marker([47.2404,-93.5213], {icon: d}).bindPopup('Grand Rapids, Minnesota<br><span style=font-size:11px>(White b. 1879)</span><br>LAUM 11 in d').addTo(W1870);
+const W1870GrandRapidsMinnesotaLAUM12= L.marker([47.2404,-93.5213], {icon: d}).bindPopup('Grand Rapids, Minnesota<br><span style=font-size:11px>(White b. 1892)</span><br>LAUM 12 in d').addTo(W1870);
+const W1870VirginiaMinnesotaLAUM13= L.marker([47.5233,-92.5366], {icon: d}).bindPopup('Virginia, Minnesota<br><span style=font-size:11px>(White b. 1893)</span><br>LAUM 13 in d').addTo(W1870);
+const W1870DuluthMinnesotaLAUM17= L.marker([46.7867,-92.1005], {icon: d}).bindPopup('Duluth, Minnesota<br><span style=font-size:11px>(White b. 1893)</span><br>LAUM 17 in d').addTo(W1870);
+const W1870FergusFallsMinnesotaLAUM20= L.marker([46.2839,-96.0801], {icon: d}).bindPopup('Fergus Falls, Minnesota<br><span style=font-size:11px>(White b. 1895)</span><br>LAUM 20 in d').addTo(W1870);
+const W1870BayLakeTownshipMinnesotaLAUM22= L.marker([46.3842,-93.8482], {icon: d}).bindPopup('Bay Lake Township, Minnesota<br><span style=font-size:11px>(White b. 1895)</span><br>LAUM 22 in d').addTo(W1870);
+const W1870MoraMinnesotaLAUM24= L.marker([45.8769,-93.2938], {icon: d}).bindPopup('Mora, Minnesota<br><span style=font-size:11px>(White b. 1893)</span><br>LAUM 24 in d').addTo(W1870);
+const W1870GracevilleMinnesotaLAUM25= L.marker([45.5688,-96.4337], {icon: d}).bindPopup('Graceville, Minnesota<br><span style=font-size:11px>(White b. 1881)</span><br>LAUM 25 in d').addTo(W1870);
+const W1870SaukCenterMinnesotaLAUM28= L.marker([45.7375,-94.9525], {icon: d}).bindPopup('Sauk Center, Minnesota<br><span style=font-size:11px>(White b. 1889)</span><br>LAUM 28 in d').addTo(W1870);
+const W1870ClearwaterMinnesotaLAUM29= L.marker([45.3044,-95.3867], {icon: d}).bindPopup('Clearwater, Minnesota<br><span style=font-size:11px>(White b. 1882)</span><br>LAUM 29 in d').addTo(W1870);
+const W1870MinneapolisMinnesotaLAUM33= L.marker([44.9777,-93.265], {icon: d}).bindPopup('Minneapolis, Minnesota<br><span style=font-size:11px>(White b. 1888)</span><br>LAUM 33 in d').addTo(W1870);
+const W1870LittleCanadaMinnesotaLAUM37= L.marker([45.0269,-93.0877], {icon: d}).bindPopup('Little Canada, Minnesota<br><span style=font-size:11px>(White b. 1894)</span><br>LAUM 37 in d').addTo(W1870);
+const W1870StillwaterMinnesotaLAUM40= L.marker([45.056,-92.8088], {icon: d}).bindPopup('Stillwater, Minnesota<br><span style=font-size:11px>(White b. 1888)</span><br>LAUM 40 in d').addTo(W1870);
+const W1870MontevideoMinnesotaLAUM41= L.marker([44.9506,-95.7153], {icon: d}).bindPopup('Montevideo, Minnesota<br><span style=font-size:11px>(White b. 1884)</span><br>LAUM 41 in d').addTo(W1870);
+const W1870MontevideoMinnesotaLAUM42= L.marker([44.9506,-95.7153], {icon: d}).bindPopup('Montevideo, Minnesota<br><span style=font-size:11px>(White b. 1881)</span><br>LAUM 42 in d').addTo(W1870);
+const W1870HutchinsonMinnesotaLAUM43= L.marker([44.8877,-94.3697], {icon: d}).bindPopup('Hutchinson, Minnesota<br><span style=font-size:11px>(White b. 1899)</span><br>LAUM 43 in d').addTo(W1870);
+const W1870MinneotaMinnesotaLAUM47= L.marker([44.5589,-95.9856], {icon: d}).bindPopup('Minneota, Minnesota<br><span style=font-size:11px>(White b. 1890)</span><br>LAUM 47 in d').addTo(W1870);
+const W1870FaribaultMinnesotaLAUM49= L.marker([44.295,-93.2688], {icon: d}).bindPopup('Faribault, Minnesota<br><span style=font-size:11px>(White b. 1890)</span><br>LAUM 49 in d').addTo(W1870);
+const W1870FeatherstoneTownshipMinnesotaLAUM54= L.marker([44.4861,-92.6025], {icon: d}).bindPopup('Featherstone Township, Minnesota<br><span style=font-size:11px>(White b. 1888)</span><br>LAUM 54 in d').addTo(W1870);
+const W1870WinonaMinnesotaLAUM57= L.marker([44.05,-91.6333], {icon: d}).bindPopup('Winona, Minnesota<br><span style=font-size:11px>(White b. 1895)</span><br>LAUM 57 in d').addTo(W1870);
+const W1870WorthingtonMinnesotaLAUM60= L.marker([43.6211,-95.5941], {icon: d}).bindPopup('Worthington, Minnesota<br><span style=font-size:11px>(White b. 1898)</span><br>LAUM 60 in d').addTo(W1870);
+const W1870WorthingtonMinnesotaLAUM61= L.marker([43.6211,-95.5941], {icon: d}).bindPopup('Worthington, Minnesota<br><span style=font-size:11px>(White b. 1888)</span><br>LAUM 61 in d').addTo(W1870);
+const W1870ClarksGroveMinnesotaLAUM63= L.marker([43.7639,-93.3291], {icon: d}).bindPopup('Clarks Grove, Minnesota<br><span style=font-size:11px>(White b. 1888)</span><br>LAUM 63 in d').addTo(W1870);
+const W1870GreenLeaftonMinnesotaLAUM64= L.marker([43.5802,-92.2093], {icon: d}).bindPopup('Green Leafton, Minnesota<br><span style=font-size:11px>(White b. 1889)</span><br>LAUM 64 in d').addTo(W1870);
+const W1870RockRapidsIowaLAUM101= L.marker([43.427,-96.176], {icon: d}).bindPopup('Rock Rapids, Iowa<br><span style=font-size:11px>(White b. 1882)</span><br>LAUM 101 in d').addTo(W1870);
+const W1870RockRapidsIowaLAUM102= L.marker([43.427,-96.176], {icon: d}).bindPopup('Rock Rapids, Iowa<br><span style=font-size:11px>(White b. 1896)</span><br>LAUM 102 in d').addTo(W1870);
+const W1870ArmstrongIowaLAUM104= L.marker([43.396,-94.478], {icon: d}).bindPopup('Armstrong, Iowa<br><span style=font-size:11px>(White b. 1890)</span><br>LAUM 104 in d').addTo(W1870);
+const W1870StAnsgarIowaLAUM105= L.marker([43.378,-92.919], {icon: d}).bindPopup('St. Ansgar, Iowa<br><span style=font-size:11px>(White b. 1879)</span><br>LAUM 105 in d').addTo(W1870);
+const W1870StAnsgarIowaLAUM106= L.marker([43.378,-92.919], {icon: d}).bindPopup('St. Ansgar, Iowa<br><span style=font-size:11px>(White b. 1891)</span><br>LAUM 106 in d').addTo(W1870);
+const W1870DecorahIowaLAUM108= L.marker([43.303,-91.786], {icon: d}).bindPopup('Decorah, Iowa<br><span style=font-size:11px>(White b. 1894)</span><br>LAUM 108 in d').addTo(W1870);
+const W1870SiouxCityIowaLAUM109= L.marker([42.495132,-96.40007], {icon: d}).bindPopup('Sioux City, Iowa<br><span style=font-size:11px>(White b. 1877)</span><br>LAUM 109 in d').addTo(W1870);
+const W1870SiouxCityIowaLAUM111= L.marker([42.495132,-96.40007], {icon: d}).bindPopup('Sioux City, Iowa<br><span style=font-size:11px>(White b. 1895)</span><br>LAUM 111 in d').addTo(W1870);
+const W1870HavelockIowaLAUM112= L.marker([42.833,-94.701], {icon: d}).bindPopup('Havelock, Iowa<br><span style=font-size:11px>(White b. 1897)</span><br>LAUM 112 in d').addTo(W1870);
+const W1870JewellIowaLAUM115= L.marker([42.306818,-93.6400274], {icon: d}).bindPopup('Jewell, Iowa<br><span style=font-size:11px>(White b. 1889)</span><br>LAUM 115 in d').addTo(W1870);
+const W1870DubuqueIowaLAUM121= L.marker([42.516033,-90.718506], {icon: d}).bindPopup('Dubuque, Iowa<br><span style=font-size:11px>(White b. 1896)</span><br>LAUM 121 in d').addTo(W1870);
+const W1870OnowaIowaLAUM123= L.marker([42.027,-96.097], {icon: d}).bindPopup('Onowa, Iowa<br><span style=font-size:11px>(White b. 1897)</span><br>LAUM 123 in d').addTo(W1870);
+const W1870CrescentIowaLAUM124= L.marker([41.364996,-95.8580668], {icon: d}).bindPopup('Crescent, Iowa<br><span style=font-size:11px>(White b. 1879)</span><br>LAUM 124 in d').addTo(W1870);
+const W1870CrescentIowaLAUM125= L.marker([41.364996,-95.8580668], {icon: d}).bindPopup('Crescent, Iowa<br><span style=font-size:11px>(White b. 1895)</span><br>LAUM 125 in d').addTo(W1870);
+const W1870ElkHornIowaLAUM126= L.marker([41.592,-95.06], {icon: d}).bindPopup('Elk Horn, Iowa<br><span style=font-size:11px>(White b. 1878)</span><br>LAUM 126 in d').addTo(W1870);
+const W1870AudubonIowaLAUM127= L.marker([41.718,-94.928], {icon: d}).bindPopup('Audubon, Iowa<br><span style=font-size:11px>(White b. 1900)</span><br>LAUM 127 in d').addTo(W1870);
+const W1870DesMoinesIowaLAUM128= L.marker([41.619549,-93.598022], {icon: d}).bindPopup('Des Moines, Iowa<br><span style=font-size:11px>(White b. 1890)</span><br>LAUM 128 in d').addTo(W1870);
+const W1870DesMoinesIowaLAUM130= L.marker([41.619549,-93.598022], {icon: d}).bindPopup('Des Moines, Iowa<br><span style=font-size:11px>(White b. 1890)</span><br>LAUM 130 in d').addTo(W1870);
+const W1870DesMoinesIowaLAUM131= L.marker([41.619549,-93.598022], {icon: d}).bindPopup('Des Moines, Iowa<br><span style=font-size:11px>(White b. 1899)</span><br>LAUM 131 in d').addTo(W1870);
+const W1870LaurelIowaLAUM133= L.marker([41.884,-92.922], {icon: d}).bindPopup('Laurel, Iowa<br><span style=font-size:11px>(White b. 1890)</span><br>LAUM 133 in d').addTo(W1870);
+const W1870PellaIowaLAUM134= L.marker([41.408,-92.916], {icon: d}).bindPopup('Pella, Iowa<br><span style=font-size:11px>(White b. 1900)</span><br>LAUM 134 in d').addTo(W1870);
+const W1870OskaloosaIowaLAUM136= L.marker([41.299023,-92.653198], {icon: d}).bindPopup('Oskaloosa, Iowa<br><span style=font-size:11px>(White b. 1892)</span><br>LAUM 136 in d').addTo(W1870);
+const W1870WalcottIowaLAUM140= L.marker([41.586,-90.774], {icon: d}).bindPopup('Walcott, Iowa<br><span style=font-size:11px>(White b. 1879)</span><br>LAUM 140 in d').addTo(W1870);
+const W1870ClarindaIowaLAUM143= L.marker([40.742,-95.038], {icon: d}).bindPopup('Clarinda, Iowa<br><span style=font-size:11px>(White b. 1894)</span><br>LAUM 143 in d').addTo(W1870);
+const W1870LamoniIowaLAUM144= L.marker([40.623,-93.934], {icon: d}).bindPopup('Lamoni, Iowa<br><span style=font-size:11px>(White b. 1879)</span><br>LAUM 144 in d').addTo(W1870);
+const W1870GardenGroveIowaLAUM145= L.marker([40.827226,-93.607233], {icon: d}).bindPopup('Garden Grove, Iowa<br><span style=font-size:11px>(White b. 1897)</span><br>LAUM 145 in d').addTo(W1870);
+const W1870BloomfieldIowaLAUM147= L.marker([40.751122,-92.417007], {icon: d}).bindPopup('Bloomfield, Iowa<br><span style=font-size:11px>(White b. 1883)</span><br>LAUM 147 in d').addTo(W1870);
+const W1870WestPointIowaLAUM148= L.marker([40.716704,-91.4501542], {icon: d}).bindPopup('West Point, Iowa<br><span style=font-size:11px>(White b. 1885)</span><br>LAUM 148 in d').addTo(W1870);
+const W1870DonellsonIowaLAUM149= L.marker([40.643,-91.565], {icon: d}).bindPopup('Donellson, Iowa<br><span style=font-size:11px>(White b. 1885)</span><br>LAUM 149 in d').addTo(W1870);
+const W1870EstevanSaskatchewanLAUM201= L.marker([49.139167,-102.986111], {icon: d}).bindPopup('Estevan, Saskatchewan<br><span style=font-size:11px>(White b. 1890)</span><br>LAUM 201 in d').addTo(W1870);
+const W1870KillarneyManitobaLAUM202= L.marker([49.183333,-99.662778], {icon: d}).bindPopup('Killarney, Manitoba<br><span style=font-size:11px>(White b. 1887)</span><br>LAUM 202 in d').addTo(W1870);
+const W1870KenmareNorthDakotaLAUM203= L.marker([48.6728,-102.072], {icon: d}).bindPopup('Kenmare, North Dakota<br><span style=font-size:11px>(White b. 1897)</span><br>LAUM 203 in d').addTo(W1870);
+const W1870AkraNorthDakotaLAUM206= L.marker([48.7753,-97.727], {icon: d}).bindPopup('Akra, North Dakota<br><span style=font-size:11px>(White b. 1881)</span><br>LAUM 206 in d').addTo(W1870);
+const W1870PembinaNorthDakotaLAUM208= L.marker([48.9664,-97.2437], {icon: d}).bindPopup('Pembina, North Dakota<br><span style=font-size:11px>(White b. 1875)</span><br>LAUM 208 in d').addTo(W1870);
+const W1870WillistonNorthDakotaLAUM209= L.marker([48.147,-103.618], {icon: d}).bindPopup('Williston, North Dakota<br><span style=font-size:11px>(White b. 1894)</span><br>LAUM 209 in d').addTo(W1870);
+const W1870WillistonNorthDakotaLAUM210= L.marker([48.147,-103.618], {icon: d}).bindPopup('Williston, North Dakota<br><span style=font-size:11px>(White b. 1888)</span><br>LAUM 210 in d').addTo(W1870);
+const W1870HarveyNorthDakotaLAUM211= L.marker([47.7697,-99.9354], {icon: d}).bindPopup('Harvey, North Dakota<br><span style=font-size:11px>(White b. 1894)</span><br>LAUM 211 in d').addTo(W1870);
+const W1870DevilsLakeNorthDakotaLAUM212= L.marker([48.1128,-98.8651], {icon: d}).bindPopup('Devils Lake, North Dakota<br><span style=font-size:11px>(White b. 1876)</span><br>LAUM 212 in d').addTo(W1870);
+const W1870MedoraNorthDakotaLAUM214= L.marker([46.9139,-103.5244], {icon: d}).bindPopup('Medora, North Dakota<br><span style=font-size:11px>(White b. 1880)</span><br>LAUM 214 in d').addTo(W1870);
+const W1870HavelokNorthDakotaLAUM215= L.marker([46.474722,-102.743889], {icon: d}).bindPopup('Havelok, North Dakota<br><span style=font-size:11px>(White b. 1884)</span><br>LAUM 215 in d').addTo(W1870);
+const W1870BismarckNorthDakotaLAUM216= L.marker([46.81,-100.78], {icon: d}).bindPopup('Bismarck, North Dakota<br><span style=font-size:11px>(White b. 1883)</span><br>LAUM 216 in d').addTo(W1870);
+const W1870BismarckNorthDakotaLAUM217= L.marker([46.81,-100.78], {icon: d}).bindPopup('Bismarck, North Dakota<br><span style=font-size:11px>(White b. 1882)</span><br>LAUM 217 in d').addTo(W1870);
+const W1870JamestownNorthDakotaLAUM218= L.marker([46.91,-98.69], {icon: d}).bindPopup('Jamestown, North Dakota<br><span style=font-size:11px>(White b. 1882)</span><br>LAUM 218 in d').addTo(W1870);
+const W1870FargoNorthDakotaLAUM222= L.marker([46.87,-96.83], {icon: d}).bindPopup('Fargo, North Dakota<br><span style=font-size:11px>(White b. 1893)</span><br>LAUM 222 in d').addTo(W1870);
+const W1870WestfieldNorthDakotaLAUM223= L.marker([47.451062,-97.71892], {icon: d}).bindPopup('Westfield, North Dakota<br><span style=font-size:11px>(White b. 1886)</span><br>LAUM 223 in d').addTo(W1870);
+const W1870EllendaleNorthDakotaLAUM224= L.marker([46,-98.53], {icon: d}).bindPopup('Ellendale, North Dakota<br><span style=font-size:11px>(White b. 1885)</span><br>LAUM 224 in d').addTo(W1870);
+const W1870FairmountNorthDakotaLAUM225= L.marker([46.05,-96.6], {icon: d}).bindPopup('Fairmount, North Dakota<br><span style=font-size:11px>(White b. 1879)</span><br>LAUM 225 in d').addTo(W1870);
+const W1870WaheptonNorthDakotaLAUM226= L.marker([46.27,-96.58], {icon: d}).bindPopup('Wahepton, North Dakota<br><span style=font-size:11px>(White b. 1896)</span><br>LAUM 226 in d').addTo(W1870);
+const W1870BuffaloSouthDakotaLAUM301= L.marker([45.5842,-103.546], {icon: d}).bindPopup('Buffalo, South Dakota<br><span style=font-size:11px>(White b. 1880)</span><br>LAUM 301 in d').addTo(W1870);
+const W1870FaithSouthDakotaLAUM302= L.marker([45.023,-102.036], {icon: d}).bindPopup('Faith, South Dakota<br><span style=font-size:11px>(White b. 1898)</span><br>LAUM 302 in d').addTo(W1870);
+const W1870SelbySouthDakotaLAUM303= L.marker([45.5064,-100.0321], {icon: d}).bindPopup('Selby, South Dakota<br><span style=font-size:11px>(White b. 1887)</span><br>LAUM 303 in d').addTo(W1870);
+const W1870SelbySouthDakotaLAUM304= L.marker([45.5064,-100.0321], {icon: d}).bindPopup('Selby, South Dakota<br><span style=font-size:11px>(White b. 1899)</span><br>LAUM 304 in d').addTo(W1870);
+const W1870AberdeenSouthDakotaLAUM305= L.marker([45.4647,-98.4865], {icon: d}).bindPopup('Aberdeen, South Dakota<br><span style=font-size:11px>(White b. 1880)</span><br>LAUM 305 in d').addTo(W1870);
+const W1870SissetonSouthDakotaLAUM307= L.marker([45.6647,-97.0498], {icon: d}).bindPopup('Sisseton, South Dakota<br><span style=font-size:11px>(White b. 1892)</span><br>LAUM 307 in d').addTo(W1870);
+const W1870SissetonSouthDakotaLAUM308= L.marker([45.6647,-97.0498], {icon: d}).bindPopup('Sisseton, South Dakota<br><span style=font-size:11px>(White b. 1890)</span><br>LAUM 308 in d').addTo(W1870);
+const W1870LeadSouthDakotaLAUM309= L.marker([44.3522,-103.7661], {icon: d}).bindPopup('Lead, South Dakota<br><span style=font-size:11px>(White b. 1881)</span><br>LAUM 309 in d').addTo(W1870);
+const W1870RockervilleSouthDakotaLAUM311= L.marker([43.958,-103.3585], {icon: d}).bindPopup('Rockerville, South Dakota<br><span style=font-size:11px>(White b. 1876)</span><br>LAUM 311 in d').addTo(W1870);
+const W1870RapidCitySouthDakotaLAUM312= L.marker([43.958,-103.3585], {icon: d}).bindPopup('Rapid City, South Dakota<br><span style=font-size:11px>(White b. 1892)</span><br>LAUM 312 in d').addTo(W1870);
+const W1870PhilipSouthDakotaLAUM313= L.marker([44.0394,-101.6651], {icon: d}).bindPopup('Philip, South Dakota<br><span style=font-size:11px>(White b. 1894)</span><br>LAUM 313 in d').addTo(W1870);
+const W1870MillerSouthDakotaLAUM316= L.marker([44.5183,-98.9887], {icon: d}).bindPopup('Miller, South Dakota<br><span style=font-size:11px>(White b. 1882)</span><br>LAUM 316 in d').addTo(W1870);
+const W1870HotSpringsSouthDakotaLAUM320= L.marker([43.4316,-103.4744], {icon: d}).bindPopup('Hot Springs, South Dakota<br><span style=font-size:11px>(White b. 1887)</span><br>LAUM 320 in d').addTo(W1870);
+const W1870GeddesSouthDakotaLAUM322= L.marker([43.2536,-98.6954], {icon: d}).bindPopup('Geddes, South Dakota<br><span style=font-size:11px>(White b. 1885)</span><br>LAUM 322 in d').addTo(W1870);
+const W1870LakeAndesSouthDakotaLAUM323= L.marker([43.1564,-98.5415], {icon: d}).bindPopup('Lake Andes, South Dakota<br><span style=font-size:11px>(White b. 1895)</span><br>LAUM 323 in d').addTo(W1870);
+const W1870VermillionSouthDakotaLAUM324= L.marker([42.7794,-96.9292], {icon: d}).bindPopup('Vermillion, South Dakota<br><span style=font-size:11px>(White b. 1881)</span><br>LAUM 324 in d').addTo(W1870);
+const W1870VermillionSouthDakotaLAUM325= L.marker([42.7794,-96.9292], {icon: d}).bindPopup('Vermillion, South Dakota<br><span style=font-size:11px>(White b. 1887)</span><br>LAUM 325 in d').addTo(W1870);
+const W1870AlexandriaSouthDakotaLAUM328= L.marker([43.6536,-97.7828], {icon: d}).bindPopup('Alexandria, South Dakota<br><span style=font-size:11px>(White b. 1899)</span><br>LAUM 328 in d').addTo(W1870);
+const W1870ChadronNebraskaLAUM401= L.marker([42.8297,-103], {icon: d}).bindPopup('Chadron, Nebraska<br><span style=font-size:11px>(White b. 1884)</span><br>LAUM 401 in d').addTo(W1870);
+const W1870ChadronNebraskaLAUM402= L.marker([42.8297,-103], {icon: d}).bindPopup('Chadron, Nebraska<br><span style=font-size:11px>(White b. 1900)</span><br>LAUM 402 in d').addTo(W1870);
+const W1870BassettNebraskaLAUM405= L.marker([42.5858,-99.5379], {icon: d}).bindPopup('Bassett, Nebraska<br><span style=font-size:11px>(White b. 1883)</span><br>LAUM 405 in d').addTo(W1870);
+const W1870HartingtonNebraskaLAUM408= L.marker([42.6225,-97.2645], {icon: d}).bindPopup('Hartington, Nebraska<br><span style=font-size:11px>(White b. 1895)</span><br>LAUM 408 in d').addTo(W1870);
+const W1870ScottsbluffNebraskaLAUM409= L.marker([41.8666,-103.6672], {icon: d}).bindPopup('Scottsbluff, Nebraska<br><span style=font-size:11px>(White b. 1887)</span><br>LAUM 409 in d').addTo(W1870);
+const W1870MullenNebraskaLAUM412= L.marker([42.0388,-101.0407], {icon: d}).bindPopup('Mullen, Nebraska<br><span style=font-size:11px>(White b. 1893)</span><br>LAUM 412 in d').addTo(W1870);
+const W1870BurwellNebraskaLAUM414= L.marker([41.7817,-99.1332], {icon: d}).bindPopup('Burwell, Nebraska<br><span style=font-size:11px>(White b. 1893)</span><br>LAUM 414 in d').addTo(W1870);
+const W1870NorfolkNebraskaLAUM416= L.marker([42.0283,-97.417], {icon: d}).bindPopup('Norfolk, Nebraska<br><span style=font-size:11px>(White b. 1898)</span><br>LAUM 416 in d').addTo(W1870);
+const W1870ChappellNebraskaLAUM417= L.marker([41.0898,-102.468], {icon: d}).bindPopup('Chappell, Nebraska<br><span style=font-size:11px>(White b. 1883)</span><br>LAUM 417 in d').addTo(W1870);
+const W1870NorthPlatteNebraskaLAUM418= L.marker([41.1322,-100.7723], {icon: d}).bindPopup('North Platte, Nebraska<br><span style=font-size:11px>(White b. 1878)</span><br>LAUM 418 in d').addTo(W1870);
+const W1870NorthPlatteNebraskaLAUM419= L.marker([41.1322,-100.7723], {icon: d}).bindPopup('North Platte, Nebraska<br><span style=font-size:11px>(White b. 1894)</span><br>LAUM 419 in d').addTo(W1870);
+const W1870DannebrogNebraskaLAUM420= L.marker([41.3206,-98.5402], {icon: d}).bindPopup('Dannebrog, Nebraska<br><span style=font-size:11px>(White b. 1876)</span><br>LAUM 420 in d').addTo(W1870);
+const W1870StPaulNebraskaLAUM421= L.marker([41.213611,-98.459444], {icon: d}).bindPopup('St. Paul, Nebraska<br><span style=font-size:11px>(White b. 1891)</span><br>LAUM 421 in d').addTo(W1870);
+const W1870DoniphanNebraskaLAUM423= L.marker([40.77196,-98.36951], {icon: d}).bindPopup('Doniphan, Nebraska<br><span style=font-size:11px>(White b. 1898)</span><br>LAUM 423 in d').addTo(W1870);
+const W1870LincolnNebraskaLAUM426= L.marker([40.8,-96.667], {icon: d}).bindPopup('Lincoln, Nebraska<br><span style=font-size:11px>(White b. 1894)</span><br>LAUM 426 in d').addTo(W1870);
+const W1870ValleyNebraskaLAUM427= L.marker([41.3142,-96.3483], {icon: d}).bindPopup('Valley, Nebraska<br><span style=font-size:11px>(White b. 1877)</span><br>LAUM 427 in d').addTo(W1870);
+const W1870OmahaNebraskaLAUM428= L.marker([41.2565,-95.9345], {icon: d}).bindPopup('Omaha, Nebraska<br><span style=font-size:11px>(White b. 1896)</span><br>LAUM 428 in d').addTo(W1870);
+const W1870BenkelmanNebraskaLAUM429= L.marker([40.235,-101.53], {icon: d}).bindPopup('Benkelman, Nebraska<br><span style=font-size:11px>(White b. 1878)</span><br>LAUM 429 in d').addTo(W1870);
+const W1870HoldredgeNebraskaLAUM430= L.marker([40.4419,-99.3713], {icon: d}).bindPopup('Holdredge, Nebraska<br><span style=font-size:11px>(White b. 1876)</span><br>LAUM 430 in d').addTo(W1870);
+const W1870HoldredgeNebraskaLAUM431= L.marker([40.4419,-99.3713], {icon: d}).bindPopup('Holdredge, Nebraska<br><span style=font-size:11px>(White b. 1895)</span><br>LAUM 431 in d').addTo(W1870);
+const W1870HubbellNebraskaLAUM432= L.marker([40.008889,-97.496944], {icon: d}).bindPopup('Hubbell, Nebraska<br><span style=font-size:11px>(White b. 1878)</span><br>LAUM 432 in d').addTo(W1870);
+const W1870HebronNebraskaLAUM433= L.marker([40.168611,-97.586389], {icon: d}).bindPopup('Hebron, Nebraska<br><span style=font-size:11px>(White b. 1895)</span><br>LAUM 433 in d').addTo(W1870);
+const W1870BenkelmanNebraskaLAUM437= L.marker([40.235,-101.53], {icon: d}).bindPopup('Benkelman, Nebraska<br><span style=font-size:11px>(White b. 1899)</span><br>LAUM 437 in d').addTo(W1870);
+const W1870ElginIllinoisLANCSIL10B= L.marker([42.0354,-88.2826], {icon: d}).bindPopup(' Elgin, Illinois<br><span style=font-size:11px>(White b. 1859)</span><br>LANCS IL10B in d').addTo(W1870);
+const W1870MountProspectIllinoisLANCSIL12B= L.marker([42.0664,-87.9373], {icon: d}).bindPopup(' Mount Prospect, Illinois<br><span style=font-size:11px>(White b. 1875)</span><br>LANCS IL12B in d').addTo(W1870);
+const W1870RichlandGroveIllinoisLANCSIL14= L.marker([41.2998,-90.5069], {icon: d}).bindPopup(' Richland Grove, Illinois<br><span style=font-size:11px>(White b. 1885)</span><br>LANCS IL14 in d').addTo(W1870);
+const W1870OttawaIllinoisLANCSIL16A= L.marker([41.3456,-88.8426], {icon: d}).bindPopup(' Ottawa, Illinois<br><span style=font-size:11px>(White b. 1882)</span><br>LANCS IL16A in d').addTo(W1870);
+const W1870GoodfarmIllinoisLANCSIL18= L.marker([41.1696,-88.421], {icon: d}).bindPopup(' Goodfarm, Illinois<br><span style=font-size:11px>(White b. 1878)</span><br>LANCS IL18 in d').addTo(W1870);
+const W1870WatagaIllinoisLANCSIL22= L.marker([41.0253,-90.2798], {icon: d}).bindPopup(' Wataga, Illinois<br><span style=font-size:11px>(White b. 1885)</span><br>LANCS IL22 in d').addTo(W1870);
+const W1870HannaCityIllinoisLANCSIL24A= L.marker([40.6917,-89.7951], {icon: d}).bindPopup(' Hanna City, Illinois<br><span style=font-size:11px>(White b. 1882)</span><br>LANCS IL24A in d').addTo(W1870);
+const W1870EurekaIllinoisLANCSIL26= L.marker([40.7214,-89.2729], {icon: d}).bindPopup(' Eureka, Illinois<br><span style=font-size:11px>(White b. 1883)</span><br>LANCS IL26 in d').addTo(W1870);
+const W1870KankakeeIllinoisLANCSIL28A= L.marker([41.12,-87.8612], {icon: d}).bindPopup(' Kankakee, Illinois<br><span style=font-size:11px>(White b. 1890)</span><br>LANCS IL28A in d').addTo(W1870);
+const W1870NauvooIllinoisLANCSIL30B= L.marker([40.55,-91.3849], {icon: d}).bindPopup(' Nauvoo, Illinois<br><span style=font-size:11px>(White b. 1880)</span><br>LANCS IL30B in d').addTo(W1870);
+const W1870CantonIllinoisLANCSIL32= L.marker([40.5581,-90.0351], {icon: d}).bindPopup(' Canton, Illinois<br><span style=font-size:11px>(White b. 1891)</span><br>LANCS IL32 in d').addTo(W1870);
+const W1870LexingtonIllinoisLANCSIL34= L.marker([40.6414,-88.7834], {icon: d}).bindPopup(' Lexington, Illinois<br><span style=font-size:11px>(White b. 1875)</span><br>LANCS IL34 in d').addTo(W1870);
+const W1870ChampaignIllinoisLANCSIL36A= L.marker([40.1164,-88.2434], {icon: d}).bindPopup(' Champaign, Illinois<br><span style=font-size:11px>(White b. 1899)</span><br>LANCS IL36A in d').addTo(W1870);
+const W1870BeardstownIllinoisLANCSIL38B= L.marker([40.0175,-90.4243], {icon: d}).bindPopup(' Beardstown, Illinois<br><span style=font-size:11px>(White b. 1885)</span><br>LANCS IL38B in d').addTo(W1870);
+const W1870BelvidereIllinoisLANCSIL4= L.marker([42.2639,-88.8443], {icon: d}).bindPopup(' Belvidere, Illinois<br><span style=font-size:11px>(White b. 1874)</span><br>LANCS IL4 in d').addTo(W1870);
+const W1870ParisIllinoisLANCSIL42B= L.marker([39.6111,-87.6961], {icon: d}).bindPopup(' Paris, Illinois<br><span style=font-size:11px>(White b. 1893)</span><br>LANCS IL42B in d').addTo(W1870);
+const W1870AltonIllinoisLANCSIL44B= L.marker([38.8906,-90.1843], {icon: d}).bindPopup(' Alton, Illinois<br><span style=font-size:11px>(White b. 1875)</span><br>LANCS IL44B in d').addTo(W1870);
+const W1870VandaliaIllinoisLANCSIL46B= L.marker([38.9606,-89.0937], {icon: d}).bindPopup(' Vandalia, Illinois<br><span style=font-size:11px>(White b. 1887)</span><br>LANCS IL46B in d').addTo(W1870);
+const W1870SalemIllinoisLANCSIL48A= L.marker([38.627,-88.9456], {icon: d}).bindPopup(' Salem, Illinois<br><span style=font-size:11px>(White b. 1875)</span><br>LANCS IL48A in d').addTo(W1870);
+const W1870AlbionIllinoisLANCSIL50C= L.marker([38.3775,-88.0561], {icon: d}).bindPopup(' Albion, Illinois<br><span style=font-size:11px>(White b. 1893)</span><br>LANCS IL50C in d').addTo(W1870);
+const W1870RedBudIllinoisLANCSIL52A= L.marker([38.2117,-89.9943], {icon: d}).bindPopup(' Red Bud, Illinois<br><span style=font-size:11px>(White b. 1884)</span><br>LANCS IL52A in d').addTo(W1870);
+const W1870VillaRidgeIllinoisLANCSIL56B= L.marker([37.1587,-89.1948], {icon: d}).bindPopup(' Villa Ridge, Illinois<br><span style=font-size:11px>(White b. 1898)</span><br>LANCS IL56B in d').addTo(W1870);
+const W1870GolcondaIllinoisLANCSIL58B= L.marker([37.215,-88.2912], {icon: d}).bindPopup(' Golconda, Illinois<br><span style=font-size:11px>(White b. 1879)</span><br>LANCS IL58B in d').addTo(W1870);
+const W1870MtCarrollIllinoisLANCSIL6A= L.marker([42.095,-89.9782], {icon: d}).bindPopup(' Mt. Carroll, Illinois<br><span style=font-size:11px>(White b. 1890)</span><br>LANCS IL6A in d').addTo(W1870);
+const W1870MtPleasantIllinoisLANCSIL6C= L.marker([41.4759,-89.5533], {icon: d}).bindPopup(' Mt. Pleasant, Illinois<br><span style=font-size:11px>(White b. 1876)</span><br>LANCS IL6C in d').addTo(W1870);
+const W1870AmboyIllinoisLANCSIL8A= L.marker([41.7142,-89.3287], {icon: d}).bindPopup(' Amboy, Illinois<br><span style=font-size:11px>(White b. 1895)</span><br>LANCS IL8A in d').addTo(W1870);
+const W1870GraysonKentuckyLANCSKY10A= L.marker([38.3326,-82.9485], {icon: d}).bindPopup(' Grayson, Kentucky<br><span style=font-size:11px>(White b. 1879)</span><br>LANCS KY10A in d').addTo(W1870);
+const W1870LeitchfieldKentuckyLANCSKY12D= L.marker([37.4801,-86.2939], {icon: d}).bindPopup(' Leitchfield, Kentucky<br><span style=font-size:11px>(White b. 1880)</span><br>LANCS KY12D in d').addTo(W1870);
+const W1870BardstownKentuckyLANCSKY14A= L.marker([37.8092,-85.4669], {icon: d}).bindPopup(' Bardstown, Kentucky<br><span style=font-size:11px>(White b. 1879)</span><br>LANCS KY14A in d').addTo(W1870);
+const W1870HarrodsburgKentuckyLANCSKY16B= L.marker([37.7623,-84.8433], {icon: d}).bindPopup(' Harrodsburg, Kentucky<br><span style=font-size:11px>(White b. 1881)</span><br>LANCS KY16B in d').addTo(W1870);
+const W1870IrvineKentuckyLANCSKY18A= L.marker([37.7006,-83.9738], {icon: d}).bindPopup(' Irvine, Kentucky<br><span style=font-size:11px>(White b. 1887)</span><br>LANCS KY18A in d').addTo(W1870);
+const W1870HailwellKentuckyLANCSKY22A= L.marker([36.6764,-89.1059], {icon: d}).bindPopup(' Hailwell, Kentucky<br><span style=font-size:11px>(White b. 1874)</span><br>LANCS KY22A in d').addTo(W1870);
+const W1870CadizKentuckyLANCSKY24B= L.marker([36.865,-87.8353], {icon: d}).bindPopup(' Cadiz, Kentucky<br><span style=font-size:11px>(White b. 1879)</span><br>LANCS KY24B in d').addTo(W1870);
+const W1870MtZionKentuckyLANCSKY26B= L.marker([36.6831,-86.0572], {icon: d}).bindPopup(' Mt. Zion, Kentucky<br><span style=font-size:11px>(White b. 1881)</span><br>LANCS KY26B in d').addTo(W1870);
+const W1870SomersetKentuckyLANCSKY27B= L.marker([37.092,-84.6041], {icon: d}).bindPopup(' Somerset, Kentucky<br><span style=font-size:11px>(White b. 1889)</span><br>LANCS KY27B in d').addTo(W1870);
+const W1870WilliamsburgKentuckyLANCSKY28B= L.marker([36.7434,-84.1597], {icon: d}).bindPopup(' Williamsburg, Kentucky<br><span style=font-size:11px>(White b. 1880)</span><br>LANCS KY28B in d').addTo(W1870);
+const W1870DixonKentuckyLANCSKY2A= L.marker([37.5178,-87.6903], {icon: d}).bindPopup(' Dixon, Kentucky<br><span style=font-size:11px>(White b. 1899)</span><br>LANCS KY2A in d').addTo(W1870);
+const W1870CowCreekKentuckyLANCSKY30E= L.marker([37.2619,-83.3638], {icon: d}).bindPopup(' Cow Creek, Kentucky<br><span style=font-size:11px>(White b. 1876)</span><br>LANCS KY30E in d').addTo(W1870);
+const W1870CrummiesKentuckyLANCSKY33A= L.marker([36.7745,-83.2038], {icon: d}).bindPopup(' Crummies, Kentucky<br><span style=font-size:11px>(White b. 1880)</span><br>LANCS KY33A in d').addTo(W1870);
+const W1870KingdomComeKentuckyLANCSKY34C= L.marker([37.0804,-82.8803], {icon: d}).bindPopup(' Kingdom Come, Kentucky<br><span style=font-size:11px>(White b. 1874)</span><br>LANCS KY34C in d').addTo(W1870);
+const W1870BardstownJunctionKentuckyLANCSKY6A= L.marker([37.5624,-85.4158], {icon: d}).bindPopup(' Bardstown Junction, Kentucky<br><span style=font-size:11px>(White b. 1892)</span><br>LANCS KY6A in d').addTo(W1870);
+const W1870SquiresvilleKentuckyLANCSKY8A= L.marker([38.5423,-84.9547], {icon: d}).bindPopup(' Squiresville, Kentucky<br><span style=font-size:11px>(White b. 1882)</span><br>LANCS KY8A in d').addTo(W1870);
+const W1870WestBranchMichiganLANCSMI12A= L.marker([44.2764,-84.2386], {icon: d}).bindPopup(' West Branch, Michigan<br><span style=font-size:11px>(White b. 1878)</span><br>LANCS MI12A in d').addTo(W1870);
+const W1870IsabellaMichiganLANCSMI14B= L.marker([43.6917,-84.7942], {icon: d}).bindPopup(' Isabella, Michigan<br><span style=font-size:11px>(White b. 1880)</span><br>LANCS MI14B in d').addTo(W1870);
+const W1870ZeelandMichiganLANCSMI16A= L.marker([42.8125,-86.0187], {icon: d}).bindPopup(' Zeeland, Michigan<br><span style=font-size:11px>(White b. 1875)</span><br>LANCS MI16A in d').addTo(W1870);
+const W1870GrandRapidsMichiganLANCSMI16C= L.marker([42.9634,-85.6681], {icon: d}).bindPopup(' Grand Rapids, Michigan<br><span style=font-size:11px>(White b. 1878)</span><br>LANCS MI16C in d').addTo(W1870);
+const W1870BurnsMichiganLANCSMI18B= L.marker([42.494,-83.5855], {icon: d}).bindPopup(' Burns, Michigan<br><span style=font-size:11px>(White b. 1877)</span><br>LANCS MI18B in d').addTo(W1870);
+const W1870StClairMichiganLANCSMI20B= L.marker([42.8209,-82.486], {icon: d}).bindPopup(' St. Clair, Michigan<br><span style=font-size:11px>(White b. 1881)</span><br>LANCS MI20B in d').addTo(W1870);
+const W1870PawPawMichiganLANCSMI24A= L.marker([42.2178,-85.8911], {icon: d}).bindPopup(' Paw Paw, Michigan<br><span style=font-size:11px>(White b. 1899)</span><br>LANCS MI24A in d').addTo(W1870);
+const W1870CalumetMichiganLANCSMI2A= L.marker([47.2466,-88.454], {icon: d}).bindPopup(' Calumet, Michigan<br><span style=font-size:11px>(White b. 1867)</span><br>LANCS MI2A in d').addTo(W1870);
+const W1870DundeeMichiganLANCSMI30B= L.marker([41.9573,-83.6597], {icon: d}).bindPopup(' Dundee, Michigan<br><span style=font-size:11px>(White b. 1876)</span><br>LANCS MI30B in d').addTo(W1870);
+const W1870EscanabaMichiganLANCSMI4B= L.marker([45.7452,-87.0646], {icon: d}).bindPopup(' Escanaba, Michigan<br><span style=font-size:11px>(White b. 1893)</span><br>LANCS MI4B in d').addTo(W1870);
+const W1870BeaverIslandMichiganLANCSMI6B= L.marker([45.6468,-85.5521], {icon: d}).bindPopup(' Beaver Island, Michigan<br><span style=font-size:11px>(White b. 1887)</span><br>LANCS MI6B in d').addTo(W1870);
+const W1900CaazapáDepartmentParaguaysample= L.marker([-26.2,-56.383333], {icon: d}).bindPopup('Caazapá Department, Paraguay<br><span style=font-size:11px>Anglo-Paraguayan (White b. 1900-44)</span><br>sample in d').addTo(W1900);
+const W1950CaazapáDepartmentParaguaysample= L.marker([-26.2,-56.383333], {icon: d}).bindPopup('Caazapá Department, Paraguay<br><span style=font-size:11px>Anglo-Paraguayan (White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1900ColumbusOhioDAREOH098= L.marker([39.962222,-83.000556], {icon: d}).bindPopup('Columbus, Ohio<br><span style=font-size:11px>(White b. 1906)</span><br>DARE OH098 in d').addTo(W1900);
+const W1900EncinalTexasLAGSINF894= L.marker([28.33,-99.35], {icon: d}).bindPopup('Encinal, Texas<br><span style=font-size:11px>(White b. 1898)</span><br>(DASS) LAGS INF894 in d').addTo(W1900);
+const W1900BrownsvilleTexasLAGSINF911= L.marker([25.92,-97.48], {icon: d}).bindPopup('Brownsville, Texas<br><span style=font-size:11px>(White b. 1870)</span><br>(DASS) LAGS INF911 in d').addTo(W1900);
+const W1900PendletonOregonOR015= L.marker([45.67,-118.78], {icon: d}).bindPopup('Pendleton, Oregon<br><span style=font-size:11px>(White b. 1870)</span><br>OR015 in d').addTo(W1900);
+const W1900NYCNewYorksample= L.marker([40.68,-73.98], {icon: d}).bindPopup('NYC, New York<br><span style=font-size:11px>(White b. 1900-44)</span><br>sample in d').addTo(W1900);
+const W1900MaryvilleTennesseeLAGSINF027= L.marker([35.73,-83.97], {icon: d}).bindPopup('Maryville, Tennessee<br><span style=font-size:11px>(White b. 1912)</span><br>(DASS) LAGS INF027 in d').addTo(W1900);
+const W1900SweetwaterTennesseeLAGSINF40= L.marker([35.6,-84.47], {icon: d}).bindPopup('Sweetwater, Tennessee<br><span style=font-size:11px>(White b. 1933)</span><br>(DASS) LAGS INF40 in d').addTo(W1900);
+const W1900StewartTennesseeLAGSINF299= L.marker([36.32,-87.83], {icon: d}).bindPopup('Stewart, Tennessee<br><span style=font-size:11px>(White b. 1936)</span><br>(DASS) LAGS INF299 in d').addTo(W1900);
+const W1900LaredoTexasLAGSINF893= L.marker([27.52,-99.48], {icon: d}).bindPopup('Laredo, Texas<br><span style=font-size:11px>(White b. 1916)</span><br>(DASS) LAGS INF893 in d').addTo(W1900);
+const W1900WaxahachieTexasLAGSINF850= L.marker([32.38,-96.83], {icon: d}).bindPopup('Waxahachie, Texas<br><span style=font-size:11px>(White b. 1910)</span><br>(DASS) LAGS INF850 in d').addTo(W1900);
+const W1900BeaumontTexasLAGSINF863= L.marker([30.07,-94.12], {icon: d}).bindPopup('Beaumont, Texas<br><span style=font-size:11px>(White b. 1927)</span><br>(DASS) LAGS INF863 in d').addTo(W1900);
+const W1900ElbridgeTennesseeLAGSINF494= L.marker([36.25,-89.18], {icon: d}).bindPopup('Elbridge, Tennessee<br><span style=font-size:11px>(White b. 1916)</span><br>(DASS) LAGS INF494 in d').addTo(W1900);
+const W1900DaytonTennesseeLAGSINF052= L.marker([35.5,-85.17], {icon: d}).bindPopup('Dayton, Tennessee<br><span style=font-size:11px>(White b. 1905)</span><br>(DASS) LAGS INF052 in d').addTo(W1900);
+const W1900BayArkansasLAGSINF678= L.marker([35.73,-90.55], {icon: d}).bindPopup('Bay, Arkansas<br><span style=font-size:11px>(White b. 1907)</span><br>(DASS) LAGS INF678 in d').addTo(W1900);
+const W1900ElDoradoArkansasLAGSINF741= L.marker([33.2,-92.65], {icon: d}).bindPopup('El Dorado, Arkansas<br><span style=font-size:11px>(White b. 1937)</span><br>(DASS) LAGS INF741 in d').addTo(W1900);
+const W1900RomeGeorgiaLAGSINF079= L.marker([34.25,-85.18], {icon: d}).bindPopup('Rome, Georgia<br><span style=font-size:11px>(White b. 1902)</span><br>(DASS) LAGS INF079 in d').addTo(W1900);
+const W1900HuntsvilleAlabamaLAGSINF342= L.marker([34.72,-86.58], {icon: d}).bindPopup('Huntsville, Alabama<br><span style=font-size:11px>(White b. 1912)</span><br>(DASS) LAGS INF342 in d').addTo(W1900);
+const W1900OneontaAlabamaLAGSINF356= L.marker([33.93,-86.47], {icon: d}).bindPopup('Oneonta, Alabama<br><span style=font-size:11px>(White b. 1918)</span><br>(DASS) LAGS INF356 in d').addTo(W1900);
+const W1870ShadyGroveAlabamaLAGSINF434= L.marker([31.9,-86.15], {icon: d}).bindPopup('Shady Grove, Alabama<br><span style=font-size:11px>(White b. 1886)</span><br>(DASS) LAGS INF434 in d').addTo(W1870);
+const W1900GanttAlabamaLAGSINF444= L.marker([31.4,-86.48], {icon: d}).bindPopup('Gantt, Alabama<br><span style=font-size:11px>(White b. 1900)</span><br>(DASS) LAGS INF444 in d').addTo(W1900);
+const W1900DamascusAlabamaLAGSINF446= L.marker([33.97,-86.87], {icon: d}).bindPopup('Damascus, Alabama<br><span style=font-size:11px>(White b. 1917)</span><br>(DASS) LAGS INF446 in d').addTo(W1900);
+const W1900StocktonAlabamaLAGSINF472= L.marker([30.98,-87.85], {icon: d}).bindPopup('Stockton, Alabama<br><span style=font-size:11px>(White b. 1904)</span><br>(DASS) LAGS INF472 in d').addTo(W1900);
+const W1900DrewMississippiLAGSINF548= L.marker([33.8,-90.52], {icon: d}).bindPopup('Drew, Mississippi<br><span style=font-size:11px>(White b. 1909)</span><br>(DASS) LAGS INF548 in d').addTo(W1900);
+const W1900LormanMississippiLAGSINF595= L.marker([31.82,-91.05], {icon: d}).bindPopup('Lorman, Mississippi<br><span style=font-size:11px>(White b. 1924)</span><br>(DASS) LAGS INF595 in d').addTo(W1900);
+const W1900HawthorneLouisianaLAGSINF791= L.marker([31.13,-93.27], {icon: d}).bindPopup('Hawthorne, Louisiana<br><span style=font-size:11px>(White b. 1925)</span><br>(DASS) LAGS INF791 in d').addTo(W1900);
+const W1900SeattleWashigntondescription= L.marker([48,-85.63], {icon: d}).bindPopup('Seattle, Washignton<br><span style=font-size:11px>(White b. 1900-44)</span><br>description in d').addTo(W1900);
+const W1900SpokaneWashigntondescription= L.marker([47.658889,-117.425], {icon: d}).bindPopup('Spokane, Washignton<br><span style=font-size:11px>(White b. 1900-44)</span><br>description in d').addTo(W1900);
+const W1900VancouverWashigntondescription= L.marker([45.631111,-122.671667], {icon: d}).bindPopup('Vancouver, Washignton<br><span style=font-size:11px>(White b. 1900-44)</span><br>description in d').addTo(W1900);
+const W1900TorontoOntarioSpeaker1= L.marker([43.73,-79.37], {icon: e}).bindPopup('Toronto, Ontario<br><span style=font-size:11px>(White b. 1927)</span><br>Speaker 1 in e').addTo(W1900);
+const W1900StJohnsNewfoundlandSpeaker2= L.marker([47.47,-52.78], {icon: b}).bindPopup('St Johns, Newfoundland<br><span style=font-size:11px>(White b. 1934)</span><br>Speaker 2 in b').addTo(W1900);
+const W1900HaverhillMassachusettsSpeaker5= L.marker([42.78,-71.08], {icon: b}).bindPopup('Haverhill, Massachusetts<br><span style=font-size:11px>(White b. 1941)</span><br>Speaker 5 in b').addTo(W1900);
+const W1900MeridenConnecticutSpeaker8= L.marker([41.53,-72.78], {icon: d}).bindPopup('Meriden, Connecticut<br><span style=font-size:11px>(White b. 1907)</span><br>Speaker 8 in d').addTo(W1900);
+const W1900ManhattanNewYorkSpeaker9= L.marker([40.78,-73.97], {icon: e}).bindPopup('Manhattan, New York<br><span style=font-size:11px>(White b. 1908)</span><br>Speaker 9 in e').addTo(W1900);
+const W1900LinoLakesMinnesotaSpeaker10= L.marker([45.17,-93.08], {icon: d}).bindPopup('Lino Lakes, Minnesota<br><span style=font-size:11px>(White b. 1940)</span><br>Speaker 10 in d').addTo(W1900);
+const W1900PhiladelphiaPennsylvaniaSpeaker11= L.marker([39.95,-75.15], {icon: d}).bindPopup('Philadelphia, Pennsylvania<br><span style=font-size:11px>(White b. 1943)</span><br>Speaker 11 in d').addTo(W1900);
+const W1900CheviotOhioSpeaker21= L.marker([39.15,-84.6], {icon: d}).bindPopup('Cheviot, Ohio<br><span style=font-size:11px>(White b. 1918)</span><br>DARE OH076  Speaker 21 in d').addTo(W1900);
+const W1900SacramentoCaliforniaSpeaker50= L.marker([38.581667,-121.494444], {icon: d}).bindPopup('Sacramento, California<br><span style=font-size:11px>(White b. 1944)</span><br>Speaker 50 in d').addTo(W1900);
+const W1900CherokeeSoundBahamaSpeaker51= L.marker([26.47,-77.08], {icon: d}).bindPopup('Cherokee Sound, Bahama<br><span style=font-size:11px>(White b. 1912)</span><br>Speaker 51 in d').addTo(W1900);
+const W1900IrvingtonVirginiaSpeaker55= L.marker([37.65,-76.42], {icon: d}).bindPopup('Irvington, Virginia<br><span style=font-size:11px>(White b. 1940)</span><br>Speaker 55 in d').addTo(W1900);
+const W1900MontgomeryAlabamaSpeaker59= L.marker([32.58,-86.45], {icon: d}).bindPopup('Montgomery, Alabama<br><span style=font-size:11px>(White b. 1914)</span><br>Speaker 59 in d').addTo(W1900);
+const W1900RobbinisvilleNorthCarolinaSpeaker64= L.marker([35.32,-83.8], {icon: d}).bindPopup('Robbinisville, North Carolina<br><span style=font-size:11px>(White b. 1908)</span><br>Speaker 64 in d').addTo(W1900);
+const W1900RaleighNorthCarolinaSpeaker72= L.marker([36.28,-78.63], {icon: d}).bindPopup('Raleigh, North Carolina<br><span style=font-size:11px>(White b. 1903)</span><br>DARE NC 007 Speaker 72 in d').addTo(W1900);
+const W1900HurdleMillsNorthCarolinaSpeaker76= L.marker([36.27,-79.03], {icon: d}).bindPopup('Hurdle Mills, North Carolina<br><span style=font-size:11px>(White b. 1922)</span><br>Speaker 76 in d').addTo(W1900);
+const W1970LeasburgNorthCarolinaSpeaker77= L.marker([36.4,-79.15], {icon: d}).bindPopup('Leasburg, North Carolina<br><span style=font-size:11px>(White b. 1977)</span><br>Speaker 77 in d').addTo(W1970);
+const W1900EngelhardNorthCarolinaSpeaker80= L.marker([36.15,-76.14], {icon: d}).bindPopup('Engelhard, North Carolina<br><span style=font-size:11px>(White b. 1902)</span><br>Speaker 80 in d').addTo(W1900);
+const W1900SwanQuarterNorthCarolinaSpeaker81= L.marker([35.68,-76.37], {icon: d}).bindPopup('Swan Quarter, North Carolina<br><span style=font-size:11px>(White b. 1910)</span><br>Speaker 81 in d').addTo(W1900);
+const W1900OcracokeNorthCarolinaSpeaker84= L.marker([35.23,-75.98], {icon: d}).bindPopup('Ocracoke, North Carolina<br><span style=font-size:11px>(White b. 1913)</span><br>Speaker 84 in d').addTo(W1900);
+const W1900HarkersIslandNorthCarolinaSpeaker87= L.marker([34.81,-76.56], {icon: d}).bindPopup('Harkers Island, North Carolina<br><span style=font-size:11px>(White b. 1912)</span><br>Speaker 87 in d').addTo(W1900);
+const W1900NewOrleansLouisianaSpeaker88= L.marker([30.41,-90.13], {icon: d}).bindPopup('New Orleans, Louisiana<br><span style=font-size:11px>(White b. 1915)</span><br>DAR E LA 042 Speaker 88 in d').addTo(W1900);
+const W1900YaleOklahomaSpeaker90= L.marker([36.54,-96.6], {icon: d}).bindPopup('Yale, Oklahoma<br><span style=font-size:11px>(White b. 1917)</span><br>Speaker 90 in d').addTo(W1900);
+const W1900AmericanaBrazilSpeaker94= L.marker([-19.81,-47.85], {icon: d}).bindPopup('Americana, Brazil<br><span style=font-size:11px>(White b. 1905)</span><br>Speaker 94 in d').addTo(W1900);
+const W1900GilmerTexasSpeaker100= L.marker([33,-94.89], {icon: d}).bindPopup('Gilmer, Texas<br><span style=font-size:11px>(White b. 1903)</span><br>Speaker 100 in d').addTo(W1900);
+const W1900HoustonTexasSpeaker101= L.marker([29.99,-95.54], {icon: d}).bindPopup('Houston, Texas<br><span style=font-size:11px>(White b. 1906)</span><br>Speaker 101 in d').addTo(W1900);
+const W1900BrazosTexasSpeaker102= L.marker([31.05,-96.39], {icon: d}).bindPopup('Brazos, Texas<br><span style=font-size:11px>(White b. 1907)</span><br>Speaker 102 in d').addTo(W1900);
+const W1900WiseCountyTexasSpeaker103= L.marker([33.61,-97.68], {icon: d}).bindPopup('Wise County, Texas<br><span style=font-size:11px>(White b. 1903)</span><br>Speaker 103 in d').addTo(W1900);
+const W1900HendersonTexasSpeaker104= L.marker([32.54,-94.8], {icon: d}).bindPopup('Henderson, Texas<br><span style=font-size:11px>(White b. 1915)</span><br>Speaker 104 in d').addTo(W1900);
+const W1900TylerTexasSpeaker105= L.marker([32.82,-95.35], {icon: d}).bindPopup('Tyler, Texas<br><span style=font-size:11px>(White b. 1916)</span><br>Speaker 105 in d').addTo(W1900);
+const W1900CliftonTexasSpeaker106= L.marker([32.11,-97.54], {icon: d}).bindPopup('Clifton, Texas<br><span style=font-size:11px>(White b. 1923)</span><br>Speaker 106 in d').addTo(W1900);
+const W1900DallasTexasSpeaker107= L.marker([33.14,-96.88], {icon: d}).bindPopup('Dallas, Texas<br><span style=font-size:11px>(White b. 1926)</span><br>Speaker 107 in d').addTo(W1900);
+const W1900GarlandTexasSpeaker110= L.marker([32.98,-96.66], {icon: d}).bindPopup('Garland, Texas<br><span style=font-size:11px>(White b. 1937)</span><br>Speaker 110 in d').addTo(W1900);
+const W1900HoustonTexasSpeaker111= L.marker([30.22,-95.37], {icon: d}).bindPopup('Houston, Texas<br><span style=font-size:11px>(White b. 1939)</span><br>Speaker 111 in d').addTo(W1900);
+const W1900TroupTexasSpeaker112= L.marker([32.31,-95.07], {icon: d}).bindPopup('Troup, Texas<br><span style=font-size:11px>(White b. 1939)</span><br>Speaker 112 in d').addTo(W1900);
+const W1900HoneyGroveTexasSpeaker113= L.marker([33.81,-95.88], {icon: d}).bindPopup('Honey Grove, Texas<br><span style=font-size:11px>(White b. 1944)</span><br>Speaker 113 in d').addTo(W1900);
+const W1900TylertonMarylandSpeaker52= L.marker([38.34,-76.02], {icon: d}).bindPopup('Tylerton, Maryland<br><span style=font-size:11px>(White b. 1911)</span><br>Speaker 52 in d').addTo(W1900);
+const W1900BahamasBahamasdescription= L.marker([25.0343,-77.3963], {icon: d}).bindPopup('Bahamas, Bahamas<br><span style=font-size:11px>(White b. 1900-44)</span><br>description in d').addTo(W1900);
+const W1900NYNewYorkdescription= L.marker([40.78,-73.97], {icon: d}).bindPopup('NY, New York<br><span style=font-size:11px>(White b. 1900-44)</span><br>description in d').addTo(W1900);
+const W1900IndianapolisIndianaListenPast= L.marker([38.2527,-85.7585], {icon: d}).bindPopup('Indianapolis, Indiana<br><span style=font-size:11px>(White b. 1900-44)</span><br>ListenPast in d').addTo(W1900);
+const W1900IndianapolisIndianasample= L.marker([38.2527,-85.7585], {icon: d}).bindPopup('Indianapolis, Indiana<br><span style=font-size:11px>(White b. 1900-44)</span><br>sample in d').addTo(W1900);
+const W1900ChampaignIllinoisLANCSIL36B= L.marker([40.1164,-88.2434], {icon: d}).bindPopup(' Champaign, Illinois<br><span style=font-size:11px>(White b. 1925)</span><br>LANCS IL36B in d').addTo(W1900);
+const W1900MountSterlingIllinoisLANCSIL37B= L.marker([39.9873,-90.7635], {icon: d}).bindPopup(' Mount Sterling, Illinois<br><span style=font-size:11px>(White b. 1907)</span><br>LANCS IL37B in d').addTo(W1900);
+const W1900SpringfieldIllinoisLANCSIL39C= L.marker([38.7817,-89.6501], {icon: d}).bindPopup(' Springfield, Illinois<br><span style=font-size:11px>(White b. 1900)</span><br>LANCS IL39C in d').addTo(W1900);
+const W1900MurphysboroIllinoisLANCSIL53B= L.marker([37.7645,-89.3351], {icon: d}).bindPopup(' Murphysboro, Illinois<br><span style=font-size:11px>(White b. 1906)</span><br>LANCS IL53B in d').addTo(W1900);
+const W1900GolcondaIllinoisLANCSIL58C= L.marker([37.215,-88.2912], {icon: d}).bindPopup(' Golconda, Illinois<br><span style=font-size:11px>(White b. 1917)</span><br>LANCS IL58C in d').addTo(W1900);
+const W1900FranklinCornersIllinoisLANCSIL6B= L.marker([41.917,-89.9107], {icon: d}).bindPopup(' Franklin Corners, Illinois<br><span style=font-size:11px>(White b. 1905)</span><br>LANCS IL6B in d').addTo(W1900);
+const W1900GreenvilleKentuckyLANCSKY11B= L.marker([37.2012,-87.1789], {icon: d}).bindPopup(' Greenville, Kentucky<br><span style=font-size:11px>(White b. 1901)</span><br>LANCS KY11B in d').addTo(W1900);
+const W1900LexingtonKentuckyLANCSKY17D= L.marker([38.0406,-84.5037], {icon: d}).bindPopup(' Lexington, Kentucky<br><span style=font-size:11px>(White b. 1902)</span><br>LANCS KY17D in d').addTo(W1900);
+const W1900VersaillesKentuckyLANCSKY17F= L.marker([38.0526,-84.7299], {icon: d}).bindPopup(' Versailles, Kentucky<br><span style=font-size:11px>(White b. 1928)</span><br>LANCS KY17F in d').addTo(W1900);
+const W1900IrvineKentuckyLANCSKY18B= L.marker([37.7006,-83.9738], {icon: d}).bindPopup(' Irvine, Kentucky<br><span style=font-size:11px>(White b. 1906)</span><br>LANCS KY18B in d').addTo(W1900);
+const W1900SmithlandKentuckyLANCSKY1B= L.marker([37.1389,-88.4034], {icon: d}).bindPopup(' Smithland, Kentucky<br><span style=font-size:11px>(White b. 1917)</span><br>LANCS KY1B in d').addTo(W1900);
+const W1900HamptonKentuckyLANCSKY1C= L.marker([37.1659,-88.2217], {icon: d}).bindPopup(' Hampton, Kentucky<br><span style=font-size:11px>(White b. 1931)</span><br>LANCS KY1C in d').addTo(W1900);
+const W1900CaledoniaKentuckyLANCSKY24D= L.marker([36.8203,-87.695], {icon: d}).bindPopup(' Caledonia, Kentucky<br><span style=font-size:11px>(White b. 1900)</span><br>LANCS KY24D in d').addTo(W1900);
+const W1900LewisburgKentuckyLANCSKY25B= L.marker([36.9864,-86.9472], {icon: d}).bindPopup(' Lewisburg, Kentucky<br><span style=font-size:11px>(White b. 1910)</span><br>LANCS KY25B in d').addTo(W1900);
+const W1900WoffordKentuckyLANCSKY28A= L.marker([36.7803,-84.1349], {icon: d}).bindPopup(' Wofford, Kentucky<br><span style=font-size:11px>(White b. 1850)</span><br>LANCS KY28A in d').addTo(W1900);
+const W1900SebreeKentuckyLANCSKY2B= L.marker([37.5178,-87.6903], {icon: d}).bindPopup(' Sebree, Kentucky<br><span style=font-size:11px>(White b. 1912)</span><br>LANCS KY2B in d').addTo(W1900);
+const W1900ScovilleKentuckyLANCSKY30B= L.marker([37.454,-83.7199], {icon: d}).bindPopup(' Scoville, Kentucky<br><span style=font-size:11px>(White b. 1944)</span><br>LANCS KY30B in d').addTo(W1900);
+const W1900HawesvilleKentuckyLANCSKY3A= L.marker([37.9001,-86.755], {icon: d}).bindPopup(' Hawesville, Kentucky<br><span style=font-size:11px>(White b. 1912)</span><br>LANCS KY3A in d').addTo(W1900);
+const W1900HawesvilleKentuckyLANCSKY3B= L.marker([37.9001,-86.755], {icon: d}).bindPopup(' Hawesville, Kentucky<br><span style=font-size:11px>(White b. 1910)</span><br>LANCS KY3B in d').addTo(W1900);
+const W1900LouisvilleKentuckyLANCSKY7BA= L.marker([38.2527,-85.7585], {icon: d}).bindPopup(' Louisville, Kentucky<br><span style=font-size:11px>(White b. 1904)</span><br>LANCS KY7BA in d').addTo(W1900);
+const W1900MaysvilleKentuckyLANCSKY9C= L.marker([38.6412,-83.7444], {icon: d}).bindPopup(' Maysville, Kentucky<br><span style=font-size:11px>(White b. 1924)</span><br>LANCS KY9C in d').addTo(W1900);
+const W1900ChurchillMichiganLANCSMI12B= L.marker([44.1643,-84.0725], {icon: d}).bindPopup(' Churchill, Michigan<br><span style=font-size:11px>(White b. 1901)</span><br>LANCS MI12B in d').addTo(W1900);
+const W1900FlintMichiganLANCSMI19= L.marker([42.9959,-83.691971], {icon: d}).bindPopup(' Flint, Michigan<br><span style=font-size:11px>(White b. 1940)</span><br>LANCS MI19 in d').addTo(W1900);
+const W1900CrookstonMinnesotaLAUM9= L.marker([47.774722,-96.606389], {icon: d}).bindPopup('Crookston, Minnesota<br><span style=font-size:11px>(White b. 1903)</span><br>LAUM 9 in d').addTo(W1900);
+const W1900VirginiaMinnesotaLAUM14= L.marker([47.5233,-92.5366], {icon: d}).bindPopup('Virginia, Minnesota<br><span style=font-size:11px>(White b. 1902)</span><br>LAUM 14 in d').addTo(W1900);
+const W1900DuluthMinnesotaLAUM18= L.marker([46.7867,-92.1005], {icon: d}).bindPopup('Duluth, Minnesota<br><span style=font-size:11px>(White b. 1907)</span><br>LAUM 18 in d').addTo(W1900);
+const W1900GracevilleMinnesotaLAUM26= L.marker([45.568611,-96.437222], {icon: d}).bindPopup('Graceville, Minnesota<br><span style=font-size:11px>(White b. 1901)</span><br>LAUM 26 in d').addTo(W1900);
+const W1900ClearwaterMinnesotaLAUM30= L.marker([45.410278,-94.044722], {icon: d}).bindPopup('Clearwater, Minnesota<br><span style=font-size:11px>(White b. 1904)</span><br>LAUM 30 in d').addTo(W1900);
+const W1900MinneapolisMinnesotaLAUM34= L.marker([44.9777,-93.265], {icon: d}).bindPopup('Minneapolis, Minnesota<br><span style=font-size:11px>(White b. 1907)</span><br>LAUM 34 in d').addTo(W1900);
+const W1900LittleCanadaMinnesotaLAUM38= L.marker([45.0269,-93.0877], {icon: d}).bindPopup('Little Canada, Minnesota<br><span style=font-size:11px>(White b. 1909)</span><br>LAUM 38 in d').addTo(W1900);
+const W1900FaribaultMinnesotaLAUM50= L.marker([44.295,-93.2688], {icon: d}).bindPopup('Faribault, Minnesota<br><span style=font-size:11px>(White b. 1906)</span><br>LAUM 50 in d').addTo(W1900);
+const W1900MapletonMinnesotaLAUM53= L.marker([43.926667,-93.954722], {icon: d}).bindPopup('Mapleton, Minnesota<br><span style=font-size:11px>(White b. 1904)</span><br>LAUM 53 in d').addTo(W1900);
+const W1900WinonaMinnesotaLAUM58= L.marker([44.05,-91.6333], {icon: d}).bindPopup('Winona, Minnesota<br><span style=font-size:11px>(White b. 1905)</span><br>LAUM 58 in d').addTo(W1900);
+const W1900SiouxCityIowaLAUM110= L.marker([42.49538,-96.389495], {icon: d}).bindPopup('Sioux City, Iowa<br><span style=font-size:11px>(White b. 1903)</span><br>LAUM 110 in d').addTo(W1900);
+const W1900JanesvilleIowaLAUM117= L.marker([42.646111,-92.4625], {icon: d}).bindPopup('Janesville, Iowa<br><span style=font-size:11px>(White b. 1902)</span><br>LAUM 117 in d').addTo(W1900);
+const W1900KeokukIowaLAUM150= L.marker([40.408333,-91.387778], {icon: d}).bindPopup('Keokuk, Iowa<br><span style=font-size:11px>(White b. 1903)</span><br>LAUM 150 in d').addTo(W1900);
+const W1900RollaNorthDakotaLAUM205= L.marker([48.86,-99.62], {icon: d}).bindPopup('Rolla, North Dakota<br><span style=font-size:11px>(White b. 1905)</span><br>LAUM 205 in d').addTo(W1900);
+const W1900FargoNorthDakotaLAUM221= L.marker([46.873333,-96.827222], {icon: d}).bindPopup('Fargo, North Dakota<br><span style=font-size:11px>(White b. 1902)</span><br>LAUM 221 in d').addTo(W1900);
+const W1900WestportSouthDakotaLAUM306= L.marker([45.6489,-98.497], {icon: d}).bindPopup('Westport, South Dakota<br><span style=font-size:11px>(White b. 1902)</span><br>LAUM 306 in d').addTo(W1900);
+const W1900LeadSouthDakotaLAUM310= L.marker([44.352,-103.7661], {icon: d}).bindPopup('Lead, South Dakota<br><span style=font-size:11px>(White b. 1904)</span><br>LAUM 310 in d').addTo(W1900);
+const W1900PierreSouthDakotaLAUM315= L.marker([44.3668,-100.3538], {icon: d}).bindPopup('Pierre, South Dakota<br><span style=font-size:11px>(White b. 1907)</span><br>LAUM 315 in d').addTo(W1900);
+const W1900BrookingsSouthDakotaLAUM318= L.marker([44.3021,-96.7863], {icon: d}).bindPopup('Brookings, South Dakota<br><span style=font-size:11px>(White b. 1911)</span><br>LAUM 318 in d').addTo(W1900);
+const W1900BrookingsSouthDakotaLAUM319= L.marker([43.3766,-99.859], {icon: d}).bindPopup('Brookings, South Dakota<br><span style=font-size:11px>(White b. 1903)</span><br>LAUM 319 in d').addTo(W1900);
+const W1900WinnerSouthDakotaLAUM321= L.marker([44.08,-103.23], {icon: d}).bindPopup('Winner, South Dakota<br><span style=font-size:11px>(White b. 1910)</span><br>LAUM 321 in d').addTo(W1900);
+const W1900RapidCitySouthDakotaLAUM326= L.marker([43.958,-103.3585], {icon: d}).bindPopup('Rapid City, South Dakota<br><span style=font-size:11px>(White b. 1901)</span><br>LAUM 326 in d').addTo(W1900);
+const W1900ValentineNebraskaLAUM404= L.marker([42.8731,-100.5506], {icon: d}).bindPopup('Valentine, Nebraska<br><span style=font-size:11px>(White b. 1905)</span><br>LAUM 404 in d').addTo(W1900);
+const W1900BassettNebraskaLAUM406= L.marker([42.5858,-99.5379], {icon: d}).bindPopup('Bassett, Nebraska<br><span style=font-size:11px>(White b. 1906)</span><br>LAUM 406 in d').addTo(W1900);
+const W1900ScottsbluffNebraskaLAUM410= L.marker([41.8666,-103.6672], {icon: d}).bindPopup('Scottsbluff, Nebraska<br><span style=font-size:11px>(White b. 1902)</span><br>LAUM 410 in d').addTo(W1900);
+const W1900ScottsbluffNebraskaLAUM411= L.marker([41.8666,-103.6672], {icon: d}).bindPopup('Scottsbluff, Nebraska<br><span style=font-size:11px>(White b. 1912)</span><br>LAUM 411 in d').addTo(W1900);
+const W1900LincolnNebraskaLAUM425= L.marker([40.8,-96.667], {icon: d}).bindPopup('Lincoln, Nebraska<br><span style=font-size:11px>(White b. 1901)</span><br>LAUM 425 in d').addTo(W1900);
+const W1900ChappellNebraskaLAUM436= L.marker([41.0898,-102.468], {icon: d}).bindPopup('Chappell, Nebraska<br><span style=font-size:11px>(White b. 1906)</span><br>LAUM 436 in d').addTo(W1900);
+const W1900ChicagoIllinoisTS55= L.marker([41.88183,-87.62318], {icon: d}).bindPopup('Chicago, Illinois<br><span style=font-size:11px>(White b. 1915)</span><br>TS 55 in d').addTo(W1900);
+const W1900ColumbusOhioTS100= L.marker([39.9612,-82.9988], {icon: d}).bindPopup('Columbus, Ohio<br><span style=font-size:11px>(White b. 1936)</span><br>TS 100 in d').addTo(W1900);
+const W1900StLouisMissouriTS109= L.marker([38.627,-90.1994], {icon: d}).bindPopup('St Louis, Missouri<br><span style=font-size:11px>(White b. 1936)</span><br>TS 109 in d').addTo(W1900);
+const W1900CincinnatiOhioTS118= L.marker([39.10312,-84.51202], {icon: d}).bindPopup('Cincinnati, Ohio<br><span style=font-size:11px>(White b. 1933)</span><br>TS 118 in d').addTo(W1900);
+const W1900StLouisMissouriTS167= L.marker([38.627,-90.1994], {icon: d}).bindPopup('St Louis, Missouri<br><span style=font-size:11px>(White b. 1941)</span><br>TS 167 in d').addTo(W1900);
+const W1900BirminghamAlabamaTS340= L.marker([33.54368,-86.77963], {icon: d}).bindPopup('Birmingham, Alabama<br><span style=font-size:11px>(White b. 1934)</span><br>TS 340 in d').addTo(W1900);
+const W1900BuffaloNewYorkTS347= L.marker([42.8864,-78.8784], {icon: d}).bindPopup('Buffalo, New York<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 118 TS 347 in d').addTo(W1900);
+const W1900PittsburghPennsylvaniaTS356= L.marker([40.44062,-79.99589], {icon: d}).bindPopup('Pittsburgh, Pennsylvania<br><span style=font-size:11px>(White b. 1933)</span><br>TS 356 in d').addTo(W1900);
+const W1900TrentonNewJerseyTS385= L.marker([40.21705,-74.742935], {icon: d}).bindPopup('Trenton, New Jersey<br><span style=font-size:11px>(White b. 1929)</span><br>TS 385 in d').addTo(W1900);
+const W1900LittleRockArkansasTS402= L.marker([34.74648,-92.2896], {icon: d}).bindPopup('LittleRock, Arkansas<br><span style=font-size:11px>(White b. 1924)</span><br>TS 402 in d').addTo(W1900);
+const W1900RutlandVermontTS434= L.marker([43.610622,-72.972603], {icon: d}).bindPopup('Rutland, Vermont<br><span style=font-size:11px>(White b. 1932)</span><br>TS 434 in d').addTo(W1900);
+const W1900MiddleburyVermontTS436= L.marker([44.0153,-73.1673], {icon: d}).bindPopup('Middlebury, Vermont<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 161 TS 436 in d').addTo(W1900);
+const W1900SpringfieldMassachusettsTS437= L.marker([42.1015,-72.5898], {icon: d}).bindPopup('Springfield, Massachusetts<br><span style=font-size:11px>(White b. 1925)</span><br>TS 437 in d').addTo(W1900);
+const W1900ManchesterNewHampshireTS447= L.marker([42.9956,-71.4548], {icon: d}).bindPopup('Manchester, New Hampshire<br><span style=font-size:11px>(White b. 1920)</span><br>TS 447 in d').addTo(W1900);
+const W1900SouthHadleyVermonntTS452= L.marker([42.2593,-72.5745], {icon: d}).bindPopup('South Hadley, Vermonnt<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 283 TS 452 in d').addTo(W1900);
+const W1900BostonMassachusettsTS454= L.marker([42.361145,-71.057083], {icon: d}).bindPopup('Boston, Massachusetts<br><span style=font-size:11px>(White b. 1953)</span><br>TS 454 in d').addTo(W1900);
+const W1900ProvidenceRhodeIslandTS474= L.marker([41.825226,-71.418884], {icon: d}).bindPopup('Providence, Rhode Island<br><span style=font-size:11px>(White b. 1954)</span><br>TS 474 in d').addTo(W1900);
+const W1900SpringfieldMassachusettsTS477= L.marker([41.66121,-72.77954], {icon: d}).bindPopup('Springfield, Massachusetts<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 340 TS 477 in d').addTo(W1900);
+const W1950PhiladelphiaPennsylvaniaTS587= L.marker([39.952583,-75.165222], {icon: d}).bindPopup('Philadelphia, Pennsylvania<br><span style=font-size:11px>(White b. 1966)</span><br>TS 587 in d').addTo(W1950);
+const W1900WindsorOntarioTS643= L.marker([42.3149,-83.0364], {icon: d}).bindPopup('Windsor, Ontario<br><span style=font-size:11px>(White b. 1943)</span><br>TS 643 in d').addTo(W1900);
+const W1900WindsorOntarioTS661= L.marker([42.3149,-83.0364], {icon: d}).bindPopup('Windsor, Ontario<br><span style=font-size:11px>(White b. 1969)</span><br>TS 661 in d').addTo(W1900);
+const W1900WilmingtonNorthCarolina85yoTelsursubject= L.marker([34.53,-77.97], {icon: d}).bindPopup('Wilmington, North Carolina<br><span style=font-size:11px>(White b. 1911)</span><br>85 y.o. Telsur subject in d').addTo(W1900);
+const W1900LindenAlabama60yoTelsursubject= L.marker([32.3,-87.7925], {icon: d}).bindPopup('Linden, Alabama<br><span style=font-size:11px>(White b. 1936)</span><br>60 y.o. Telsur subject in d').addTo(W1900);
+const W1900HalifaxNovaScotiadescription= L.marker([44.64876,-63.57524], {icon: d}).bindPopup('Halifax, Nova Scotia<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 385 description in d').addTo(W1900);
+const W1900LunenbergNovaScotiadescription= L.marker([44.377778,-64.309444], {icon: d}).bindPopup('Lunenberg, Nova Scotia<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 402 description in d').addTo(W1900);
+const W1900CapeBretonNovaScotiadescription= L.marker([46.295,-60.67], {icon: d}).bindPopup('Cape Breton, Nova Scotia<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 427 description in d').addTo(W1900);
+const W1900StJohnsNewfoundlanddescription= L.marker([47.56139,-52.71194], {icon: d}).bindPopup('St.  Johns, Newfoundland<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 434 description in d').addTo(W1900);
+const W1900AvalonPenninsulaNewfoundlanddescription= L.marker([47.29,-53.35], {icon: d}).bindPopup('Avalon Penninsula, Newfoundland<br><span style=font-size:11px>Irish (White b. 1900-44)</span><br>TS 435 description in d').addTo(W1900);
+const W1900NortheastcoastNewfoundlanddescription= L.marker([49.23,-55.07], {icon: d}).bindPopup('Northeast coast, Newfoundland<br><span style=font-size:11px>English (White b. 1900-44)</span><br>TS 436 description in d').addTo(W1900);
+const W1900BayIslandsHondurasdescription= L.marker([16.383333,-86.4], {icon: d}).bindPopup('Bay Islands, Honduras<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 437 description in d').addTo(W1900);
+const W1900IslandHarborandStoneyGourdAnguilladescription= L.marker([18.220833,-63.051667], {icon: d}).bindPopup('Island Harbor and  Stoney Gourd, Anguilla<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 447 description in d').addTo(W1900);
+const W1900FalklandIslandsUnitedKingdomdescription= L.marker([-51.695278,-57.849444], {icon: d}).bindPopup('Falkland Islands, United Kingdom<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 452 description in d').addTo(W1900);
+const W1900RochesterNewYorksample= L.marker([43.1566,-77.6088], {icon: d}).bindPopup('Rochester, New York<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 453 sample in d').addTo(W1900);
+const W1900SyracuseNewYorksample= L.marker([43.0481,-76.1474], {icon: d}).bindPopup('Syracuse, New York<br><span style=font-size:11px>(White b. 1900-44)</span><br>TS 454 sample in d').addTo(W1900);
+const W1950OklahomaCityOklahoma32yoTelsursubject= L.marker([35.468611,-97.521389], {icon: d}).bindPopup('Oklahoma City, Oklahoma<br><span style=font-size:11px>(White b. 1945-74)</span><br>TS 456 32 y.o. Telsur subject in d').addTo(W1950);
+const W1950TulsaOklahoma37yoTelsursubject= L.marker([36.131389,-95.937222], {icon: d}).bindPopup('Tulsa, Oklahoma<br><span style=font-size:11px>(White b. 1945-74)</span><br>TS 462 37 y.o. Telsur subject in d').addTo(W1950);
+const W1950KenoshaWisconsinTS3= L.marker([42.58808,-87.8229], {icon: d}).bindPopup('Kenosha, Wisconsin<br><span style=font-size:11px>(White b. 1964)</span><br>TS 3 in d').addTo(W1950);
+const W1950ClevelandOhioTS110= L.marker([41.50549,-81.68129], {icon: d}).bindPopup('Cleveland, Ohio<br><span style=font-size:11px>(White b. 1961)</span><br>TS 110 in d').addTo(W1950);
+const W1950StLouisMissouriTS111= L.marker([38.627,-90.1994], {icon: d}).bindPopup('St Louis, Missouri<br><span style=font-size:11px>(White b. 1959)</span><br>TS 474 TS 111 in d').addTo(W1950);
+const W1950AnnArborMichiganTS115= L.marker([42.27959,-83.73212], {icon: d}).bindPopup('AnnArbor, Michigan<br><span style=font-size:11px>(White b. 1951)</span><br>TS 115 in d').addTo(W1950);
+const W1950DetroitMichiganTS125= L.marker([42.33143,-83.04575], {icon: d}).bindPopup('Detroit, Michigan<br><span style=font-size:11px>(White b. 1952)</span><br>TS 125 in d').addTo(W1950);
+const W1950DetroitMichiganTS127= L.marker([42.33143,-83.04575], {icon: d}).bindPopup('Detroit, Michigan<br><span style=font-size:11px>(White b. 1945-74)</span><br>TS 127 in d').addTo(W1950);
+const W1950KansasCityMissouriTS152= L.marker([39.10667,-94.67639], {icon: d}).bindPopup('KansasCity, Missouri<br><span style=font-size:11px>(White b. 1954)</span><br>TS 152 in d').addTo(W1950);
+const W1950StLouisMissouriTS161= L.marker([38.627,-90.1994], {icon: d}).bindPopup('St Louis, Missouri<br><span style=font-size:11px>(White b. 1956)</span><br>TS 161 in d').addTo(W1950);
+const W1950DetroitMichiganTS176= L.marker([42.33143,-83.04575], {icon: d}).bindPopup('Detroit, Michigan<br><span style=font-size:11px>(White b. 1945-74)</span><br>TS 542 TS 176 in d').addTo(W1950);
+const W1950LexingtonKentuckyTS283= L.marker([38.04799,-84.50164], {icon: d}).bindPopup('Lexington, Kentucky<br><span style=font-size:11px>(White b. 1960)</span><br>TS 283 in d').addTo(W1950);
+const W1950LasVegasNevadaTS323= L.marker([36.18811,-115.17647], {icon: d}).bindPopup('Las Vegas, Nevada<br><span style=font-size:11px>(White b. 1970)</span><br>TS 323 in d').addTo(W1950);
+const W1950ProvoUtahTS332= L.marker([40.23385,-111.65853], {icon: d}).bindPopup('Provo, Utah<br><span style=font-size:11px>(White b. 1972)</span><br>TS 332 in d').addTo(W1950);
+const W1950BirminghamAlabamaTS341= L.marker([33.54368,-86.77963], {icon: d}).bindPopup('Birmingham, Alabama<br><span style=font-size:11px>(White b. 1964)</span><br>TS 341 in d').addTo(W1950);
+const W1950AlbanyNewYorkTS353= L.marker([42.65258,-73.75623], {icon: d}).bindPopup('Albany, New York<br><span style=font-size:11px>(White b. 1949)</span><br>TS 609 TS 353 in d').addTo(W1950);
+const W1950RochesterNewYorkTS359= L.marker([43.16103,-77.61092], {icon: d}).bindPopup('Rochester, New York<br><span style=font-size:11px>(White b. 1960)</span><br>TS 359 in d').addTo(W1950);
+const W1950BostonMassachusettsTS427= L.marker([42.361145,-71.057083], {icon: b}).bindPopup('Boston, Massachusetts<br><span style=font-size:11px>(White b. 1974)</span><br>TS 427 in b').addTo(W1950);
+const W1950BurlingtonVermontTS435= L.marker([44.4759,-73.2121], {icon: d}).bindPopup('Burlington, Vermont<br><span style=font-size:11px>(White b. 1953)</span><br>TS 643 TS 435 in d').addTo(W1950);
+const W1950NewBritainConnecticutTS465= L.marker([41.66121,-72.77954], {icon: d}).bindPopup('New Britain, Connecticut<br><span style=font-size:11px>(White b. 1939)</span><br>TS 465 in d').addTo(W1950);
+const W1950CharlotteNorthCarolinaTS483= L.marker([35.22722,-80.84306], {icon: d}).bindPopup('Charlotte, North Carolina<br><span style=font-size:11px>(White b. 1951)</span><br>TS 483 in d').addTo(W1950);
+const W1950NewYorkNewYorkTS495= L.marker([40.712728,-74.006015], {icon: d}).bindPopup('New York, New York<br><span style=font-size:11px>(White b. 1954)</span><br>TS 495 in d').addTo(W1950);
+const W1950CharlestonSouthCarolinaTS500= L.marker([32.77657,-79.93092], {icon: d}).bindPopup('Charleston, South Carolina<br><span style=font-size:11px>(White b. 1956)</span><br>TS 500 in d').addTo(W1950);
+const W1950AlbequerqueNewMexicoTS515= L.marker([35.10677,-106.62918], {icon: d}).bindPopup('Albequerque, New Mexico<br><span style=font-size:11px>(White b. 1965)</span><br>TS 515 in d').addTo(W1950);
+const W1950LubbockTexasTS542= L.marker([33.5767,-101.85507], {icon: d}).bindPopup('Lubbock, Texas<br><span style=font-size:11px>(White b. 1961)</span><br>TS 542 in d').addTo(W1950);
+const W1950PittsburghPennsylvaniaTS545= L.marker([40.44062,-79.99589], {icon: d}).bindPopup('Pittsburgh, Pennsylvania<br><span style=font-size:11px>(White b. 1966)</span><br>TS 545 in d').addTo(W1950);
+const W1950NewOrleansLouisianaTS608= L.marker([29.95107,-90.07153], {icon: d}).bindPopup('NewOrleans, Louisiana<br><span style=font-size:11px>(White b. 1958)</span><br>TS 608 in d').addTo(W1950);
+const W1950ChattanoogaTennesseeTS609= L.marker([35.045631,-85.309677], {icon: d}).bindPopup('Chattanooga, Tennessee<br><span style=font-size:11px>(White b. 1953)</span><br>TS 609 in d').addTo(W1950);
+const W1950ChattanoogaTennesseeTS612= L.marker([35.045631,-85.309677], {icon: d}).bindPopup('Chattanooga, Tennessee<br><span style=font-size:11px>(White b. 1962)</span><br>TS 612 in d').addTo(W1950);
+const W1950TorontoOntarioTS645= L.marker([43.6532,-79.3832], {icon: d}).bindPopup('Toronto, Ontario<br><span style=font-size:11px>(White b. 1962)</span><br>TS 645 in d').addTo(W1950);
+const W1950StJohnsNewfoundlandTS662= L.marker([47.56139,-52.71194], {icon: d}).bindPopup('StJohns, Newfoundland<br><span style=font-size:11px>(White b. 1961)</span><br>TS 662 in d').addTo(W1950);
+const W1950AtlantaGeorgiaTS711= L.marker([33.75375,84.38633], {icon: d}).bindPopup('Atlanta, Georgia<br><span style=font-size:11px>(White b. 1972)</span><br>TS 711 in d').addTo(W1950);
+const W1950PortlandMaineTS724= L.marker([43.68003,-70.31043], {icon: d}).bindPopup('Portland, Maine<br><span style=font-size:11px>(White b. 1953)</span><br>TS 724 in d').addTo(W1950);
+const W1950ColumbusOhioTS737= L.marker([39.9612,-82.9988], {icon: b}).bindPopup('Columbus, Ohio<br><span style=font-size:11px>(White b. 1962)</span><br>TS 737 in b').addTo(W1950);
+const W1950ColumbusOhioTS757= L.marker([39.96222,-83.00056], {icon: b}).bindPopup('Columbus, Ohio<br><span style=font-size:11px>(White b. 1964)</span><br>TS 757 in b').addTo(W1950);
+const W1950HalifaxNovaScotiaTS796= L.marker([44.64876,-63.57524], {icon: d}).bindPopup('Halifax, Nova Scotia<br><span style=font-size:11px>(White b. 1973)</span><br>TS 796 in d').addTo(W1950);
+const W1950NewYorkNewYorkTS800= L.marker([40.712728,-74.006015], {icon: d}).bindPopup('NewYork, New York<br><span style=font-size:11px>(White b. 1952)</span><br>TS 800 in d').addTo(W1950);
+const W1950JerseyCityNewJerseyTS807= L.marker([40.71907,-74.05055], {icon: d}).bindPopup('JerseyCity, New Jersey<br><span style=font-size:11px>(White b. 1930)</span><br>TS 807 in d').addTo(W1950);
+const W1950Vancouversample= L.marker([49.2827,-123.1207], {icon: d}).bindPopup('Vancouver, <br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950PortlandOregonsample= L.marker([45.87,-123.12], {icon: d}).bindPopup('Portland, Oregon<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950LosAngelesCaliforniasample= L.marker([34.08,-118.42], {icon: d}).bindPopup('Los Angeles, California<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950DenverColoradosample= L.marker([39.74,-104.99], {icon: d}).bindPopup('Denver, Colorado<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950TusconArizonasample= L.marker([32.22,-110.92], {icon: d}).bindPopup('Tuscon, Arizona<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950OmahaNebraskasample= L.marker([41.2565,-95.9345], {icon: d}).bindPopup('Omaha, Nebraska<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950WichitaKansassample= L.marker([37.688889,-97.336111], {icon: d}).bindPopup('Wichita, Kansas<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950KansasCityMissourisample= L.marker([39.11,-94.63], {icon: d}).bindPopup('Kansas City, Missouri<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950StLouisMissourisample= L.marker([38.627,-90.1994], {icon: d}).bindPopup('St. Louis, Missouri<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950TerreHauteIndianasample= L.marker([39.479722,-87.375], {icon: d}).bindPopup('Terre Haute, Indiana<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950IndianapolisIndianasample= L.marker([39.7684,-86.1581], {icon: d}).bindPopup('Indianapolis, Indiana<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950DaytonOhiosample= L.marker([39.759444,-84.191667], {icon: d}).bindPopup('Dayton, Ohio<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950ColumbusOhiosample= L.marker([40.21,-83.03], {icon: d}).bindPopup('Columbus, Ohio<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950BurgettstownPennsylvaniaSpeaker12= L.marker([40.7,-80.43], {icon: e}).bindPopup('Burgettstown, Pennsylvania<br><span style=font-size:11px>(White b. 1971)</span><br>Speaker 12 in e').addTo(W1950);
+const W1950MentorOhioSpeaker14= L.marker([42.12,-81.38], {icon: d}).bindPopup('Mentor, Ohio<br><span style=font-size:11px>(White b. 1946)</span><br>Speaker 14 in d').addTo(W1950);
+const W1950EuclidOhioSpeaker15= L.marker([41.72,-81.53], {icon: d}).bindPopup('Euclid, Ohio<br><span style=font-size:11px>(White b. 1969)</span><br>Speaker 15 in d').addTo(W1950);
+const W1950JeneraOhioSpeaker20= L.marker([41.14,-83.73], {icon: d}).bindPopup('Jenera, Ohio<br><span style=font-size:11px>(White b. 1970)</span><br>Speaker 20 in d').addTo(W1950);
+const W1950LongBottomOhioSpeaker23= L.marker([39.41,-81.78], {icon: d}).bindPopup('Long Bottom, Ohio<br><span style=font-size:11px>(White b. 1950)</span><br>Speaker 23 in d').addTo(W1950);
+const W1950IrontonOhioSpeaker24= L.marker([38.85,-82.68], {icon: d}).bindPopup('Ironton, Ohio<br><span style=font-size:11px>(White b. 1953)</span><br>Speaker 24 in d').addTo(W1950);
+const W1950BladensburgOhioSpeaker28= L.marker([40.69,-82.29], {icon: d}).bindPopup('Bladensburg, Ohio<br><span style=font-size:11px>(White b. 1974)</span><br>Speaker 28 in d').addTo(W1950);
+const W1900ColumbusOhioSpeaker29= L.marker([40.21,-83.03], {icon: d}).bindPopup('Columbus, Ohio<br><span style=font-size:11px>(White b. 1908)</span><br>Speaker 29 in d').addTo(W1900);
+const W1950HanoverVirginiaSpeaker56= L.marker([38.1,-77.44], {icon: d}).bindPopup('Hanover, Virginia<br><span style=font-size:11px>(White b. 1972)</span><br>Speaker 56 in d').addTo(W1950);
+const W1950MontgomeryAlabamaSpeaker61= L.marker([32.8,-86.31], {icon: d}).bindPopup('Montgomery, Alabama<br><span style=font-size:11px>(White b. 1953)</span><br>Speaker 61 in d').addTo(W1950);
+const W1950RobbinisvilleNorthCarolinaSpeaker65= L.marker([35.72,-83.76], {icon: d}).bindPopup('Robbinisville, North Carolina<br><span style=font-size:11px>(White b. 1948)</span><br>Speaker 65 in d').addTo(W1950);
+const W1900RobbinisvilleNorthCarolinaSpeaker67= L.marker([35.72,-83.76], {icon: d}).bindPopup('Robbinisville, North Carolina<br><span style=font-size:11px>(White b. 1915)</span><br>Speaker 67 in d').addTo(W1900);
+const W1950WilmingtonNorthCarolinaSpeaker70= L.marker([34.53,-77.97], {icon: d}).bindPopup('Wilmington, North Carolina<br><span style=font-size:11px>(White b. 1957)</span><br>Speaker 70 in d').addTo(W1950);
+const W1950GoldstonNorthCarolinaSpeaker71= L.marker([35.87,-79.36], {icon: d}).bindPopup('Goldston, North Carolina<br><span style=font-size:11px>(White b. 1954)</span><br>Speaker 71 in d').addTo(W1950);
+const W1950RaleighNorthCarolinaSpeaker73= L.marker([36.1,-78.65], {icon: d}).bindPopup('Raleigh, North Carolina<br><span style=font-size:11px>(White b. 1967)</span><br>Speaker 73 in d').addTo(W1950);
+const W1950OcracokeNorthCarolinaSpeaker86= L.marker([35.49,-76.01], {icon: d}).bindPopup('Ocracoke, North Carolina<br><span style=font-size:11px>(White b. 1953)</span><br>Speaker 86 in d').addTo(W1950);
+const W1950YaleOklahomaSpeaker92= L.marker([36.54,-96.6], {icon: d}).bindPopup('Yale, Oklahoma<br><span style=font-size:11px>(White b. 1960)</span><br>Speaker 92 in d').addTo(W1950);
+const W1950DumasTexasSpeaker114= L.marker([36.67,-102.04], {icon: d}).bindPopup('Dumas, Texas<br><span style=font-size:11px>(White b. 1950)</span><br>Speaker 114 in d').addTo(W1950);
+const W1950ElkhartTexasSpeaker115= L.marker([32.65,-95.57], {icon: d}).bindPopup('Elkhart, Texas<br><span style=font-size:11px>(White b. 1951)</span><br>Speaker 115 in d').addTo(W1950);
+const W1950GrandPrarieTexasSpeaker116= L.marker([32.98,-97], {icon: d}).bindPopup('Grand Prarie, Texas<br><span style=font-size:11px>(White b. 1955)</span><br>Speaker 116 in d').addTo(W1950);
+const W1950KilgoreTexasSpeaker117= L.marker([33.68,-94.92], {icon: d}).bindPopup('Kilgore, Texas<br><span style=font-size:11px>(White b. 1961)</span><br>Speaker 117 in d').addTo(W1950);
+const W1950SilsbeeTexasSpeaker118= L.marker([31.5,-94.1], {icon: d}).bindPopup('Silsbee, Texas<br><span style=font-size:11px>(White b. 1971)</span><br>Speaker 118 in d').addTo(W1950);
+const W1950SnyderTexasSpeaker120= L.marker([34.52,-101.01], {icon: d}).bindPopup('Snyder, Texas<br><span style=font-size:11px>(White b. 1973)</span><br>Speaker 120 in d').addTo(W1950);
+const W1950KilgoreTexasSpeaker121= L.marker([33.68,-94.92], {icon: d}).bindPopup('Kilgore, Texas<br><span style=font-size:11px>(White b. 1972)</span><br>Speaker 121 in d').addTo(W1950);
+const W1950RoyseCityTexasSpeaker124= L.marker([33.22,-96.32], {icon: d}).bindPopup('Royse City, Texas<br><span style=font-size:11px>(White b. 1973)</span><br>Speaker 124 in d').addTo(W1950);
+const W1950PerrytonTexasSpeaker126= L.marker([37.56,-100.81], {icon: d}).bindPopup('Perryton, Texas<br><span style=font-size:11px>(White b. 1972)</span><br>Speaker 126 in d').addTo(W1950);
+const W1950RichardsonTexasSpeaker128= L.marker([33,-96.72], {icon: d}).bindPopup('Richardson, Texas<br><span style=font-size:11px>(White b. 1974)</span><br>Speaker 128 in d').addTo(W1950);
+const W1950PlanoTexasSpeaker129= L.marker([33.08,-96.69], {icon: d}).bindPopup('Plano, Texas<br><span style=font-size:11px>(White b. 1974)</span><br>Speaker 129 in d').addTo(W1950);
+const W1950CarrolltonTexasSpeaker130= L.marker([33.2,-96.68], {icon: d}).bindPopup('Carrollton, Texas<br><span style=font-size:11px>(White b. 1972)</span><br>Speaker 130 in d').addTo(W1950);
+const W1950HoustonTexasSpeaker132= L.marker([30.25,-84.63], {icon: d}).bindPopup('Houston, Texas<br><span style=font-size:11px>(White b. 1970)</span><br>Speaker 132 in d').addTo(W1950);
+const W1950ElPasoTexasSpeaker133= L.marker([32.25,-106.8], {icon: d}).bindPopup('El Paso, Texas<br><span style=font-size:11px>(White b. 1974)</span><br>Speaker 133 in d').addTo(W1950);
+const W1950LeanderTexasSpeaker134= L.marker([-98.04,31.6], {icon: d}).bindPopup('Leander, Texas<br><span style=font-size:11px>(White b. 1974)</span><br>Speaker 134 in d').addTo(W1950);
+const W1950BahamasBahamasdescription= L.marker([25.0343,-77.3963], {icon: d}).bindPopup('Bahamas, Bahamas<br><span style=font-size:11px>(White b. 1945-74)</span><br>description in d').addTo(W1950);
+const W1950BridgetownBarbadosdescription= L.marker([13.096944,-59.613056], {icon: d}).bindPopup('Bridgetown, Barbados<br><span style=font-size:11px>(White b. 1945-74)</span><br>description in d').addTo(W1950);
+const W1950BequiaStVincentandtheGrenadinesdescription= L.marker([13.015,-61.23], {icon: d}).bindPopup('Bequia, St. Vincent and the Grenadines<br><span style=font-size:11px>(White b. 1945-74)</span><br>description in d').addTo(W1950);
+const W1950MtMoritzGrenadadescription= L.marker([12.0823,-61.7466], {icon: d}).bindPopup('Mt. Moritz, Grenada<br><span style=font-size:11px>(White b. 1945-74)</span><br>description in d').addTo(W1950);
+const W1950CaveValleyandSeafordTownJamaicadescription= L.marker([18.27,-77.37], {icon: d}).bindPopup('Cave Valley and Seaford Town, Jamaica<br><span style=font-size:11px>(White b. 1945-74)</span><br>description in d').addTo(W1950);
+const W1950WindwardVillageCarriacoudescription= L.marker([12.466667,-61.45], {icon: d}).bindPopup('Windward Village, Carriacou<br><span style=font-size:11px>(White b. 1945-74)</span><br>description in d').addTo(W1950);
+const W1950WilmingtonDelawaresample= L.marker([39.745833,-75.546667], {icon: d}).bindPopup('Wilmington, Delaware<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950BaltimoreMarylandsample= L.marker([39.289444,-76.615278], {icon: d}).bindPopup('Baltimore, Maryland<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950TrentonNewJerseysample= L.marker([40.220278,-74.765833], {icon: d}).bindPopup('Trenton, New Jersey<br><span style=font-size:11px>(White b. 1945-74)</span><br>sample in d').addTo(W1950);
+const W1950VinelandNewJersey= L.marker([39.465,-75.006389], {icon: d}).bindPopup('Vineland, New Jersey<br><span style=font-size:11px>(White b. 1945-74)</span><br> in d').addTo(W1950);
+const W1950HammontonNewJersey= L.marker([39.66078,-74.767021], {icon: d}).bindPopup('Hammonton, New Jersey<br><span style=font-size:11px>(White b. 1945-74)</span><br> in d').addTo(W1950);
+const W1950BridgetonNewJersey= L.marker([39.427518,-75.227954], {icon: d}).bindPopup('Bridgeton, New Jersey<br><span style=font-size:11px>(White b. 1945-74)</span><br> in d').addTo(W1950);
+const W1950SalemNewJersey= L.marker([39.568236,-75.472553], {icon: d}).bindPopup('Salem, New Jersey<br><span style=font-size:11px>(White b. 1945-74)</span><br> in d').addTo(W1950);
+const W1950BrownsMillsNewJersey= L.marker([39.972778,-74.583333], {icon: d}).bindPopup('Browns Mills, New Jersey<br><span style=font-size:11px>(White b. 1945-74)</span><br> in d').addTo(W1950);
+const W1950DoverDelaware= L.marker([39.158056,-75.524444], {icon: d}).bindPopup('Dover, Delaware<br><span style=font-size:11px>(White b. 1945-74)</span><br> in d').addTo(W1950);
+const W1970DetroitMichiganTS124= L.marker([42.33143,-83.04575], {icon: d}).bindPopup('Detroit, Michigan<br><span style=font-size:11px>(White b. 1980)</span><br>TS 124 in d').addTo(W1970);
+const W1900PittsburghPennsylvaniaTS544= L.marker([40.44062,-79.99589], {icon: d}).bindPopup('Pittsburgh, Pennsylvania<br><span style=font-size:11px>(White b. 1935)</span><br>TS 544 in d').addTo(W1900);
+const W1970UxbridgeMassachusettsSpeaker6= L.marker([42.35,-71.67], {icon: b}).bindPopup('Uxbridge, Massachusetts<br><span style=font-size:11px>(White b. 1976)</span><br>Speaker 6 in b').addTo(W1970);
+const W1970BrunswickOhioSpeaker16= L.marker([41.45,-81.83], {icon: d}).bindPopup('Brunswick, Ohio<br><span style=font-size:11px>(White b. 1977)</span><br>Speaker 16 in d').addTo(W1970);
+const W1970BentonRidgeOhioSpeaker19= L.marker([41.15,-83.72], {icon: d}).bindPopup('Benton Ridge, Ohio<br><span style=font-size:11px>(White b. 1950)</span><br>Speaker 19 in d').addTo(W1970);
+const W1970MontgomeryAlabamaSpeaker62= L.marker([-86.31,32.8], {icon: d}).bindPopup('Montgomery, Alabama<br><span style=font-size:11px>(White b. 1971)</span><br>Speaker 62 in d').addTo(W1970);
+const W1970RaleighNorthCarolinaSpeaker74= L.marker([36.06,-78.66], {icon: d}).bindPopup('Raleigh, North Carolina<br><span style=font-size:11px>(White b. 1982)</span><br>Speaker 74 in d').addTo(W1970);
+const W1970InezNorthCarolinaSpeaker78= L.marker([36.5,-78.1], {icon: d}).bindPopup('Inez, North Carolina<br><span style=font-size:11px>(White b. 1982)</span><br>Speaker 78 in d').addTo(W1970);
+const W1970SwanQuarterNorthCarolinaSpeaker82= L.marker([35.63,-76.25], {icon: d}).bindPopup('Swan Quarter, North Carolina<br><span style=font-size:11px>(White b. 1979)</span><br>Speaker 82 in d').addTo(W1970);
+const W1970YaleOklahomaSpeaker93= L.marker([36.54,-96.6], {icon: d}).bindPopup('Yale, Oklahoma<br><span style=font-size:11px>(White b. 1975)</span><br>Speaker 93 in d').addTo(W1970);
+const W1970DeSotoTexasSpeaker131= L.marker([32.81,-96.83], {icon: d}).bindPopup('DeSoto, Texas<br><span style=font-size:11px>(White b. 1980)</span><br>Speaker 131 in d').addTo(W1970);
+
+
+
+</script>
+</body>
+</html>

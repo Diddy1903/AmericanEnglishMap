@@ -1,0 +1,80 @@
+The History of American English
+
+	•	Introduction
+	•	Front vowels
+	•	Central Vowels
+	•	Low Back Vowels
+	•	Diphthongs
+	•	Pre-R Vowels
+	•	Consonants
+	•	Reference
+
+
+Front Vowels
+/a/ as in "trap", /e/ as in "dress", /i/ as in "kit", /ei/ as in "face", /ii/ as in "fleece"   BATH: /a/ before /s/ /f/ /th/, /n/+consonant or /m/+consonant   LMBS (Low back merger shift): Dashed blue: Low Back Merger.  Dark blue: /a/ retraction  Darker blue: /e/ and /i/ retraction.   NCVS (Northern cities vowels shift):  /a/ raising (Stage 1)  /e/ retraction (Stage 3).   Southern/African American shift: thin dash: monophthong /ai/ thick dash (AAS): raised /a/ Dark red: /e/-/ei/ reversal Darker Red: /i/-/ii/ reversal
+
+The short front vowels /æ/, /ɛ/ and /ɪ/, and the long front vowels /ei/ and /ii/, show a variety of chain shifts triggered by movement of the /a:/ vowel or by the monophthonging of /ai/.
+Realization of BATH vowel
+TRAP
+BATH
+name
+region
+[æ]
+[æɛ], rarely [æɛə]
+"Upgliding BATH," "Upgliding /æy/"
+Older Southern American
+[æ]
+[ɛə~eə]
+BATH-raising, split-a system
+Mid-Atlantic, New Orleans
+[æ]
+merged with /a:/
+BATH-backing, BATH-broadening
+New England, Tidewater Virginia, Carribean
+The African American Vowel Shift, seen mainly in Southern Black Americans, refers to a raising of the short front vowels, triggered by the fronting of /a:/. It occurs in three stages:A reverse form of the African American Vowel System, the Canadian Shift or the California vowel shift, depending on its location, occurs when the backing of /a:/ due to the COT-CAUGHT merger causes the following to occur:
+Chain Shifts in Front Vowels
+
+Southern Vowel Shift
+African American Vowel System
+Low Back Vowel Shift
+Stage 1
+/ai/ is smoothed [ai]→[ae~a:]
+fronted /o/: /a:/ is fronted [a:]→[a:]
+low back merger
+/a/ retraction
+Stage 2
+/e/-/ey/ reversal: /ei/ lowered [ei]→[ɛi]
+/e/ retraction
+Stage 3
+/i/-/ii/ reversal: /ii/ lowered [i:] → [ɪi]
+/i/ retraction
+Other
+back vowel fronting
+back vowel fronting
+none
+While, not a simple upwards or downward shift, the Northern Cities Vowel Shift in the Great Lakes region does affect the short front vowels. The raised /æ/ pronunciation in this region, triggers a counter-clockwise shift in the mid and low vowels (see the chart) in the following steps:
+Northern Cities Vowel Shift occurs under the following steps.
+	•	Stage 1: /æ/ is fronted to [ɛə~iə] in all contexts
+	•	Stage 2: /o:/ is fronted to [ä:]
+	•	Stage 3 (disputed): /ɔ:/ is lowered to [ɑ]
+	•	Stage 4: /ə/ is backed to [ɔ]
+	•	Stage 5: /ɛ/ is lowered and backed to [ə]
+	•	Stage 6: /ɪ/ is lowered and backed to [ɛ]
+Dialects without a BATH split or any chain shifts, can show a few other shifts. /a/ can show minimal variation, particularly in Latino Englishes. The Western system, where /æ/ is tenser before nasals than elsewhere, and raising before /g/. /e/ and /i/ can also merge before /n/ in the south.
+Full
+DARE ESR LAGS LANCS LANE LAMSAS ANAE
+Full Bibilography
+	•	Labov, W., Ash, S., & Boberg, C. (2006). The atlas of North American English: Phonetics, phonology, and sound change: A multimedia reference tool. Mouton de Gruyter.
+	•	Thomas, Erik R. (2001). An Acoustic Analysis of Vowel Variation in New World English. Publication of the American Dialect Society 85. Durham, N.C.: Duke Univ. Press
+	•	Bailey, G. (1997). When did southern American English begin. Englishes around the world, 1, 255-275.
+	•	Kurath, Hans, and Raven I. McDavid. 1961. The pronunciation of English in the Atlantic states. Ann Arbor: University of Michigan Press.
+	•	Nagy, N., & Roberts, J. (2004). New England: Phonology. A handbook of varieties of English, 1, 270-281.
+	•	Labov, W. (1966). The social stratification of English in New York City. Washington, DC: Center for Applied Linguistics.
+	•	Durian, D. (2012). A new perspective on vowel variation across the 19th and 20th centuries in Columbus, OH (Doctoral dissertation, The Ohio State University).
+	•	Thomas, E. R. (2006). Evidence from Ohio on the evolution of/æ. Language variation and change in the American midland: A new look at ‘heartland’English, 69-93.
+	•	Taylor Jones AAE
+	•	Boberg, C. (2001). The phonological status of western New England. American Speech, 76(1), 3-29.
+	•	McLarty, J., Kendall, T., & Farrington, C. (2016). 7. Investigating the Development of the Contemporary Oregonian English Vowel System. Publication of the American Dialect Society, 101(1), 135-157.
+	•	George Krapp early American
+	•	CJ Bailey 1980 syllable boundaries SSE
+© Diddy MapMaker, Maps © Leaflet.com

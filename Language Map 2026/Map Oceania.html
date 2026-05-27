@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Leaflet Map in Table</title>
+  <style>
+
+body {
+  margin: 0;
+	line-height: 1.5;
+	color: black;
+	background-color:#faf0e6;
+	font-size:17px;
+}
+
+h1 {
+	font-family: Georgia, Times, "Times New Roman";
+	text-align:center;
+	font-size:50px;
+	Color:#454545
+}
+
+h2 {
+	font-size:28px;
+	Color:#454545
+
+}
+    /* IMPORTANT: map container must have a height */
+    .map-cell {
+      width: 780px;
+      height: 500px;
+    }
+    ul.topnav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+ul.topnav li {float: left;}
+
+ul.topnav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+ul.topnav li a:hover:not(.active) {background-color: #111;}
+
+ul.topnav li a.active {background-color: #04AA6D;}
+
+ul.topnav li.right {float: right;}
+
+@media screen and (max-width: 600px) {
+  ul.topnav li.right, 
+  ul.topnav li {float: none;}
+}
+
+  </style>
+  <!-- Leaflet CSS -->
+  	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+      <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+ 	<link rel="stylesheet" href="../src/leaflet.legend.css" />
+     <script type="text/javascript" src="../src/leaflet.legend.js"></script>
+
+
+
+
+</head>
+
+<body>
+<header>
+	<h1>American English History</h1>
+<hr>
+<br>
+</header>
+                        <ul class="topnav">
+                        
+                            <li>
+                                <a href="Map Front Vowels.html" title="Front Vowels">Front Vowels</a>
+                            </li>
+                        
+                            <li >
+                                <a href="Map Mid Vowels.html" title="Central Vowels">Central Vowels</a>
+                            </li>
+                        
+                            <li >
+                                <a href="Map Back Vowels.html" title="Low Back Vowels">Low Back Vowels</a>
+                            </li>
+                        
+                            <li >
+                                <a href="Map Diphthongs.html" title="Diphthongs">Diphthongs</a>
+                            </li>
+                        
+                            <li >
+                                <a href="Map PreR.html" title="Vowels Before R">Vowels Before R</a>
+                            </li>
+                        
+                            <li >
+                                <a href="Map PreL.html" title="Conditional Mergers">Conditional Mergers</a>
+                            </li>
+                            
+                            <li>
+                                <a href="Map Consonants.html" title="Consonants">Consonants</a>
+                            </li>
+                            
+                               <li>
+                                <a href="Map Oceania.html" title="Oceania">Oceania</a>
+                            </li>                         
+                            
+                        </ul>
+                    
+<table>
+  <tr>
+  <td>
+    <table><tr><td><p style="font-family:verdana"> <b>Oceania</b></p><p class=table>Current and former US territories in Oceania. This includes:<br>The State of Hawaii<br>Former Commonwealth of Philippines<br>Former Trust Territories of the Pacific Islands<br>Territories of American Samoa, The Northern Marianas and Guam<hr>Accents in this region tend to have mergers of /i/-/ii/("hid"="heed"),<br>monophthongal /ei/ and /ou/, backed /uu/ and /au/, some t-flapping,<br>and merging of /p,t,k/ and /b,d,g/.</p></td>
+    <td>
+      <div id="map" class="map-cell" width="780" height="500"></div>
+    </td>
+  </tr>
+</table>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="text/javascript" src="../src/leaflet.legend.js"></script>
+
+<script>
+
+var map = L.map("map", {
+	center: [23.22,-110.47],
+	zoom: 2.3,
+    });
+const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+
+
+const consonants = L.layerGroup();
+const vowels = L.layerGroup();
+
+
+
+
+const baseLayers = {'OpenStreetMap': osm};
+const overlays = {'Consonants': consonants};
+const layerControl = L.control.layers(baseLayers, overlays).addTo(map);
+
+
+layerControl.addOverlay(vowels, 'Vowels');
+
+
+
+
+	const ts_vb = L.icon({
+    iconUrl: 'rhombus-red.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor:  [0, 0] }); 
+	const ts_str = L.icon({
+    iconUrl: 'rhombus-blue.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] });
+	const ts_glo = L.icon({
+    iconUrl: 'rhombus-orange.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] }); 
+	const ta_vb = L.icon({
+    iconUrl: 'dot-rhombus-red.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] }); 
+	const ta_str = L.icon({
+    iconUrl: 'dot-rhombus-blue.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] });
+	const ta_glo = L.icon({
+    iconUrl: 'dot-rhombus-orange.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] }); 
+    const tf_vb = L.icon({
+    iconUrl: 'square-red.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] }); 
+	const tf_str = L.icon({
+    iconUrl: 'square-blue.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] });
+	const tf_glo = L.icon({
+    iconUrl: 'square-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] }); 
+    
+    const Ra = L.icon({
+    iconUrl: 'leaf-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] }); 
+	const Rb = L.icon({
+    iconUrl: 'square-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] });
+	const Rc = L.icon({
+    iconUrl: 'square-blue.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] }); 
+    const Sa = L.icon({
+    iconUrl: 'leaf-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] }); 
+	const Sb = L.icon({
+    iconUrl: 'square-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] });
+	const Sc = L.icon({
+    iconUrl: 'square-blue.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] }); 
+    const Wa = L.icon({
+    iconUrl: 'leaf-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] }); 
+	const Wb = L.icon({
+    iconUrl: 'square-green.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] });
+	const Wc = L.icon({
+    iconUrl: 'square-blue.png',
+    shadowUrl: 'leaf-shadow.png',
+    iconSize:     [10, 10], 
+    iconAnchor:   [2, 2], 
+    popupAnchor: [0, 0] }); 
+    
+    
+
+    const legend = L.control.Legend({
+            position: "bottomleft",
+            collapsed: false,
+            symbolWidth: 20,
+            opacity: 1,
+            column: 3,
+            title: "Marker Shape || Marker Color || Lines",
+            legends: [{
+
+                label: "th-stopping",
+                type: "image",
+                url: "rhombus-white.png"
+             }, {
+                label: "th-stop/t-affrication",
+                type: "image",
+                url: "dot-rhombus.png"
+            }, {
+                label: "th fronting",
+                type: "image",
+                url: "square-white.png"
+                               }, {
+                label: "",
+                type: "rectangle",
+                color: "#FFFFFF",
+                fillColor: "#FFFFFF",
+            }, {
+            
+                label: "Fully Rhotic",
+                type: "image",
+                url: "square-white.png"
+             }, {
+                label: "Strongly rhotic",
+                type: "image",
+                url: "uptriangle-white.png"
+            }, {
+                label: "Weakly rhotic",
+                type: "image",
+                url: "downtriangle-white.png"
+            }, {
+                label: "V-B confusion",
+                type: "rectangle",
+                fillColor: "#FF0000",
+            }, {
+                label: "/str/ to /ʃtr/",
+                type: "rectangle",
+                fillColor: "#0000FF",
+            }, {
+                label: "Glottal final stops",
+                type: "rectangle",
+                fillColor: "#FFA500",
+                               }, {
+                label: "",
+                type: "rectangle",
+                color: "#FFFFFF",
+                fillColor: "#FFFFFF",
+
+            }, {
+                label: "3-6 vowel system",
+                type: "image",
+                url: "rhombus-white.png"
+             }, {
+                label: "/u/-/uu/,/^/-/o/ merger",
+                type: "image",
+                url: "dot-rhombus.png"
+            }, {
+                label: "other",
+                type: "image",
+                url: "square-white.png"
+ 			}, {
+                label: "H-droppng",
+                type: "polygon",
+				sides: 5,
+                color: "#8B0000",
+                fillColor: "#FF474C",
+
+
+             }, {
+                label: "/ʃ/ to /s/", 
+                type: "polyline",
+                color: "#00008b",
+
+            }, {
+                label: "Unaspirated /p,t,k/", 
+                type: "polyline",
+                color: "#FFFFF",
+                               }, {
+                label: "",
+                type: "rectangle",
+                color: "#FFFFFF",
+                fillColor: "#FFFFFF",
+                            }, {
+                label: "/æ/-/ε/ merger",
+                 type: "image",
+                url: "rhombus-white.png"
+             }, {
+                label: "low back merger",
+                type: "image",
+                url: "dot-rhombus.png"
+            }, {
+                label: "Yod-dropping",
+                type: "image",
+                url: "square-white.png"
+                
+
+            }]
+        })
+        .addTo(map);
+
+var hdrop = L.polygon([
+
+[5.38, -198.23],
+[12.28, -193.58],
+[7.68, -186.06],
+[1.36, -193.56],
+],{       color: 'blue',
+		weight: 2,
+		fillColor: '#blue',
+		fillOpacity: 0,
+	}).bindPopup('h-dropping').addTo(consonants);
+
+//consonants	
+const HawaiiC= L.marker([21.3, -157.85], {icon: ta_glo}).bindPopup('Hawaii').addTo(consonants);
+const MarshallIslandsC= L.marker([7.08, -188.62], {icon: ts_glo}).bindPopup('Marshall').addTo(consonants);
+const SaipanC = L.marker([15.183333, -214.25], {icon: ts_glo}).bindPopup('Northern Marianas').addTo(consonants);
+const GuamC= L.marker([13.48, -215.25], {icon: ts_vb}).bindPopup('Guam').addTo(consonants);
+const KosraeC= L.marker([5.32, -197.02], {icon: ts_vb}).bindPopup('Kosrae').addTo(consonants);
+const SamoaC= L.marker([-14.3, -170.75], {icon: ts_str}).bindPopup('Samoa').addTo(consonants);
+const PalauC= L.marker([7.341945, -225.52], {icon: ts_vb}).bindPopup('Palau').addTo(consonants);
+const PhilippinesC= L.marker([14.5958, -239.03], {icon: ts_vb}).bindPopup('Philippines').addTo(consonants);
+
+//vowels
+const HawaiiV= L.marker([21.3, -157.85], {icon: Wa}).bindPopup('Hawaii').addTo(vowels);
+const MarshallIslandsV= L.marker([7.08, -188.62], {icon: Ra}).bindPopup('Marshall').addTo(vowels);
+const GuamV= L.marker([13.48, -215.25], {icon: Ra}).bindPopup('Guam').addTo(vowels);
+const KosraeV= L.marker([5.32, -197.02], {icon: Ra}).bindPopup('Kosrae').addTo(vowels);
+const SamoaV= L.marker([-14.3, -170.75], {icon: Ra}).bindPopup('Samoa').addTo(vowels);
+const PalauV= L.marker([7.341945, -225.52], {icon: Ra}).bindPopup('Palau').addTo(vowels);
+const PhilippinesV= L.marker([14.5958, -239.03], {icon: Ra}).bindPopup('Philippines').addTo(vowels);
+
+
+
+
+</script>
+</body>
+</html>

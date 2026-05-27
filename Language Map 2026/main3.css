@@ -1,0 +1,158 @@
+html, body, input, select, button, textarea, table {
+	font-size: 100%;
+	font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+h1 {
+	font-family: Georgia, Times, "Times New Roman";
+	text-align:center;
+	font-size:50px;
+	Color:#454545
+}
+
+h2 {
+	font-size:28px;
+	Color:#454545
+
+}
+
+
+
+
+a, a span.hljs-string
+{
+	color: #199900;
+
+}
+
+.nav{
+	text-align:center;
+
+}
+
+.nav li {
+	display: inline-block;
+	padding: .333em .5em;
+	display: inline-block;
+
+
+}
+
+body {
+	line-height: 1.5;
+	color: black;
+	background-color:#faf0e6;
+	font-size:17px;
+
+}
+
+
+p {
+	margin: 24px 0;
+	
+}
+.table {
+	margin: 10px 0;
+	width:300px;
+	
+}
+
+Iframe
+{
+		border-style: none;
+}
+
+img {
+	height: auto;
+}
+
+img,
+video {
+	max-width: 100%;
+}
+
+
+table {
+Text-align: center;
+Margin-left: auto;
+Margin-right: auto;
+
+}
+
+Td
+{
+  padding: 0.5em 0.5em 0.5em 0.5em;
+Text-align: center;
+
+
+}
+
+#general table
+{
+ float: right;
+}
+
+#general  td, th
+{
+  background-color:#e8f0f8;
+  border: 2px solid;
+  padding: 0.5em 1em 0.5em 1em;
+}
+
+
+.foot footer
+{
+  background-color:#800080;
+  margin-top: 1in;
+ color:#ffffff;
+}
+
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  -webkit-animation: fadeEffect 1s;
+  animation: fadeEffect 1s;
+}
+
+/* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
