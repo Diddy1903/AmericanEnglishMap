@@ -1687,6 +1687,20 @@ var merger_Newfoundland = L.polygon([
 		fillOpacity: 0,
 	}).bindPopup('Conservative Irish Newfoundlanders can have a unconditioned merger of /ε/ and /ɪ/').addTo(B1870).addTo(B1900).addTo(B1950).addTo(B1970).addTo(W1870).addTo(W1900).addTo(W1950).addTo(W1970)
 
+//Lexical maps
+
+var LAP_North = L.polygon([
+ 	[42.46, -70.94], //BostonCoast
+	[42.532398, -71.229899],//B
+	[42.541189, -71.508890],//C
+	[42.422361, -72.558931],//D
+	[42.734139, -72.842378],//Intersection
+	[43.767907, -72.470157],//F
+	
+],{       color: 'black',
+	}).bindPopup('The North').addTo(Wordmaps);	
+	
+	
 const A1900MercedCaliforniasample= L.marker([37.30,-120.48], {icon: Dn}).bindPopup('Merced, California<br><span style=font-size:11px>Japanese-Americans (Asian b. 1900-44)</span><br>sample in <a href=#DOnofrio2020>(DOnofrio, 2020)</a>').addTo(A1900);
 
 
@@ -2864,19 +2878,7 @@ const W1900CirclevileOhiosample= L.marker([39.61,-82.93], {icon: De}).bindPopup(
 const W1900BryanOhiosample= L.marker([41.47,-84.52], {icon: De}).bindPopup('Bryan, Ohio<br><span style=font-size:11px>(White b. 1900-44)</span><br>sample in <a href=#Thomas2006>(Thomas, 2006)</a>').addTo(W1900);
 const W1950BalboaPanamadescription= L.marker([8.95,-79.57], {icon: De}).bindPopup('Balboa, Panama<br><span style=font-size:11px>(White b. 1945-74)</span><br>description in <a href=#Brewer2018>(Brewer, 2018)</a>').addTo(W1950);
 
-//Lexical maps
-
-var LAP_North = L.polygon([
- 	[42.46, -70.94], //BostonCoast
-	[42.532398, -71.229899],//B
-	[42.541189, -71.508890],//C
-	[42.422361, -72.558931],//D
-	[42.734139, -72.842378],//Intersection
-	[43.767907, -72.470157],//F
 	
-],{       color: 'black',
-				fillColor: '#FFBF00',
-	}).bindPopup('The North').addTo(WordMaps);		
 	
 </script>
 </body>
