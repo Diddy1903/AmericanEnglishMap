@@ -1736,7 +1736,22 @@ var LAP_North = L.polygon([
 						  
 ],{       color: 'black',
 	}).bindPopup('The North').addTo(Wordmaps);	
-	
+
+var LAP_NorthMidland_boundary = L.polygon([
+ 	[39.591037, -74.308821],//JerseyCoast
+	[39.849422, -74.581761],//BurlingtonCounty
+	[40.523069, -74.637749],//SomersetCounty
+	[40.809725, -74.756723],//MorrisCounty
+	[41.646600, -77.479125],//ElkTownship
+	[41.307622, -79.284626],//ClarionCounty
+	[41.617052, -79.774518],//Venango
+	[41.609602, -81.029599],//MontvilleTownship
+
+						  
+],{       color: 'black',
+   weight: 2 ,
+   
+	}).bindPopup('North Midland Boundary').addTo(Wordmaps);	
 	
 const A1900MercedCaliforniasample= L.marker([37.30,-120.48], {icon: Dn}).bindPopup('Merced, California<br><span style=font-size:11px>Japanese-Americans (Asian b. 1900-44)</span><br>sample in <a href=#DOnofrio2020>(DOnofrio, 2020)</a>').addTo(A1900);
 
